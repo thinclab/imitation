@@ -127,6 +127,18 @@ def seals_swimmer():
 def seals_walker():
     common = dict(env_name="seals/Walker2d-v0")
 
+# @train_rl_ex.named_config
+# def RandomMDP_TabularTransitions():
+#     common = dict(env_name="imitation/Random-v0")
+#     normalize_reward = False
+
+@train_rl_ex.named_config
+def sorting_onions():
+    # common = dict(env_name = "imitationNM/SortingOnions-v0")
+    common = dict(env_name = "imitationNM/SortingOnions-v0", _seed=0)
+    rl = dict(_seed=0)
+    total_timesteps = int(5e5) # int(5e4) 
+    normalize_reward = False 
 
 # Debug configs
 

@@ -159,6 +159,17 @@ def seals_walker():
     locals().update(**MUJOCO_SHARED_LOCALS)
     common = dict(env_name="seals/Walker2d-v0")
 
+@train_adversarial_ex.named_config
+def sorting_onions():
+    common = dict(env_name="imitationNM/SortingOnions-v0")
+    algorithm_kwargs = dict(
+        # Number of discriminator updates after each round of generator updates
+        n_disc_updates_per_round=4,
+        demo_batch_size=4,
+        allow_variable_horizon=True,
+    )
+    total_timesteps = int(1.4e6)
+    algo_cls = 'airl'
 
 # Debug configs
 

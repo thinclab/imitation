@@ -9,3 +9,5 @@ try:
     # pytype: enable=import-error
 except ImportError:
     pass
+
+import imitation.envs.examples  # noqa: F401

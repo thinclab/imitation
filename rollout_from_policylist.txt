@@ -1,0 +1,7 @@
+
+number of trajectories with good placed on conveyor 1236
+number of trajectories with bad placed in bin 1593
+number of trajectories with good placed on conveyor 2458
+number of trajectories with bad placed in bin 644
+number of trajectories with good placed on conveyor 829
+number of trajectories with bad placed in bin 1904

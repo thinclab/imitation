@@ -12,6 +12,7 @@ eval_policy_ex = sacred.Experiment(
 
 @eval_policy_ex.config
 def replay_defaults():
+
     eval_n_timesteps = int(1e4)  # Min timesteps to evaluate, optional.
     eval_n_episodes = None  # Num episodes to evaluate, optional.
 
@@ -104,6 +105,18 @@ def seals_swimmer():
 def seals_walker():
     common = dict(env_name="seals/Walker2d-v0")
 
+# @eval_policy_ex.named_config
+# def rollouts_from_policylist_and_save_only_defaults(log_dir):
+
+#     print("reached rollouts_from_policylist_and_save_only_defaults ")
+#     _seed = 0
+#     common = dict(env_name="imitationNM/SortingOnions-v0")
+#     env_name = "imitationNM/SortingOnions-v0"  
+#     eval_n_timesteps = int(1e4)  # Min timesteps to evaluate, optional.
+#     eval_n_episodes = None  # Num episodes to evaluate, optional.
+#     rollout_save_path = os.path.join(
+#         log_dir, "rollout.pkl"
+#     )  # Save path for rollouts
 
 @eval_policy_ex.named_config
 def fast():

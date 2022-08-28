@@ -407,6 +407,148 @@ def generate_trajectories(
 
     return trajectories
 
+def generate_trajectories_from_policylist(
+    statesList: list, 
+    actionList: list, 
+    r_args: list,
+    policy_list: list,
+    venv: VecEnv,
+    sample_until: GenTrajTerminationFn,
+    *,
+    deterministic_policy: bool = True,
+    rng: np.random.RandomState = np.random,
+) -> Sequence[types.TrajectoryWithRew]:
+    """Generate trajectory dictionaries from a policy and an environment.
+
+    Args:
+        policy: Can be any of the following:
+            1) A stable_baselines3 policy or algorithm trained on the gym environment.
+            2) A Callable that takes an ndarray of observations and returns an ndarray
+            of corresponding actions.
+            3) None, in which case actions will be sampled randomly.
+        venv: The vectorized environments to interact with.
+        sample_until: A function determining the termination condition.
+            It takes a sequence of trajectories, and returns a bool.
+            Most users will want to use one of `min_episodes` or `min_timesteps`.
+        deterministic_policy: If True, asks policy to deterministically return
+            action. Note the trajectories might still be non-deterministic if the
+            environment has non-determinism!
+        rng: used for shuffling trajectories.
+
+    Returns:
+        Sequence of trajectories, satisfying `sample_until`. Additional trajectories
+        may be collected to avoid biasing process towards short episodes; the user
+        should truncate if required.
+    """
+    # get_actions = _policy_to_callable(policy, venv, deterministic_policy)
+
+    # Collect rollout tuples.
+    trajectories = []
+    # accumulator for incomplete trajectories
+    trajectories_accum = TrajectoryAccumulator()
+    obs = venv.reset()
+    for env_idx, ob in enumerate(obs):
+        # Seed with first obs only. Inside loop, we'll only add second obs from
+        # each (s,a,r,s') tuple, under the same "obs" key again. That way we still
+        # get all observations, but they're not duplicated into "next obs" and
+        # "previous obs" (this matters for, e.g., Atari, where observations are
+        # really big).
+        trajectories_accum.add_step(dict(obs=ob), env_idx)
+
+    print("input policy_list ",policy_list)
+    traj_str = ""
+    acts = np.ones_like(obs)
+    # counters for assessing diversity in demonstration 
+    n_bin_trj, n_conv_trj = 0, 0
+    # Now, we sample until `sample_until(trajectories)` is true.
+    # If we just stopped then this would introduce a bias towards shorter episodes,
+    # since longer episodes are more likely to still be active, i.e. in the process
+    # of being sampled from. To avoid this, we continue sampling until all epsiodes
+    # are complete.
+    #
+    # To start with, all environments are active.
+    active = np.ones(venv.num_envs, dtype=bool)
+    while np.any(active):
+        # acts = get_actions(obs)
+
+        # print('obs[0] ',obs[0])
+        for i in range(len(obs)):
+            acts[i] = policy_list[obs[i]]
+            state_array = statesList[obs[i]]
+            if state_array[1] == 1 and acts[i] == 3: 
+                # traj with place good on conveyor
+                n_conv_trj += 1
+            if state_array[1] == 0 and acts[i] == 4: 
+                # traj with place bad in bin
+                n_bin_trj += 1
+        
+        # backup current observation for debug print 
+        current_obs = obs
+        obs, rews, dones, infos = venv.step(acts)
+
+        state_array = statesList[current_obs[0]] 
+        state_str = ""
+        if len(r_args[0]) > 0:
+            ol_map, pr_map, el_map, ls_map = r_args[0], r_args[1], r_args[2], r_args[3] 
+            ol, pr, el, ls = state_array[0], state_array[1], state_array[2], state_array[3] 
+            state_str = " onion - "+ol_map[ol]+", pred - "+pr_map[pr]+", gripper - "+el_map[el]+", LS - "+ls_map[ls] 
+        else:
+            state_str = str(state_array)
+
+        traj_str += "\n"+"state:"+state_str
+        traj_str += "\n"+"action:"+actionList[acts[0]]
+        traj_str += "\n"+"done:"+str(dones[0])
+
+        # If an environment is inactive, i.e. the episode completed for that
+        # environment after `sample_until(trajectories)` was true, then we do
+        # *not* want to add any subsequent trajectories from it. We avoid this
+        # by just making it never done.
+        dones &= active
+
+        # print("rews.dtype ",rews.dtype)
+        rews = rews.astype(np.float64)
+        new_trajs = trajectories_accum.add_steps_and_auto_finish(
+            acts,
+            obs,
+            rews,
+            dones,
+            infos,
+        )
+        trajectories.extend(new_trajs)
+
+        if sample_until(trajectories):
+            # Termination condition has been reached. Mark as inactive any
+            # environments where a trajectory was completed this timestep.
+            active &= ~dones
+
+    with open('/home/katy/imitation/rollout_from_policylist.txt', 'a') as writer:
+        writer.write("\nnumber of trajectories with good placed on conveyor "+str(n_conv_trj))
+        writer.write("\nnumber of trajectories with bad placed in bin "+str(n_bin_trj))
+
+    # Note that we just drop partial trajectories. This is not ideal for some
+    # algos; e.g. BC can probably benefit from partial trajectories, too.
+
+    # Each trajectory is sampled i.i.d.; however, shorter episodes are added to
+    # `trajectories` sooner. Shuffle to avoid bias in order. This is important
+    # when callees end up truncating the number of trajectories or transitions.
+    # It is also cheap, since we're just shuffling pointers.
+    rng.shuffle(trajectories)
+
+    # Sanity checks.
+    for trajectory in trajectories:
+        n_steps = len(trajectory.acts)
+        # extra 1 for the end
+        exp_obs = (n_steps + 1,) + venv.observation_space.shape
+        real_obs = trajectory.obs.shape
+        assert real_obs == exp_obs, f"expected shape {exp_obs}, got {real_obs}"
+        exp_act = (n_steps,) + venv.action_space.shape
+        real_act = trajectory.acts.shape
+        assert real_act == exp_act, f"expected shape {exp_act}, got {real_act}"
+        exp_rew = (n_steps,)
+        real_rew = trajectory.rews.shape
+        assert real_rew == exp_rew, f"expected shape {exp_rew}, got {real_rew}"
+
+    return trajectories
 
 def rollout_stats(
     trajectories: Sequence[types.TrajectoryWithRew],
@@ -595,6 +737,54 @@ def rollout(
         logging.info(f"Rollout stats: {stats}")
     return trajs
 
+def rollout_from_policylist(
+    statesList: list, 
+    actionList: list, 
+    r_args: list,
+    policy_list: list,
+    venv: VecEnv,
+    sample_until: GenTrajTerminationFn,
+    *,
+    unwrap: bool = False,
+    exclude_infos: bool = True,
+    verbose: bool = False,
+    **kwargs,
+) -> Sequence[types.TrajectoryWithRew]:
+    """Generate policy rollouts from intpu list of actions mapped to states.
+
+    The `.infos` field of each Trajectory is set to `None` to save space.
+
+    Args:
+        policy: Can be any of the following:
+            1) A stable_baselines3 policy or algorithm trained on the gym environment.
+            2) A Callable that takes an ndarray of observations and returns an ndarray
+            of corresponding actions.
+            3) None, in which case actions will be sampled randomly.
+        venv: The vectorized environments.
+        sample_until: End condition for rollout sampling.
+        unwrap: If True, then save original observations and rewards (instead of
+            potentially wrapped observations and rewards) by calling
+            `unwrap_traj()`.
+        exclude_infos: If True, then exclude `infos` from pickle by setting
+            this field to None. Excluding `infos` can save a lot of space during
+            pickles.
+        verbose: If True, then print out rollout stats before saving.
+        **kwargs: Passed through to `generate_trajectories`.
+
+    Returns:
+        Sequence of trajectories, satisfying `sample_until`. Additional trajectories
+        may be collected to avoid biasing process towards short episodes; the user
+        should truncate if required.
+    """
+    trajs = generate_trajectories_from_policylist(statesList, actionList, r_args, policy_list, venv, sample_until, **kwargs)
+    if unwrap:
+        trajs = [unwrap_traj(traj) for traj in trajs]
+    if exclude_infos:
+        trajs = [dataclasses.replace(traj, infos=None) for traj in trajs]
+    if verbose:
+        stats = rollout_stats(trajs)
+        logging.info(f"Rollout stats: {stats}")
+    return trajs
 
 def discounted_sum(arr: np.ndarray, gamma: float) -> Union[np.ndarray, float]:
     """Calculate the discounted sum of `arr`.

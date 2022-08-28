@@ -1,6 +1,5 @@
 """Common configuration elements for scripts."""
 
-import contextlib
 import logging
 import os
 from typing import Any, Mapping, Sequence, Tuple, Union
@@ -29,10 +28,12 @@ def config():
     log_format_strs_additional = {}
 
     # Environment config
-    env_name = "seals/CartPole-v0"  # environment to train on
+    # env_name = "seals/CartPole-v0"  # environment to train on
+    env_name="imitationNM/SortingOnions-v0"
     num_vec = 8  # number of environments in VecEnv
     parallel = True  # Use SubprocVecEnv rather than DummyVecEnv
-    max_episode_steps = None  # Set to positive int to limit episode horizons
+    # max_episode_steps = None  # Set to positive int to limit episode horizons
+    max_episode_steps = 5
     env_make_kwargs = {}  # The kwargs passed to `spec.make`.
 
     locals()  # quieten flake8
@@ -49,9 +50,8 @@ def hook(config, command_name, logger):
     updates = {}
     if config["common"]["log_dir"] is None:
         env_sanitized = config["common"]["env_name"].replace("/", "_")
-        log_root = config["common"]["log_root"] or "output"
         log_dir = os.path.join(
-            log_root,
+            "output",
             command_name,
             env_sanitized,
             util.make_unique_timestamp(),
@@ -127,7 +127,6 @@ def setup_logging(
     return custom_logger, log_dir
 
 
-@contextlib.contextmanager
 @common_ingredient.capture
 def make_venv(
     _seed,
@@ -153,20 +152,18 @@ def make_venv(
         env_make_kwargs: The kwargs passed to `spec.make` of a gym environment.
         kwargs: Passed through to `util.make_vec_env`.
 
-    Yields:
+    Returns:
         The constructed vector environment.
     """
-    try:
-        venv = util.make_vec_env(
-            env_name,
-            num_vec,
-            seed=_seed,
-            parallel=parallel,
-            max_episode_steps=max_episode_steps,
-            log_dir=log_dir,
-            env_make_kwargs=env_make_kwargs,
-            **kwargs,
-        )
-        yield venv
-    finally:
-        venv.close()
+
+    _seed = 0
+    return util.make_vec_env(
+        env_name,
+        num_vec,
+        seed=_seed,
+        parallel=parallel,
+        max_episode_steps=max_episode_steps,
+        log_dir=log_dir,
+        env_make_kwargs=env_make_kwargs,
+        **kwargs,
+    )

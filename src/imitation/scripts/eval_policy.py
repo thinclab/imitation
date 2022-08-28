@@ -18,6 +18,7 @@ from imitation.scripts.common import common
 from imitation.scripts.config.eval_policy import eval_policy_ex
 from imitation.util import video_wrapper
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 class InteractiveRender(VecEnvWrapper):
     """Render the wrapped environment(s) on screen."""
@@ -95,7 +96,9 @@ def eval_policy(
     log_dir = common.make_log_dir()
     sample_until = rollout.make_sample_until(eval_n_timesteps, eval_n_episodes)
     post_wrappers = [video_wrapper_factory(log_dir, **video_kwargs)] if videos else None
-    with common.make_venv(post_wrappers=post_wrappers) as venv:
+    venv = common.make_venv(post_wrappers=post_wrappers)
+
+    try:
         if render:
             venv = InteractiveRender(venv, render_fps)
 
@@ -109,11 +112,50 @@ def eval_policy(
             policy = serialize.load_policy(policy_type, policy_path, venv)
         trajs = rollout.generate_trajectories(policy, venv, sample_until)
 
-    if rollout_save_path:
-        types.save(rollout_save_path.replace("{log_dir}", log_dir), trajs)
+        if rollout_save_path:
+            types.save(rollout_save_path.replace("{log_dir}", log_dir), trajs)
 
-    return rollout.rollout_stats(trajs)
+        return rollout.rollout_stats(trajs)
+    finally:
+        venv.close()
 
+@eval_policy_ex.command
+def rollouts_from_policylist_and_save(
+    _run,
+    ) -> None:
+    """Loads a saved policy and generates rollouts.
+
+    Unlisted arguments are the same as in `rollouts_and_policy()`.
+
+    Args:
+        rollout_save_path: Rollout pickle is saved to this path.
+    """
+
+    _seed = 0
+    eval_n_timesteps = int(1e4)
+    eval_n_episodes = None
+
+    log_dir = common.make_log_dir()
+    sample_until = rollout.make_sample_until(eval_n_timesteps, eval_n_episodes)
+    venv = common.make_venv(_seed=_seed)
+
+    try:
+        statesList = venv.env_method(method_name='get_statelist',indices=[0]*venv.num_envs)[0]
+        actionList = venv.env_method(method_name='get_actionlist_string',indices=[0]*venv.num_envs)[0]
+        r_args = venv.env_method(method_name='sarray_ind_to_value',indices=[0]*venv.num_envs)[0]
+        policy_acts_expert = venv.env_method(method_name='get_expert_det_policy_list',indices=[0]*venv.num_envs)[0]
+
+        trajs = rollout.rollout_from_policylist(statesList, actionList, r_args, policy_acts_expert, venv, sample_until)
+
+        rollout_save_path = os.path.join(
+            log_dir, "rollout.pkl"
+        )  # Save path for rollouts
+        if rollout_save_path:
+            types.save(rollout_save_path.replace("{log_dir}", log_dir), trajs)
+
+        return rollout.rollout_stats(trajs)
+    finally:
+        venv.close()
 
 def main_console():
     observer = FileStorageObserver(osp.join("output", "sacred", "eval_policy"))
