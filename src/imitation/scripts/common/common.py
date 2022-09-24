@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 @common_ingredient.config
 def config():
+
+    _seed = 0
     # Logging
     log_root = None
     log_dir = None
@@ -167,3 +169,4 @@ def make_venv(
         env_make_kwargs=env_make_kwargs,
         **kwargs,
     )
+

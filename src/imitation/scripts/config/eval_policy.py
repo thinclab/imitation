@@ -12,6 +12,8 @@ eval_policy_ex = sacred.Experiment(
 
 @eval_policy_ex.config
 def replay_defaults():
+    
+    common = dict(env_name="imitationNM/SortingOnions-v0")
 
     eval_n_timesteps = int(1e4)  # Min timesteps to evaluate, optional.
     eval_n_episodes = None  # Num episodes to evaluate, optional.
@@ -21,7 +23,7 @@ def replay_defaults():
     render = False  # render to screen
     render_fps = 60  # -1 to render at full speed
 
-    policy_type = None  # class to load policy, see imitation.policies.loader
+    policy_type = "ppo"  # class to load policy, see imitation.policies.loader
     policy_path = None  # path to serialized policy
 
     reward_type = None  # Optional: override with reward of this type
@@ -49,6 +51,7 @@ def ant():
 @eval_policy_ex.named_config
 def cartpole():
     common = dict(env_name="CartPole-v1")
+    eval_n_timesteps = int(5e2)  # Min timesteps to evaluate, optional.
 
 
 @eval_policy_ex.named_config
@@ -104,6 +107,11 @@ def seals_swimmer():
 @eval_policy_ex.named_config
 def seals_walker():
     common = dict(env_name="seals/Walker2d-v0")
+
+@eval_policy_ex.named_config
+def perimeter_patrol():
+    common = dict(env_name = "imitationNM/PatrolModel-v0")
+    eval_n_timesteps = 2048 
 
 # @eval_policy_ex.named_config
 # def rollouts_from_policylist_and_save_only_defaults(log_dir):

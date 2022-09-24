@@ -74,6 +74,7 @@ def train_adversarial(
     total_timesteps: int,
     checkpoint_interval: int,
     agent_path: Optional[str],
+    demonstration_policy_path: Optional[str],
 ) -> Mapping[str, Mapping[str, float]]:
     """Train an adversarial-network-based imitation learning algorithm.
 
@@ -108,6 +109,7 @@ def train_adversarial(
         "monitor_return" key). "expert_stats" gives the return value of
         `rollout_stats()` on the expert demonstrations.
     """
+    print('\nalgo_cls'+str(algo_cls)+'\n')
     if show_config:
         # Running `train_adversarial print_config` will show unmerged config.
         # So, support showing merged config from `train_adversarial {airl,gail}`.
@@ -153,8 +155,38 @@ def train_adversarial(
     if checkpoint_interval >= 0:
         save(trainer, os.path.join(log_dir, "checkpoints", "final"))
 
+    # is env sorting? 
+    stats, LBA = None, None
+    env_name = _run.config["common"]["env_name"]
+    demo_batch_size = _run.config["algorithm_kwargs"]['demo_batch_size']
+    os.makedirs("/home/katy/imitation/lba/"+str(env_name), exist_ok=True)
+    filename="/home/katy/imitation/lba/"+str(env_name)+"/demo_batch_size_"+str(demo_batch_size)+".txt"
+    appender = open(filename, "a")
+    appender.write("")
+    appender.close()
+
+    if env_name == "imitationNM/SortingOnions-v0" or env_name == "imitationNM/PatrolModel-v0":
+        stats, policy_acts_learner = train.eval_policy_return_detActList(trainer.policy, trainer.venv_train)
+        # expert policy 
+        policy_acts_demonstrator = None
+        if demonstration_policy_path:
+            policy_type = "ppo"
+            policy = serialize.load_policy(policy_type, demonstration_policy_path, venv)
+            policy_acts_demonstrator = rollout.get_policy_acts(policy, venv)
+
+        LBA = rollout.calc_LBA(venv, policy_acts_learner, policy_acts_demonstrator)
+
+        # write to file
+        appender = open(filename, "a")
+        appender.write(str(LBA)+"\n")
+        appender.close()
+
+    else:
+        stats = train.eval_policy(trainer.policy, trainer.venv_train) 
+
     return {
-        "imit_stats": train.eval_policy(trainer.policy, trainer.venv_train),
+        "LBA": LBA,
+        "imit_stats": stats,
         "expert_stats": rollout.rollout_stats(expert_trajs),
     }
 

@@ -407,6 +407,90 @@ def generate_trajectories(
 
     return trajectories
 
+def generate_trajectories_return_detActList(
+    policy: AnyPolicy,
+    venv: VecEnv,
+    sample_until: GenTrajTerminationFn,
+    *,
+    deterministic_policy: bool = False,
+    rng: np.random.RandomState = np.random,
+) -> Sequence[types.TrajectoryWithRew]:
+    """Generate trajectory dictionaries from a policy and an environment.
+        Return a list of deterministic actions.
+    """
+    get_actions = _policy_to_callable(policy, venv, deterministic_policy)
+
+    # Collect rollout tuples.
+    trajectories = []
+    # accumulator for incomplete trajectories
+    trajectories_accum = TrajectoryAccumulator()
+    obs = venv.reset()
+    for env_idx, ob in enumerate(obs):
+        # Seed with first obs only. Inside loop, we'll only add second obs from
+        # each (s,a,r,s') tuple, under the same "obs" key again. That way we still
+        # get all observations, but they're not duplicated into "next obs" and
+        # "previous obs" (this matters for, e.g., Atari, where observations are
+        # really big).
+        trajectories_accum.add_step(dict(obs=ob), env_idx)
+
+    # Now, we sample until `sample_until(trajectories)` is true.
+    # If we just stopped then this would introduce a bias towards shorter episodes,
+    # since longer episodes are more likely to still be active, i.e. in the process
+    # of being sampled from. To avoid this, we continue sampling until all epsiodes
+    # are complete.
+    #
+    # To start with, all environments are active.
+    active = np.ones(venv.num_envs, dtype=bool)
+    while np.any(active):
+        acts = get_actions(obs)
+        obs, rews, dones, infos = venv.step(acts)
+
+        # If an environment is inactive, i.e. the episode completed for that
+        # environment after `sample_until(trajectories)` was true, then we do
+        # *not* want to add any subsequent trajectories from it. We avoid this
+        # by just making it never done.
+        dones &= active
+
+        new_trajs = trajectories_accum.add_steps_and_auto_finish(
+            acts,
+            obs,
+            rews,
+            dones,
+            infos,
+        )
+        trajectories.extend(new_trajs)
+
+        if sample_until(trajectories):
+            # Termination condition has been reached. Mark as inactive any
+            # environments where a trajectory was completed this timestep.
+            active &= ~dones
+
+    # Note that we just drop partial trajectories. This is not ideal for some
+    # algos; e.g. BC can probably benefit from partial trajectories, too.
+
+    # Each trajectory is sampled i.i.d.; however, shorter episodes are added to
+    # `trajectories` sooner. Shuffle to avoid bias in order. This is important
+    # when callees end up truncating the number of trajectories or transitions.
+    # It is also cheap, since we're just shuffling pointers.
+    rng.shuffle(trajectories)
+
+    # Sanity checks.
+    for trajectory in trajectories:
+        n_steps = len(trajectory.acts)
+        # extra 1 for the end
+        exp_obs = (n_steps + 1,) + venv.observation_space.shape
+        real_obs = trajectory.obs.shape
+        assert real_obs == exp_obs, f"expected shape {exp_obs}, got {real_obs}"
+        exp_act = (n_steps,) + venv.action_space.shape
+        real_act = trajectory.acts.shape
+        assert real_act == exp_act, f"expected shape {exp_act}, got {real_act}"
+        exp_rew = (n_steps,)
+        real_rew = trajectory.rews.shape
+        assert real_rew == exp_rew, f"expected shape {exp_rew}, got {real_rew}"
+
+    deterministic_policy_actions = get_policy_acts(policy, venv)
+    return trajectories, deterministic_policy_actions
+
 def generate_trajectories_from_policylist(
     statesList: list, 
     actionList: list, 
@@ -418,7 +502,7 @@ def generate_trajectories_from_policylist(
     deterministic_policy: bool = True,
     rng: np.random.RandomState = np.random,
 ) -> Sequence[types.TrajectoryWithRew]:
-    """Generate trajectory dictionaries from a policy and an environment.
+    """Generate trajectory dictionaries from a list of deterministic actions and an environment.
 
     Args:
         policy: Can be any of the following:
@@ -785,6 +869,37 @@ def rollout_from_policylist(
         stats = rollout_stats(trajs)
         logging.info(f"Rollout stats: {stats}")
     return trajs
+
+def get_policy_acts(policy, venv):
+    ''' 
+    List of deterministic actions from input policy 
+    '''
+
+    get_actions_det = _policy_to_callable(policy, venv, deterministic_policy=True)
+    policy_acts_RL = []
+
+    for obs in range(venv.observation_space.n):
+
+        act = get_actions_det(obs)
+        policy_acts_RL.append(act.item())
+
+    return policy_acts_RL
+
+def calc_LBA(venv, policy_acts, policy_acts_reference=None):
+    '''
+    Calculate learned behavior accuracy of input policy det actions w.r.t reference policy det actions
+    '''
+
+    if not policy_acts_reference:
+        policy_acts_reference = venv.env_method(method_name='perfect_demonstrator_det_policy_list',indices=[0]*venv.num_envs)[0]
+
+    # measure LBA
+    matches=[]
+    for i, j in zip(policy_acts_reference, policy_acts):
+        matches.append(1 if i == j else 0)
+    LBA = sum(matches)*100/len(matches)
+
+    return LBA
 
 def discounted_sum(arr: np.ndarray, gamma: float) -> Union[np.ndarray, float]:
     """Calculate the discounted sum of `arr`.

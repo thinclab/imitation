@@ -17,6 +17,7 @@ from imitation.rewards.serialize import load_reward
 from imitation.scripts.common import common
 from imitation.scripts.config.eval_policy import eval_policy_ex
 from imitation.util import video_wrapper
+import numpy as np
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -93,7 +94,9 @@ def eval_policy(
     Returns:
         Return value of `imitation.util.rollout.rollout_stats()`.
     """
+
     log_dir = common.make_log_dir()
+
     sample_until = rollout.make_sample_until(eval_n_timesteps, eval_n_episodes)
     post_wrappers = [video_wrapper_factory(log_dir, **video_kwargs)] if videos else None
     venv = common.make_venv(post_wrappers=post_wrappers)
@@ -114,10 +117,50 @@ def eval_policy(
 
         if rollout_save_path:
             types.save(rollout_save_path.replace("{log_dir}", log_dir), trajs)
+        else:
+            types.save(str(log_dir)+'/rollouts/final.pkl', trajs)
 
         return rollout.rollout_stats(trajs)
     finally:
         venv.close()
+
+@eval_policy_ex.command
+def lba_for_det_act_list_from_policypath(_run, policy_path: str):
+
+    _seed = 0
+    env_name = _run.config["common"]["env_name"]
+    venv = common.make_venv(_seed=_seed)
+    
+    policy_type = "ppo"
+    policy = serialize.load_policy(policy_type, policy_path, venv)
+
+    policy_acts_RL = rollout.get_policy_acts(policy, venv)
+
+    policy_acts_perfect_demonstrator = venv.env_method(method_name='perfect_demonstrator_det_policy_list',indices=[0]*venv.num_envs)[0]
+
+    LBA = rollout.calc_LBA(venv, policy_acts_RL, policy_acts_perfect_demonstrator)
+
+    filename="/home/katy/imitation/lba/"+str(env_name)+"/lba_rl_policies.txt"
+    appender = open(filename, "a")
+    appender.write(str(LBA)+"\n")
+    appender.close()
+
+    filename="/home/katy/imitation/lba/"+str(env_name)+"/policy_action_list.txt"
+    appender = open(filename, "a")
+    appender.write(str(policy_acts_RL)[1:-1]+"\n") # write only comma separated actions 
+    appender.close()
+
+    return LBA
+
+@eval_policy_ex.command
+def average_lba_for_det_act_list_from_basedir_policypath(_run, rootdir: str):
+    LBA_list = []
+
+    for subdir, dirs, files in os.walk(rootdir):
+        if 'final' in subdir:
+            LBA_list.append(lba_for_det_act_list_from_policypath(_run, subdir))
+
+    return np.average(LBA_list)
 
 @eval_policy_ex.command
 def rollouts_from_policylist_and_save(

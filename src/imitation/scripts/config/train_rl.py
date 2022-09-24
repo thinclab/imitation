@@ -133,6 +133,14 @@ def seals_walker():
 #     normalize_reward = False
 
 @train_rl_ex.named_config
+def perimeter_patrol():
+    common = dict(env_name = "imitationNM/PatrolModel-v0", _seed=0)
+    rl = dict(_seed=0)
+    total_timesteps = int(1e5) 
+    normalize_reward = False 
+
+
+@train_rl_ex.named_config
 def sorting_onions():
     # common = dict(env_name = "imitationNM/SortingOnions-v0")
     common = dict(env_name = "imitationNM/SortingOnions-v0", _seed=0)

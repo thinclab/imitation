@@ -20,3 +20,5 @@ def _register(env_name: str, entry_point: str, kwargs: Optional[dict] = None):
     gym_register(id=env_name, entry_point=entry_point, kwargs=kwargs)
 
 _register("imitationNM/SortingOnions-v0", entry_point="sorting_onions_env:SortingOnions") 
+
+_register("imitationNM/PatrolModel-v0", entry_point="perimeter_patrol_env:PatrolModel") 

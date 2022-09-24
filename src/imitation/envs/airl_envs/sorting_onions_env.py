@@ -201,7 +201,7 @@ class SortingOnions(DiscreteEnv):
         r_args = [ol_map, pr_map, el_map, ls_map]
         return r_args 
 
-    def get_expert_det_policy_list(self):
+    def perfect_demonstrator_det_policy_list(self):
         policy_acts_expert = [2]*len(self.statelist)
         
         for s_i in range(len(self.statelist)):

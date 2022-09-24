@@ -98,6 +98,25 @@ def eval_policy(
     return rollout.rollout_stats(trajs)
 
 
+
+@train_ingredient.capture
+def eval_policy_return_detActList(
+    rl_algo: Union[base_class.BaseAlgorithm, policies.BasePolicy],
+    venv: vec_env.VecEnv,
+    n_episodes_eval: int,
+) -> Mapping[str, float]:
+    """Evaluation of imitation learned policy. returning list of deterministic actions
+
+    """
+    sample_until_eval = rollout.make_min_episodes(n_episodes_eval)
+    trajs, actionList = rollout.generate_trajectories_return_detActList(
+        rl_algo,
+        venv,
+        sample_until=sample_until_eval,
+    )
+    return rollout.rollout_stats(trajs), actionList
+
+
 @train_ingredient.capture
 def suppress_sacred_error(policy_kwargs: Mapping[str, Any]):
     """No-op so Sacred recognizes `policy_kwargs` is used (in `rl` and elsewhere)."""

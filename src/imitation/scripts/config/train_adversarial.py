@@ -21,7 +21,8 @@ train_adversarial_ex = sacred.Experiment(
 def defaults():
     show_config = False
 
-    total_timesteps = int(1e6)  # Num of environment transitions to sample
+    # total_timesteps = int(1e6)  # Num of environment transitions to sample
+    total_timesteps = int(5e3) 
     algorithm_kwargs = dict(
         demo_batch_size=1024,  # Number of expert samples per discriminator update
         n_disc_updates_per_round=4,  # Num discriminator updates per generator round
@@ -30,7 +31,7 @@ def defaults():
 
     checkpoint_interval = 0  # Num epochs between checkpoints (<0 disables)
     agent_path = None  # Path to load agent from, optional.
-
+    demonstration_policy_path = None
 
 @train_adversarial_ex.config
 def aliases_default_gen_batch_size(algorithm_kwargs, rl):
@@ -168,11 +169,24 @@ def sorting_onions():
         demo_batch_size=4,
         allow_variable_horizon=True,
     )
-    total_timesteps = int(1.4e6)
+    total_timesteps = int(5e5)
+    # total_timesteps = int(3e3)
+    algo_cls = 'airl'
+
+@train_adversarial_ex.named_config
+def perimeter_patrol():
+    common = dict(env_name="imitationNM/PatrolModel-v0")
+    algorithm_kwargs = dict(
+        # Number of discriminator updates after each round of generator updates
+        # n_disc_updates_per_round=4,
+        # demo_batch_size=4,
+        allow_variable_horizon=True,
+    )
+    # total_timesteps = int(5e5)
+    total_timesteps = 2048
     algo_cls = 'airl'
 
 # Debug configs
-
 
 @train_adversarial_ex.named_config
 def fast():
