@@ -2,7 +2,6 @@ import os
 from imitation.scripts import train_adversarial
 import numpy as np
 
-
 def test_train_adversarial():
     config_updates = {
         "demonstrations": dict(rollout_path='/home/katy/imitation/output/eval_policy/imitationNM_SortingOnions-v0/20220904_104903_cf1057/rollouts/final.pkl'),
@@ -47,9 +46,9 @@ def incremental_train_adversarial(
         config_updates=config_updates,
     )
 
-    lba_all_sessions = [run.result["LBA"]]
-    return_mean_all_sessions = [run.result['imit_stats']["return_mean"]]
-    return_max_all_sessions = [run.result['imit_stats']["return_max"]]
+    lba_all_sessions = [round(run.result["LBA"],3)]
+    return_mean_all_sessions = [round(run.result['imit_stats']["return_mean"],3)]
+    return_max_all_sessions = [round(run.result['imit_stats']["return_max"],3)]
     agent_path = run.config["common"]["log_dir"]+ "/checkpoints/final/gen_policy"
 
     # second call onwards every call should pick next demonstration and gen_policy checkpoint from previous call
@@ -66,6 +65,8 @@ def incremental_train_adversarial(
         )
 
         lba_all_sessions.append(round(run.result["LBA"],3))
+        return_mean_all_sessions.append(round(run.result['imit_stats']["return_mean"],3))
+        return_max_all_sessions.append(round(run.result['imit_stats']["return_max"],3))
 
         agent_path = run.config["common"]["log_dir"]+ "/checkpoints/final/gen_policy"
 
@@ -75,7 +76,7 @@ if __name__ == '__main__':
 
     num_trials = 10
     patrol_named_config_env = 'perimeter_patrol'
-    patrol_rootdir = "/home/katy/imitation/output/eval_policy/imitationNM_PatrolModel-v0"
+    patrol_rootdir = "/home/katy/imitation/output/eval_policy/imitationNM_PatrolModel-v0/rollout_size_2048"
     patrol_demonstration_policy_path="/home/katy/imitation/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final"
 
     lba_values_over_AI2RL_trials = []

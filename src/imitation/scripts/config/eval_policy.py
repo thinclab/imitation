@@ -112,6 +112,7 @@ def seals_walker():
 def perimeter_patrol():
     common = dict(env_name = "imitationNM/PatrolModel-v0")
     eval_n_timesteps = 2048 
+    # eval_n_timesteps = 256 
 
 # @eval_policy_ex.named_config
 # def rollouts_from_policylist_and_save_only_defaults(log_dir):

@@ -173,6 +173,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         self.demo_batch_size = demo_batch_size
         self._demo_data_loader = None
         self._endless_expert_iterator = None
+
         super().__init__(
             demonstrations=demonstrations,
             custom_logger=custom_logger,

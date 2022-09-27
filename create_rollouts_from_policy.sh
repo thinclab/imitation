@@ -6,4 +6,10 @@
 # python -m imitation.scripts.eval_policy eval_policy with policy_path=$policypath 
 
 policypath="/home/katy/imitation/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final"
-python -m imitation.scripts.eval_policy eval_policy with perimeter_patrol policy_path=$policypath 
+for i in {1..1}
+do
+    python -m imitation.scripts.eval_policy eval_policy with perimeter_patrol policy_path=$policypath 
+    echo ""
+done
+
+echo "Message Body" | mail -s "rollouts saved" sarora@udel.edu

@@ -169,7 +169,7 @@ def sorting_onions():
         demo_batch_size=4,
         allow_variable_horizon=True,
     )
-    total_timesteps = int(5e5)
+    total_timesteps = int(5e5) # should be atleast same as rl batch size 
     # total_timesteps = int(3e3)
     algo_cls = 'airl'
 
@@ -179,11 +179,13 @@ def perimeter_patrol():
     algorithm_kwargs = dict(
         # Number of discriminator updates after each round of generator updates
         # n_disc_updates_per_round=4,
-        # demo_batch_size=4,
-        allow_variable_horizon=True,
+        # demo_batch_size = 4,
+        allow_variable_horizon = True,
     )
-    # total_timesteps = int(5e5)
+    # total_timesteps = int(5e5) # should be atleast same as rl batch size 
     total_timesteps = 2048
+    # total_timesteps = 256
+    rl = dict(batch_size=total_timesteps)
     algo_cls = 'airl'
 
 # Debug configs
