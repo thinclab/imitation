@@ -259,6 +259,90 @@ class TransitionsMinimal(th_data.Dataset):
             # a single dictionary batch with `torch.Tensor` values.
             return d_item
 
+@dataclasses.dataclass(frozen=True)
+class SADistr(th_data.Dataset):
+    """A Torch-compatible `Dataset` of obs-nextobs gibbs distr over sa pairs.
+
+    This class and its subclasses are usually instantiated via
+    `imitation.data.rollout.create_flattened_gibbs_stepdistr`.
+
+    Indexing an instance `dist` of SADistr with an integer `i`
+    returns the `i`th `Dict[str, np.ndarray]` sample, whose keys are the field
+    names of each dataclass field and whose values are the ith elements of each field
+    value.
+
+    Slicing returns a possibly empty instance of `SADistr` where each
+    field has been sliced.
+    """
+
+    obs_sa_distr: np.ndarray
+    """
+    array of distribution probability lists for observations at 
+    different timesteps in transitions.
+     Shape: (batch_size, ) + distribution_shape.
+
+    The i'th element `obs_sa_distr[i]` in this array is the Gibbs 
+    distribution list over s-a pairs for timestep i in transitions
+    """
+
+    nxtobs_sa_distr: np.ndarray
+    """
+    array of distribution probability lists for observations 
+    at next timesteps in transitions.  
+    . Shape: (batch_size,) + distribution_shape."""
+
+    def __len__(self):
+        """Returns number of transitions. Always positive."""
+        return len(self.obs_sa_distr)
+
+    def __post_init__(self):
+        """Performs input validation: check shapes & dtypes match docstring.
+
+        Also make array values read-only.
+
+        Raises:
+            ValueError: if batch size (array length) is inconsistent
+                between `obs`, `acts` and `infos`.
+        """
+        for val in vars(self).values():
+            if isinstance(val, np.ndarray):
+                val.setflags(write=False)
+
+        if len(self.obs_sa_distr) != len(self.nxtobs_sa_distr):
+            raise ValueError(
+                "previous timestep prob list array and next timestep prob list array must have same number of timesteps: "
+                f"{len(self.obs_sa_distr)} != {len(self.nxtobs_sa_distr)}",
+            )
+
+    # TODO(adam): uncomment below once pytype bug fixed in
+    # issue https://github.com/google/pytype/issues/1108
+    # @overload
+    # def __getitem__(self: T, key: slice) -> T:
+    #     pass  # pragma: no cover
+    #
+    # @overload
+    # def __getitem__(self, key: int) -> Mapping[str, np.ndarray]:
+    #     pass  # pragma: no cover
+
+    def __getitem__(self, key):
+        """See docstring for indexing and slicing semantics."""
+        d = dataclass_quick_asdict(self)
+        d_item = {k: v[key] for k, v in d.items()}
+
+        if isinstance(key, slice):
+            # Return type is the same as this dataclass. Replace field value with
+            # slices.
+            return dataclasses.replace(self, **d_item)
+        else:
+            assert isinstance(key, int)
+            # Return type is a dictionary. Array values have no batch dimension.
+            #
+            # Dictionary of np.ndarray values is a convenient
+            # torch.util.data.Dataset return type, as a torch.util.data.DataLoader
+            # taking in this `Dataset` as its first argument knows how to
+            # automatically concatenate several dictionaries together to make
+            # a single dictionary batch with `torch.Tensor` values.
+            return d_item
 
 @dataclasses.dataclass(frozen=True)
 class Transitions(TransitionsMinimal):

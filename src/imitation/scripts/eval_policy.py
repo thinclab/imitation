@@ -68,6 +68,7 @@ def eval_policy(
     reward_type: Optional[str] = None,
     reward_path: Optional[str] = None,
     rollout_save_path: Optional[str] = None,
+    noise_insertion: bool = False,
 ):
     """Rolls a policy out in an environment, collecting statistics.
 
@@ -113,7 +114,11 @@ def eval_policy(
         policy = None
         if policy_type is not None:
             policy = serialize.load_policy(policy_type, policy_path, venv)
-        trajs = rollout.generate_trajectories(policy, venv, sample_until)
+        
+        if noise_insertion:
+            trajs = rollout.generate_trajectories(policy, venv, sample_until, noise_insertion=noise_insertion)
+        else:
+            trajs = rollout.generate_trajectories(policy, venv, sample_until)
 
         if rollout_save_path:
             types.save(rollout_save_path.replace("{log_dir}", log_dir), trajs)

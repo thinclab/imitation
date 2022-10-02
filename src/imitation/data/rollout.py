@@ -312,6 +312,7 @@ def generate_trajectories(
     *,
     deterministic_policy: bool = False,
     rng: np.random.RandomState = np.random,
+    noise_insertion: bool = False,
 ) -> Sequence[types.TrajectoryWithRew]:
     """Generate trajectory dictionaries from a policy and an environment.
 
@@ -360,7 +361,14 @@ def generate_trajectories(
     active = np.ones(venv.num_envs, dtype=bool)
     while np.any(active):
         acts = get_actions(obs)
-        obs, rews, dones, infos = venv.step(acts)
+        next_obs, rews, dones, infos = venv.step(acts)
+
+        if noise_insertion: 
+            for i in range(len(obs)):
+                (noisy_ob,noisy_act) = venv.env_method(method_name='insertNoise',indices=0,s=obs[i],a=acts[i])[0]
+                if noisy_ob != obs[i] or noisy_act != acts[i]:
+                    # print("noise inserted") 
+                    obs[i], acts[i] = noisy_ob, noisy_act
 
         # If an environment is inactive, i.e. the episode completed for that
         # environment after `sample_until(trajectories)` was true, then we do
@@ -370,7 +378,7 @@ def generate_trajectories(
 
         new_trajs = trajectories_accum.add_steps_and_auto_finish(
             acts,
-            obs,
+            next_obs,
             rews,
             dones,
             infos,
@@ -633,6 +641,92 @@ def generate_trajectories_from_policylist(
         assert real_rew == exp_rew, f"expected shape {exp_rew}, got {real_rew}"
 
     return trajectories
+
+# def generate_trajectories_with_noise_insertion(
+#     policy: AnyPolicy,
+#     venv: VecEnv,
+#     sample_until: GenTrajTerminationFn,
+#     *,
+#     deterministic_policy: bool = False,
+#     rng: np.random.RandomState = np.random,
+# ) -> Sequence[types.TrajectoryWithRew]:
+#     """
+#         Use insertNoise function in gym env to insert observation noise in state action pair.
+
+#         Rest is same as generate_trajectories method
+
+#     """
+#     get_actions = _policy_to_callable(policy, venv, deterministic_policy)
+
+#     # Collect rollout tuples.
+#     trajectories = []
+#     # accumulator for incomplete trajectories
+#     trajectories_accum = TrajectoryAccumulator()
+#     obs = venv.reset()
+#     for env_idx, ob in enumerate(obs):
+#         # Seed with first obs only. Inside loop, we'll only add second obs from
+#         # each (s,a,r,s') tuple, under the same "obs" key again. That way we still
+#         # get all observations, but they're not duplicated into "next obs" and
+#         # "previous obs" (this matters for, e.g., Atari, where observations are
+#         # really big).
+#         trajectories_accum.add_step(dict(obs=ob), env_idx)
+
+#     # Now, we sample until `sample_until(trajectories)` is true.
+#     # If we just stopped then this would introduce a bias towards shorter episodes,
+#     # since longer episodes are more likely to still be active, i.e. in the process
+#     # of being sampled from. To avoid this, we continue sampling until all epsiodes
+#     # are complete.
+#     #
+#     # To start with, all environments are active.
+#     active = np.ones(venv.num_envs, dtype=bool)
+#     while np.any(active):
+#         acts = get_actions(obs)
+#         obs, rews, dones, infos = venv.step(acts)
+
+#         # If an environment is inactive, i.e. the episode completed for that
+#         # environment after `sample_until(trajectories)` was true, then we do
+#         # *not* want to add any subsequent trajectories from it. We avoid this
+#         # by just making it never done.
+#         dones &= active
+
+#         new_trajs = trajectories_accum.add_steps_and_auto_finish(
+#             acts,
+#             obs,
+#             rews,
+#             dones,
+#             infos,
+#         )
+#         trajectories.extend(new_trajs)
+
+#         if sample_until(trajectories):
+#             # Termination condition has been reached. Mark as inactive any
+#             # environments where a trajectory was completed this timestep.
+#             active &= ~dones
+
+#     # Note that we just drop partial trajectories. This is not ideal for some
+#     # algos; e.g. BC can probably benefit from partial trajectories, too.
+
+#     # Each trajectory is sampled i.i.d.; however, shorter episodes are added to
+#     # `trajectories` sooner. Shuffle to avoid bias in order. This is important
+#     # when callees end up truncating the number of trajectories or transitions.
+#     # It is also cheap, since we're just shuffling pointers.
+#     rng.shuffle(trajectories)
+
+#     # Sanity checks.
+#     for trajectory in trajectories:
+#         n_steps = len(trajectory.acts)
+#         # extra 1 for the end
+#         exp_obs = (n_steps + 1,) + venv.observation_space.shape
+#         real_obs = trajectory.obs.shape
+#         assert real_obs == exp_obs, f"expected shape {exp_obs}, got {real_obs}"
+#         exp_act = (n_steps,) + venv.action_space.shape
+#         real_act = trajectory.acts.shape
+#         assert real_act == exp_act, f"expected shape {exp_act}, got {real_act}"
+#         exp_rew = (n_steps,)
+#         real_rew = trajectory.rews.shape
+#         assert real_rew == exp_rew, f"expected shape {exp_rew}, got {real_rew}"
+
+#     return trajectories
 
 def rollout_stats(
     trajectories: Sequence[types.TrajectoryWithRew],
@@ -900,6 +994,105 @@ def calc_LBA(venv, policy_acts, policy_acts_reference=None):
     LBA = sum(matches)*100/len(matches)
 
     return LBA
+
+def create_flattened_gibbs_stepdistr(
+    venv: VecEnv,
+    gen_algo: BaseAlgorithm,
+    obsvd_trajs: Sequence[types.Trajectory],
+) -> types.SADistr:
+    """
+    
+    Args:
+        venv: vectorized env
+        gen_algo: generator algorithm instance to help access action given by generator's policy 
+        trajectories: list of expert trajectories with observation noise
+
+    Returns:
+        flattened sa_distr per transition
+    
+    """
+    import torch as th
+    from torch.distributions import Categorical
+    import itertools
+    import time 
+
+    # simulate random ground truth trajectoreis
+    GT_trajs = np.empty((len(obsvd_trajs),len(obsvd_trajs[0].obs),2),dtype=int)
+    for i in range(len(obsvd_trajs)):
+        venv.reset()
+        GT_traj = np.array([[venv.get_attr('s')[0],None]])
+        for j in range(len(obsvd_trajs[0].obs)-1):
+            a, _ = gen_algo.policy.predict(GT_traj[j][0],deterministic=False)
+            GT_traj[j][1] = a.item(0)
+            ret_tuples = venv.env_method(method_name='step_sa',indices=[0]*venv.num_envs,s=GT_traj[j][0],a=GT_traj[j][1])
+            ns = ret_tuples[0][0] 
+            GT_traj = np.vstack((GT_traj,np.array([ns, -1]))) 
+        
+        GT_trajs[i] = GT_traj 
+        i += 1
+
+    list_s = list(range(venv.observation_space.n))
+    list_a = list(range(venv.action_space.n)) 
+    combinations_sa_tuples = list(itertools.product(list_s,list_a)) 
+    # list of probabilities specific to time step j in traj i 
+    probs_sa_gt_sa_j = [0.0]*len(combinations_sa_tuples) 
+
+    # temp storage of traj specific list of probs_sa_gt_sa_j 
+    sa_distr_trajs = np.zeros((len(obsvd_trajs),len(obsvd_trajs[0].obs),len(combinations_sa_tuples)),dtype=float) 
+    
+    start_tm = time.time()
+    for i in range(len(GT_trajs)):
+        obsvd_traj = obsvd_trajs[i]
+        GT_traj = GT_trajs[i]
+
+        for j in range(len(GT_traj)):
+            
+            for s in range(venv.observation_space.n):
+                for a in range(venv.action_space.n):
+
+                    if j==0:
+                        P_s_prevs_preva = 1.0
+                    else: 
+                        P_s_prevs_preva = venv.env_method(method_name='P_sasp',indices=0,s=GT_traj[j-1][0],a=GT_traj[j-1][1],sp=s)[0]
+
+                    if j==len(GT_traj)-1:
+                        # GT_traj[j+1] is empty for len(GT_traj)-1 index
+                        P_nexts_s_a = 1.0 
+                    else: 
+                        P_nexts_s_a = venv.env_method(method_name='P_sasp',indices=0,s=s,a=a,sp=GT_traj[j+1][0])[0] 
+                    
+                    if j==len(GT_traj)-1: 
+                        # obsvd_traj.acts is empty at len(GT_traj)-1
+                        P_obssa_GTsa = 1.0
+                    else:
+                        P_obssa_GTsa = venv.env_method(method_name='obs_model',indices=0,sg=s,ag=a,so=obsvd_traj.obs[j],ao=obsvd_traj.acts[j])[0] 
+
+                    s_th = th.as_tensor([s], device=gen_algo.device) 
+                    a_th = th.as_tensor([a], device=gen_algo.device) 
+
+                    policy_a_giv_s = gen_algo.policy.prob_acts(obs=s_th,actions=a_th)[0].item() 
+
+                    probs_sa_gt_sa_j[combinations_sa_tuples.index((s,a))] = P_s_prevs_preva * \
+                        policy_a_giv_s * P_nexts_s_a * P_obssa_GTsa 
+
+            sa_distr_trajs[i][j]=np.array(probs_sa_gt_sa_j)
+
+    print("time taken to create distributions: {} minutes ".format((time.time()-start_tm)/60)) 
+
+    # flatten sa_distr_trajs to create obs_sa_distr nxtobs_sa_distr separately 
+    keys = ["obs_sa_distr", "nxtobs_sa_distr"]
+    parts = {key: [] for key in keys}
+    for i in range(len(sa_distr_trajs)):
+        parts["obs_sa_distr"].append(sa_distr_trajs[i][:-1])
+        parts["nxtobs_sa_distr"].append(sa_distr_trajs[i][1:])
+
+    cat_sadistr_per_transition = {
+        key: np.concatenate(part_list, axis=0) for key, part_list in parts.items()
+    } 
+    print("create_flattened_gibbs_stepdistr length cat_sadistr_per_transition - ",len(cat_sadistr_per_transition['obs_sa_distr'])) 
+    lengths = set(map(len, cat_sadistr_per_transition.values())) 
+    assert len(lengths) == 1, f"expected one length, got {lengths}" 
+    return types.SADistr(**cat_sadistr_per_transition) 
 
 def discounted_sum(arr: np.ndarray, gamma: float) -> Union[np.ndarray, float]:
     """Calculate the discounted sum of `arr`.

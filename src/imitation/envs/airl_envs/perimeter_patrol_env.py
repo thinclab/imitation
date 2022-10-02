@@ -177,7 +177,8 @@ class PatrolModel(DiscreteEnv):
 
         # exit(0)
         self.nS = nS
-        self.insertNoiseprob = 0.3
+        # self.insertNoiseprob = 0.3
+        self.insertNoiseprob = 0.6
         super(PatrolModel, self).__init__(nS, nA, self.P, self.isd) 
 
     def stateList(self):
@@ -286,10 +287,15 @@ class PatrolModel(DiscreteEnv):
         
         state_arr = self._stateList[s].location
         act = self._actionList[a]
+
         a_new = a
-        if act == 'PatrolActionMoveForward' and (state_arr[0]==0 or state_arr[1]==0):
+        # if act == 'PatrolActionMoveForward' and (state_arr[0]==0 or state_arr[1]==0):
+        #     if random.random() < self.insertNoiseprob:
+        #         a_new = self._actionList.index('PatrolActionTurnLeft')
+
+        if act == 'PatrolActionTurnLeft' and (state_arr[0]==0 or state_arr[1]==0):
             if random.random() < self.insertNoiseprob:
-                a_new = self._actionList.index('PatrolActionTurnLeft')
+                a_new = self._actionList.index('PatrolActionMoveForward')
 
         return (s,a_new)
     

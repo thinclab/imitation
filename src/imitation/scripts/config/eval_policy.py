@@ -30,6 +30,7 @@ def replay_defaults():
     reward_path = None  # Path of serialized reward to load
 
     rollout_save_path = None  # where to save rollouts to -- if None, do not save
+    noise_insertion = False
 
 
 @eval_policy_ex.named_config
@@ -135,3 +136,5 @@ def fast():
     policy_path = "tests/testdata/expert_models/cartpole_0/policies/final/"
     eval_n_timesteps = 1
     eval_n_episodes = None
+    noise_insertion = False
+    

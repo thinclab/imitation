@@ -39,6 +39,7 @@ def incremental_train_adversarial(
         "agent_path": None,
         "demonstrations": dict(rollout_path=rollout_paths[0]),
         "demonstration_policy_path": demonstration_policy_path,
+        "wdGibbsSamp": True,
     }
     run = train_adversarial.train_adversarial_ex.run(
         command_name='airl',
@@ -57,6 +58,7 @@ def incremental_train_adversarial(
             "agent_path": agent_path,
             "demonstrations": dict(rollout_path=rollout_paths[i]),
             "demonstration_policy_path": demonstration_policy_path,
+            "wdGibbsSamp": True,
         }
         run = train_adversarial.train_adversarial_ex.run(
             command_name='airl',
@@ -76,7 +78,7 @@ if __name__ == '__main__':
 
     num_trials = 10
     patrol_named_config_env = 'perimeter_patrol'
-    patrol_rootdir = "/home/katy/imitation/output/eval_policy/imitationNM_PatrolModel-v0/rollout_size_2048"
+    patrol_rootdir = "/home/katy/imitation/output/eval_policy/imitationNM_PatrolModel-v0/rollout_size_2048_with_noise_0.6prob"
     patrol_demonstration_policy_path="/home/katy/imitation/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final"
 
     lba_values_over_AI2RL_trials = []
@@ -91,7 +93,10 @@ if __name__ == '__main__':
         return_mean_over_AI2RL_trials.append(return_mean_all_sessions) 
         return_max_over_AI2RL_trials.append(return_max_all_sessions) 
 
-    print("avg of lba values over sessions  \n ",np.average(lba_values_over_AI2RL_trials,0)) 
-    print("avg of return_mean values over sessions  \n ",np.average(return_mean_over_AI2RL_trials,0)) 
-    print("avg of return_max values over sessions  \n ",np.average(return_max_over_AI2RL_trials,0)) 
+    avg_lba_per_session = np.average(lba_values_over_AI2RL_trials,0)
+    avg_return_mean_per_session = np.average(return_mean_over_AI2RL_trials,0)
+    avg_return_max_per_session = np.average(return_max_over_AI2RL_trials,0)
 
+    print("avg of lba values over sessions  \n ",np.array2string(avg_lba_per_session, separator=', ')) 
+    print("avg of return_mean values over sessions  \n ",np.array2string(avg_return_mean_per_session, separator=', ')) 
+    print("avg of return_max values over sessions  \n ",np.array2string(avg_return_max_per_session, separator=', ')) 
