@@ -76,6 +76,7 @@ def train_adversarial(
     agent_path: Optional[str],
     demonstration_policy_path: Optional[str],
     wdGibbsSamp: bool,
+    threshold_stop_Gibbs_sampling: float, 
 ) -> Mapping[str, Mapping[str, float]]:
     """Train an adversarial-network-based imitation learning algorithm.
 
@@ -141,10 +142,15 @@ def train_adversarial(
     if wdGibbsSamp:
         ### multiple Gibbs sample per traj ###
         # create flattened sa_distr per transition
-        sadistr_per_transition = rollout.create_flattened_gibbs_stepdistr(venv, gen_algo, expert_trajs)
-        print("sadistr_per_transition \n",sadistr_per_transition)
-    exit(0)
+        # sadistr_per_transition = rollout.create_flattened_gibbs_stepdistr(venv, gen_algo, expert_trajs)
 
+        import pickle
+        # with open('/home/katy/imitation/for_debugging/sadistr_per_transition.pickle', 'wb') as handle:
+        #     pickle.dump(sadistr_per_transition, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+        with open('/home/katy/imitation/for_debugging/sadistr_per_transition.pickle', 'rb') as handle:
+            sadistr_per_transition = pickle.load(handle)
+    
     trainer = algo_cls(
         venv=venv,
         demonstrations=expert_trajs,
@@ -152,6 +158,8 @@ def train_adversarial(
         log_dir=log_dir,
         reward_net=reward_net,
         custom_logger=custom_logger,
+        sadistr_per_transition = sadistr_per_transition, 
+        threshold_stop_Gibbs_sampling = threshold_stop_Gibbs_sampling, 
         **algorithm_kwargs,
     )
 
@@ -160,6 +168,9 @@ def train_adversarial(
             save(trainer, os.path.join(log_dir, "checkpoints", f"{round_num:05d}"))
 
     trainer.train(total_timesteps, callback)
+
+    print("trainer.train works ")
+    exit()
 
     # Save final artifacts.
     if checkpoint_interval >= 0:

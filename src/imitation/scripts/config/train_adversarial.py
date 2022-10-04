@@ -33,6 +33,7 @@ def defaults():
     agent_path = None  # Path to load agent from, optional.
     demonstration_policy_path = None
     wdGibbsSamp = False
+    threshold_stop_Gibbs_sampling = 0.05
 
 @train_adversarial_ex.config
 def aliases_default_gen_batch_size(algorithm_kwargs, rl):

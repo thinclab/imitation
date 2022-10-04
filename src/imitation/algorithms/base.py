@@ -129,6 +129,7 @@ class DemonstrationAlgorithm(BaseImitationAlgorithm, Generic[TransitionKind]):
         demonstrations: Optional[AnyTransitions],
         custom_logger: Optional[imit_logger.HierarchicalLogger] = None,
         allow_variable_horizon: bool = False,
+        sadistr_per_transition: Union[Iterable[Mapping], types.SADistr] = None,
     ):
         """Creates an algorithm that learns from demonstrations.
 

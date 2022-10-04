@@ -4,7 +4,7 @@ import collections
 import dataclasses
 import logging
 import os
-from typing import Callable, Mapping, Optional, Sequence, Tuple, Type
+from typing import Callable, Mapping, Optional, Sequence, Tuple, Type, Iterable, Union
 
 import numpy as np
 import torch as th
@@ -122,6 +122,8 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         init_tensorboard_graph: bool = False,
         debug_use_ground_truth: bool = False,
         allow_variable_horizon: bool = False,
+        sadistr_per_transition: Union[Iterable[Mapping], types.SADistr] = None,
+        threshold_stop_Gibbs_sampling: float,
     ):
         """Builds AdversarialTrainer.
 
@@ -169,6 +171,9 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 condition, and can seriously confound evaluation. Read
                 https://imitation.readthedocs.io/en/latest/guide/variable_horizon.html
                 before overriding this.
+            sadistr_per_transition: dictionary of timestep specific arrays containing
+                'Gibbs distribution probabilties for s-a pairs' at current timestep / obs 
+                and next timestep / nextobs. (can be created using transition dynamics)
         """
         self.demo_batch_size = demo_batch_size
         self._demo_data_loader = None
@@ -239,6 +244,21 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             self.venv,
         )
 
+        self.sa_distr_data_loader = None
+        self._endless_sa_distr_iterator = None 
+        self.threshold_stop_Gibbs_sampling = threshold_stop_Gibbs_sampling
+        if sadistr_per_transition:
+            import torch.utils.data as th_data
+
+            # set loader of gibbs s-a distribution probability values 
+            self.sa_distr_data_loader = th_data.DataLoader(
+                sadistr_per_transition,
+                batch_size=self.demo_batch_size,
+                shuffle=False,
+                drop_last=True,
+            )
+            self._endless_sa_distr_iterator = util.endless_iter(self.sa_distr_data_loader)
+
     @property
     def policy(self) -> policies.BasePolicy:
         return self.gen_algo.policy
@@ -285,11 +305,15 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         self._demo_data_loader = base.make_data_loader(
             demonstrations,
             self.demo_batch_size,
+            dict(shuffle=False, drop_last=True)
         )
         self._endless_expert_iterator = util.endless_iter(self._demo_data_loader)
 
     def _next_expert_batch(self) -> Mapping:
         return next(self._endless_expert_iterator)
+
+    def _next_sa_distr_batch(self) -> Mapping:
+        return next(self._endless_sa_distr_iterator)
 
     def train_disc(
         self,
@@ -319,22 +343,161 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             # optionally write TB summaries for collected ops
             write_summaries = self._init_tensorboard and self._global_step % 20 == 0
 
-            # compute loss
-            batch = self._make_disc_train_batch(
-                gen_samples=gen_samples,
-                expert_samples=expert_samples,
-            )
-            disc_logits = self.logits_expert_is_high(
-                batch["state"],
-                batch["action"],
-                batch["next_state"],
-                batch["done"],
-                batch["log_policy_act_prob"],
-            )
+            if expert_samples is None:
+                expert_samples = self._next_expert_batch()
+
+            if gen_samples is None:
+                if self._gen_replay_buffer.size() == 0:
+                    raise RuntimeError(
+                        "No generator samples for training. " "Call `train_gen()` first.",
+                    )
+                gen_samples = self._gen_replay_buffer.sample(self.demo_batch_size)
+                gen_samples = types.dataclass_quick_asdict(gen_samples)
+
+            if not self.sa_distr_data_loader:
+                # code without Gibbs sampling 
+
+                # compute loss
+                batch = self._make_disc_train_batch(
+                    gen_samples=gen_samples,
+                    expert_samples=expert_samples,
+                )
+                disc_logits = self.logits_expert_is_high(
+                    batch["state"],
+                    batch["action"],
+                    batch["next_state"],
+                    batch["done"],
+                    batch["log_policy_act_prob"],
+                )
+            else:
+                # disc_logits via Gibbs sampling 
+
+                filename="/home/katy/imitation/for_debugging/troubleshooting_gibbs_sampling.txt"
+                writer = open(filename, "a")
+                sa_distr_samples = self._next_sa_distr_batch()
+
+                from torch.distributions import Categorical 
+                import itertools 
+                import math 
+
+                '''
+                Gibbs Sampling:
+
+                use a loop for following with a stopping criteria based on delta in average disc_logits array values
+                    for each step in expert_samples, use obs_sa_distr for current time step to modify obs-act of current step and next_obs of prev step. 
+                    next_obs of last expert sample will be changed using next_obs_sadistr
+                    use Gibbs sample modified expert_samples to compute disc_logits
+                    add disc_logits array to sum so far
+
+                '''
+                list_s = list(range(self.venv.observation_space.n))
+                list_a = list(range(self.venv.action_space.n))
+                combinations_sa_tuples = list(itertools.product(list_s,list_a))
+
+                def sample_sa(probs_sa_gt_sa_j,combinations_sa_tuples,writer):
+                    # internal method to sample a state action pair given list of probs
+
+                    s, a = None, None
+                    total_mass = 0
+                    for pr in probs_sa_gt_sa_j:
+                        total_mass += pr
+                    
+                    # It is possible and valid that dict_gt_sa has all values 0? Most of cases are coming 0. 
+                    # Skip the case where all values in dict_gt_sa are zero
+                    if (total_mass != 0):
+                        # wr_str = "sample_sa: probs_sa_gt_sa_j all values aren't 0s"
+                        # writer.write(str(wr_str)+"\n")
+                        # is distr uniform?
+                        if len(set(probs_sa_gt_sa_j)) == 1: 
+                            # sample and replace GT s-a in GT_traj
+                            norm = [float(i)/sum(probs_sa_gt_sa_j) for i in probs_sa_gt_sa_j]
+                            '''
+                            Distr Example::
+
+                                >>> m = Categorical(torch.tensor([ 0.25, 0.25, 0.25, 0.25 ]))
+                                >>> m.sample()  # equal probability of 0, 1, 2, 3
+                                tensor(3)
+                            '''
+                            m = Categorical(th.tensor(norm))
+                            sampled_ind = m.sample().item()
+                            s, a = combinations_sa_tuples[sampled_ind]
+                            # print("sample_sa: s,a in perceived traj changed by uniform sampling")
+                            # wr_str = "sample_sa: s,a in perceived traj changed by uniform sampling"
+                            writer.write(str(wr_str)+"\n")
+                        else:
+                            max_value = max(probs_sa_gt_sa_j)
+                            max_index = probs_sa_gt_sa_j.index(max_value)
+                            s, a = combinations_sa_tuples[max_index]
+                            # print("sample_sa: s,a in perceived traj changed by pick max prob index")
+                            # wr_str = "sample_sa: s,a in perceived traj changed by pick max prob index"
+                            writer.write(str(wr_str)+"\n")
+                    else:
+                        # wr_str = "sample_sa: probs_sa_gt_sa_j all values are 0s"
+                        # writer.write(str(wr_str)+"\n")
+                        pass
+
+                    return s, a
+
+                normed_delta_avg_disc_logits = math.inf
+                sum_avg_disc_logits = th.tensor( [0.0]*(len(expert_samples['obs'])+len(gen_samples['obs'])), device=self.gen_algo.device)
+                ind_avg = 0
+                # avg_disc_logits = th.tensor( [0.0]*(len(expert_samples['obs'])+len(gen_samples['obs'])) )
+                last_avg_disc_logits = th.tensor( [0.0]*(len(expert_samples['obs'])+len(gen_samples['obs'])), device=self.gen_algo.device)
+
+                while normed_delta_avg_disc_logits > self.threshold_stop_Gibbs_sampling:
+                    
+                    for j in range(len(expert_samples['obs'])):
+                        
+                        # sampling must happen specifically for index j
+                        probs_sa_gt_sa_j = sa_distr_samples['obs_sa_distr'][j].tolist() 
+                        s,a = sample_sa(probs_sa_gt_sa_j,combinations_sa_tuples,writer)
+
+                        if s:
+                            expert_samples['obs'][j] = s
+                            expert_samples['acts'][j] = a
+
+                            # update next obs of prev step based on obs sampled for current step 
+                            if j>0 and j<len(expert_samples['obs']):
+                                expert_samples['next_obs'][j-1] = expert_samples['obs'][j]
+
+                    # sampling last next obs 
+                    probs_sa_gt_sa_j = sa_distr_samples['nxtobs_sa_distr'][-1].tolist()
+                    s,a = sample_sa(probs_sa_gt_sa_j,combinations_sa_tuples,writer)
+                    if s:
+                        expert_samples['next_obs'][-1] = s
+
+                    batch = self._make_disc_train_batch(
+                        gen_samples=gen_samples, expert_samples=expert_samples
+                    )
+                    disc_logits = self.logits_expert_is_high(
+                        batch["state"],
+                        batch["action"],
+                        batch["next_state"],
+                        batch["done"],
+                        batch["log_policy_act_prob"],
+                    )
+
+                    ind_avg += 1
+                    sum_avg_disc_logits += disc_logits
+                    avg_disc_logits = sum_avg_disc_logits/ind_avg
+
+                    delta_avg_disc_logits = (avg_disc_logits - last_avg_disc_logits)
+                    normed_delta_avg_disc_logits = th.linalg.norm(delta_avg_disc_logits, ord=1).cpu().data.numpy() 
+                    
+                    # wr_str = "normed_delta_avg_disc_logits {}".format(normed_delta_avg_disc_logits) 
+                    writer.write(str(wr_str)+"\n") 
+                    
+                    last_avg_disc_logits = avg_disc_logits
+                
+                writer.close()
+                # print("Gibbs sampled discimantor logits")
+                        
             loss = F.binary_cross_entropy_with_logits(
                 disc_logits,
                 batch["labels_expert_is_one"].float(),
             )
+
+            exit()
 
             # do gradient step
             self._disc_opt.zero_grad()
@@ -495,16 +658,16 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             ValueError: `gen_samples` or `expert_samples` batch size is
                 different from `self.demo_batch_size`.
         """
-        if expert_samples is None:
-            expert_samples = self._next_expert_batch()
+        # if expert_samples is None:
+        #     expert_samples = self._next_expert_batch()
 
-        if gen_samples is None:
-            if self._gen_replay_buffer.size() == 0:
-                raise RuntimeError(
-                    "No generator samples for training. " "Call `train_gen()` first.",
-                )
-            gen_samples = self._gen_replay_buffer.sample(self.demo_batch_size)
-            gen_samples = types.dataclass_quick_asdict(gen_samples)
+        # if gen_samples is None:
+        #     if self._gen_replay_buffer.size() == 0:
+        #         raise RuntimeError(
+        #             "No generator samples for training. " "Call `train_gen()` first.",
+        #         )
+        #     gen_samples = self._gen_replay_buffer.sample(self.demo_batch_size)
+        #     gen_samples = types.dataclass_quick_asdict(gen_samples)
 
         n_gen = len(gen_samples["obs"])
         n_expert = len(expert_samples["obs"])

@@ -1089,6 +1089,7 @@ def create_flattened_gibbs_stepdistr(
     cat_sadistr_per_transition = {
         key: np.concatenate(part_list, axis=0) for key, part_list in parts.items()
     } 
+
     print("create_flattened_gibbs_stepdistr length cat_sadistr_per_transition - ",len(cat_sadistr_per_transition['obs_sa_distr'])) 
     lengths = set(map(len, cat_sadistr_per_transition.values())) 
     assert len(lengths) == 1, f"expected one length, got {lengths}" 
