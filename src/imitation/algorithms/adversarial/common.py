@@ -371,8 +371,11 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 )
             else:
                 # disc_logits via Gibbs sampling 
+                import git 
+                repo = git.Repo('.', search_parent_directories=True)
+                git_home = repo.working_tree_dir
 
-                filename="/home/katy/imitation/for_debugging/troubleshooting_gibbs_sampling.txt"
+                filename=str(git_home)+"/for_debugging/troubleshooting_gibbs_sampling.txt"
                 writer = open(filename, "a")
                 sa_distr_samples = self._next_sa_distr_batch()
 
@@ -423,14 +426,14 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                             s, a = combinations_sa_tuples[sampled_ind]
                             # print("sample_sa: s,a in perceived traj changed by uniform sampling")
                             # wr_str = "sample_sa: s,a in perceived traj changed by uniform sampling"
-                            writer.write(str(wr_str)+"\n")
+                            # writer.write(str(wr_str)+"\n")
                         else:
                             max_value = max(probs_sa_gt_sa_j)
                             max_index = probs_sa_gt_sa_j.index(max_value)
                             s, a = combinations_sa_tuples[max_index]
                             # print("sample_sa: s,a in perceived traj changed by pick max prob index")
                             # wr_str = "sample_sa: s,a in perceived traj changed by pick max prob index"
-                            writer.write(str(wr_str)+"\n")
+                            # writer.write(str(wr_str)+"\n")
                     else:
                         # wr_str = "sample_sa: probs_sa_gt_sa_j all values are 0s"
                         # writer.write(str(wr_str)+"\n")
@@ -485,7 +488,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     normed_delta_avg_disc_logits = th.linalg.norm(delta_avg_disc_logits, ord=1).cpu().data.numpy() 
                     
                     # wr_str = "normed_delta_avg_disc_logits {}".format(normed_delta_avg_disc_logits) 
-                    writer.write(str(wr_str)+"\n") 
+                    # writer.write(str(wr_str)+"\n") 
                     
                     last_avg_disc_logits = avg_disc_logits
                 
@@ -496,8 +499,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 disc_logits,
                 batch["labels_expert_is_one"].float(),
             )
-
-            exit()
 
             # do gradient step
             self._disc_opt.zero_grad()

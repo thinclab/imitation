@@ -145,15 +145,19 @@ def lba_for_det_act_list_from_policypath(_run, policy_path: str):
 
     LBA = rollout.calc_LBA(venv, policy_acts_RL, policy_acts_perfect_demonstrator)
 
-    filename="/home/katy/imitation/lba/"+str(env_name)+"/lba_rl_policies.txt"
-    appender = open(filename, "a")
-    appender.write(str(LBA)+"\n")
-    appender.close()
+    # import git 
+    # repo = git.Repo('.', search_parent_directories=True)
+    # git_home = repo.working_tree_dir
 
-    filename="/home/katy/imitation/lba/"+str(env_name)+"/policy_action_list.txt"
-    appender = open(filename, "a")
-    appender.write(str(policy_acts_RL)[1:-1]+"\n") # write only comma separated actions 
-    appender.close()
+    # filename=str(git_home)+"/lba/"+str(env_name)+"/lba_rl_policies.txt"
+    # appender = open(filename, "a")
+    # appender.write(str(LBA)+"\n")
+    # appender.close()
+
+    # filename=str(git_home)+"/lba/"+str(env_name)+"/policy_action_list.txt"
+    # appender = open(filename, "a")
+    # appender.write(str(policy_acts_RL)[1:-1]+"\n") # write only comma separated actions 
+    # appender.close()
 
     return LBA
 

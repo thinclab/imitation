@@ -34,6 +34,7 @@ def defaults():
     demonstration_policy_path = None
     wdGibbsSamp = False
     threshold_stop_Gibbs_sampling = 0.05
+    sa_distr_read = False
 
 @train_adversarial_ex.config
 def aliases_default_gen_batch_size(algorithm_kwargs, rl):

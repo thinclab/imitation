@@ -2,6 +2,8 @@
 .#*
 *.html
 output/
+sa_distr_pickled_files/
+for_debugging/
 /data/
 auto.pkl
 nohup.out

@@ -17,6 +17,7 @@ from imitation.policies import serialize
 from imitation.scripts.common import common as common_config
 from imitation.scripts.common import demonstrations, reward, rl, train
 from imitation.scripts.config.train_adversarial import train_adversarial_ex
+import git
 
 logger = logging.getLogger("imitation.scripts.train_adversarial")
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
@@ -77,6 +78,7 @@ def train_adversarial(
     demonstration_policy_path: Optional[str],
     wdGibbsSamp: bool,
     threshold_stop_Gibbs_sampling: float, 
+    sa_distr_read: bool
 ) -> Mapping[str, Mapping[str, float]]:
     """Train an adversarial-network-based imitation learning algorithm.
 
@@ -120,6 +122,8 @@ def train_adversarial(
     custom_logger, log_dir = common_config.setup_logging()
     expert_trajs = demonstrations.load_expert_trajs()
 
+    env_name = _run.config["common"]["env_name"]
+
     venv = common_config.make_venv()
 
     if agent_path is None:
@@ -139,18 +143,34 @@ def train_adversarial(
             del algorithm_kwargs[k]
 
     sadistr_per_transition = None
+    repo = git.Repo('.', search_parent_directories=True)
+    git_home = repo.working_tree_dir
+
+    os.makedirs(str(git_home)+"/sa_distr_pickled_files/"+str(env_name), exist_ok=True)
+
     if wdGibbsSamp:
         ### multiple Gibbs sample per traj ###
-        # create flattened sa_distr per transition
-        # sadistr_per_transition = rollout.create_flattened_gibbs_stepdistr(venv, gen_algo, expert_trajs)
 
-        import pickle
-        # with open('/home/katy/imitation/for_debugging/sadistr_per_transition.pickle', 'wb') as handle:
-        #     pickle.dump(sadistr_per_transition, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        # rollout path
+        rollout_path = _run.config["demonstrations"]["rollout_path"]
+        # sa_distr_pickle_filename is same as 22 letters before /rollouts/final.pkl in rollout_path
+        sa_distr_pickle_filename = rollout_path[:-len("/rollouts/final.pkl")][-22:]
+        
+        if sa_distr_read:
+            # read distribution for running training
+            with open(str(git_home)+"/sa_distr_pickled_files/"+str(env_name)+"/"+sa_distr_pickle_filename+'.pickle', 'rb') as handle:
+                sadistr_per_transition = pickle.load(handle)
+        else:
+            # create flattened sa_distr per transition and save
+            sadistr_per_transition = rollout.create_flattened_gibbs_stepdistr(venv, gen_algo, expert_trajs)
+            import pickle
+            # save distribution 
+            with open(str(git_home)+"/sa_distr_pickled_files/"+str(env_name)+"/"+sa_distr_pickle_filename+'.pickle', 'wb') as handle:
+                pickle.dump(sadistr_per_transition, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-        with open('/home/katy/imitation/for_debugging/sadistr_per_transition.pickle', 'rb') as handle:
-            sadistr_per_transition = pickle.load(handle)
-    
+            # do not run training
+            return
+
     trainer = algo_cls(
         venv=venv,
         demonstrations=expert_trajs,
@@ -169,23 +189,18 @@ def train_adversarial(
 
     trainer.train(total_timesteps, callback)
 
-    print("trainer.train works ")
-    exit()
-
     # Save final artifacts.
     if checkpoint_interval >= 0:
         save(trainer, os.path.join(log_dir, "checkpoints", "final"))
 
-    # is env sorting? 
-    stats, LBA = None, None
-    env_name = _run.config["common"]["env_name"]
-    demo_batch_size = _run.config["algorithm_kwargs"]['demo_batch_size']
-    os.makedirs("/home/katy/imitation/lba/"+str(env_name), exist_ok=True)
-    filename="/home/katy/imitation/lba/"+str(env_name)+"/demo_batch_size_"+str(demo_batch_size)+".txt"
-    appender = open(filename, "a")
-    appender.write("")
-    appender.close()
+    # demo_batch_size = _run.config["algorithm_kwargs"]['demo_batch_size']
+    # os.makedirs(str(git_home)+"/lba/"+str(env_name), exist_ok=True)
+    # filename=str(git_home)+"/lba/"+str(env_name)+"/demo_batch_size_"+str(demo_batch_size)+".txt"
+    # appender = open(filename, "a")
+    # appender.write("")
+    # appender.close()
 
+    stats, LBA = None, None
     if env_name == "imitationNM/SortingOnions-v0" or env_name == "imitationNM/PatrolModel-v0":
         stats, policy_acts_learner = train.eval_policy_return_detActList(trainer.policy, trainer.venv_train)
         # expert policy 
@@ -198,9 +213,9 @@ def train_adversarial(
         LBA = rollout.calc_LBA(venv, policy_acts_learner, policy_acts_demonstrator)
 
         # write to file
-        appender = open(filename, "a")
-        appender.write(str(LBA)+"\n")
-        appender.close()
+        # appender = open(filename, "a")
+        # appender.write(str(LBA)+"\n")
+        # appender.close()
 
     else:
         stats = train.eval_policy(trainer.policy, trainer.venv_train) 

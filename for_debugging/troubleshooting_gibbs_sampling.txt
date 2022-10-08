@@ -1,616 +1,106 @@
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 2379.54296875
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 1.8096569776535034
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.8866247534751892
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.5603561997413635
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.40327560901641846
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.31455016136169434
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.25811082124710083
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.21921765804290771
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.19150549173355103
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.17042279243469238
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.1535516381263733
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.13973402976989746
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.1281827688217163
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.11837553977966309
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.10991638898849487
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.10251981019973755
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.09602904319763184
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.09027254581451416
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.0851239562034607
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.0805019736289978
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.07631587982177734
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.07251334190368652
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.06904125213623047
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.06583410501480103
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.06287163496017456
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.0601542592048645
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.057631075382232666
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.05527526140213013
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.053089678287506104
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.0510217547416687
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.04910534620285034
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 2883.42431640625
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 1.037278652191162
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.5360748767852783
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.35629987716674805
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.2685295641422272
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.2172892689704895
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.18352311849594116
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.1593070924282074
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.14103597402572632
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.12663865089416504
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.11497560143470764
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.10527363419532776
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.09702080488204956
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.08992329239845276
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.08375105261802673
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.07832282781600952
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.07350620627403259
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.06921353936195374
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.06536903977394104
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.06187489628791809
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.058708399534225464
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.05582088232040405
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.05315673351287842
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.05071493983268738
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-sample_sa: s,a in perceived traj changed by pick max prob index
-normed_delta_avg_disc_logits 0.04845350980758667
+time taken to create combinations_sa_tuples: 0.053431538740793864 minutes 
+time taken to create sa_distr_trajs: 13.407570020357769 minutes 
+time taken to create combinations_sa_tuples: 0.04893572330474853 minutes 
+time taken to create sa_distr_trajs: 12.154434291521708 minutes 
+time taken to create combinations_sa_tuples: 0.049174638589223225 minutes 
+time taken to create sa_distr_trajs: 12.052401634057363 minutes 
+time taken to create combinations_sa_tuples: 0.048785412311553956 minutes 
+time taken to create sa_distr_trajs: 12.209304249286651 minutes 
+time taken to create combinations_sa_tuples: 0.04924095074335734 minutes 
+time taken to create sa_distr_trajs: 12.197377494970958 minutes 
+time taken to create combinations_sa_tuples: 0.04938847223917643 minutes 
+time taken to create sa_distr_trajs: 12.269831923643748 minutes 
+time taken to create combinations_sa_tuples: 0.049136805534362796 minutes 
+time taken to create sa_distr_trajs: 12.238790909449259 minutes 
+time taken to create combinations_sa_tuples: 0.04926993846893311 minutes 
+time taken to create sa_distr_trajs: 12.21046259800593 minutes 
+time taken to create combinations_sa_tuples: 0.0489883025487264 minutes 
+time taken to create sa_distr_trajs: 12.240587111314138 minutes 
+time taken to create combinations_sa_tuples: 0.04895504713058472 minutes 
+time taken to create sa_distr_trajs: 12.2605797290802 minutes 
+time taken to create combinations_sa_tuples: 0.049120036760965984 minutes 
+time taken to create sa_distr_trajs: 12.233360715707143 minutes 
+time taken to create combinations_sa_tuples: 0.048724901676177976 minutes 
+time taken to create sa_distr_trajs: 12.152075060208638 minutes 
+time taken to create combinations_sa_tuples: 0.048824095726013185 minutes 
+time taken to create sa_distr_trajs: 12.14114096959432 minutes 
+time taken to create combinations_sa_tuples: 0.04887274901072184 minutes 
+time taken to create sa_distr_trajs: 12.248734466234843 minutes 
+time taken to create combinations_sa_tuples: 0.048080623149871826 minutes 
+time taken to create sa_distr_trajs: 12.230391081174215 minutes 
+time taken to create combinations_sa_tuples: 0.04848200480143229 minutes 
+time taken to create sa_distr_trajs: 12.163183108965557 minutes 
+time taken to create combinations_sa_tuples: 0.04881026347478231 minutes 
+time taken to create sa_distr_trajs: 12.224316191673278 minutes 
+time taken to create combinations_sa_tuples: 0.05024746259053548 minutes 
+time taken to create sa_distr_trajs: 12.22066590388616 minutes 
+time taken to create combinations_sa_tuples: 0.049278326829274494 minutes 
+time taken to create sa_distr_trajs: 12.192031772931417 minutes 
+time taken to create combinations_sa_tuples: 0.050056862831115725 minutes 
+time taken to create sa_distr_trajs: 12.237315122286478 minutes 
+time taken to create combinations_sa_tuples: 0.0485447367032369 minutes 
+time taken to create sa_distr_trajs: 12.215993241469066 minutes 
+time taken to create combinations_sa_tuples: 0.05008565187454224 minutes 
+time taken to create sa_distr_trajs: 12.247906148433685 minutes 
+time taken to create combinations_sa_tuples: 0.04926663637161255 minutes 
+time taken to create sa_distr_trajs: 12.234042465686798 minutes 
+time taken to create combinations_sa_tuples: 0.049399356047312416 minutes 
+time taken to create sa_distr_trajs: 12.223547458648682 minutes 
+time taken to create combinations_sa_tuples: 0.048643831411997476 minutes 
+time taken to create sa_distr_trajs: 12.243682146072388 minutes 
+time taken to create combinations_sa_tuples: 0.04977806409200033 minutes 
+time taken to create sa_distr_trajs: 12.186830421288809 minutes 
+time taken to create combinations_sa_tuples: 0.04888782501220703 minutes 
+time taken to create sa_distr_trajs: 12.184098859628042 minutes 
+time taken to create combinations_sa_tuples: 0.051409673690795896 minutes 
+time taken to create sa_distr_trajs: 12.143815604845683 minutes 
+time taken to create combinations_sa_tuples: 0.04894751707712809 minutes 
+time taken to create sa_distr_trajs: 12.21591107447942 minutes 
+time taken to create combinations_sa_tuples: 0.04772786299387614 minutes 
+time taken to create sa_distr_trajs: 12.236186162630718 minutes 
+time taken to create combinations_sa_tuples: 0.04922101895014445 minutes 
+time taken to create sa_distr_trajs: 12.186535739898682 minutes 
+time taken to create combinations_sa_tuples: 0.04876856406529744 minutes 
+time taken to create sa_distr_trajs: 12.256183115641276 minutes 
+time taken to create combinations_sa_tuples: 0.04799040953318278 minutes 
+time taken to create sa_distr_trajs: 12.128542558352153 minutes 
+time taken to create combinations_sa_tuples: 0.04924001693725586 minutes 
+time taken to create sa_distr_trajs: 12.221840810775756 minutes 
+time taken to create combinations_sa_tuples: 0.04897456169128418 minutes 
+time taken to create sa_distr_trajs: 12.21582661072413 minutes 
+time taken to create combinations_sa_tuples: 0.05044644673665365 minutes 
+time taken to create sa_distr_trajs: 12.241753403345744 minutes 
+time taken to create combinations_sa_tuples: 0.049287056922912596 minutes 
+time taken to create sa_distr_trajs: 12.18381253083547 minutes 
+time taken to create combinations_sa_tuples: 0.04876691500345866 minutes 
+time taken to create sa_distr_trajs: 12.240173057715099 minutes 
+time taken to create combinations_sa_tuples: 0.04959678649902344 minutes 
+time taken to create sa_distr_trajs: 12.248887717723846 minutes 
+time taken to create combinations_sa_tuples: 0.04888285001118978 minutes 
+time taken to create sa_distr_trajs: 12.17685170173645 minutes 
+time taken to create combinations_sa_tuples: 0.04909541606903076 minutes 
+time taken to create sa_distr_trajs: 12.21683277686437 minutes 
+time taken to create combinations_sa_tuples: 0.04835170110066732 minutes 
+time taken to create sa_distr_trajs: 12.189365231990815 minutes 
+time taken to create combinations_sa_tuples: 0.048514819145202635 minutes 
+time taken to create sa_distr_trajs: 12.244057524204255 minutes 
+time taken to create combinations_sa_tuples: 0.04861784776051839 minutes 
+time taken to create sa_distr_trajs: 12.246742963790894 minutes 
+time taken to create combinations_sa_tuples: 0.04825732707977295 minutes 
+time taken to create sa_distr_trajs: 12.25662362575531 minutes 
+time taken to create combinations_sa_tuples: 0.049213989575703936 minutes 
+time taken to create sa_distr_trajs: 12.298292156060537 minutes 
+time taken to create combinations_sa_tuples: 0.050176791350046795 minutes 
+time taken to create sa_distr_trajs: 12.237131357192993 minutes 
+time taken to create combinations_sa_tuples: 0.05048065185546875 minutes 
+time taken to create sa_distr_trajs: 12.205128276348114 minutes 
+time taken to create combinations_sa_tuples: 0.04825040896733602 minutes 
+time taken to create sa_distr_trajs: 12.206233052412669 minutes 
+time taken to create combinations_sa_tuples: 0.05010370016098022 minutes 
+time taken to create sa_distr_trajs: 12.183673453330993 minutes 
+time taken to create combinations_sa_tuples: 0.05010255972544352 minutes 
+time taken to create sa_distr_trajs: 12.161550827821095 minutes 
+time taken to create combinations_sa_tuples: 0.04878865480422974 minutes 
+time taken to create sa_distr_trajs: 12.219882973035176 minutes 
+time taken to create combinations_sa_tuples: 0.04851354360580444 minutes 
+time taken to create sa_distr_trajs: 12.206519083182018 minutes 

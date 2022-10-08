@@ -1015,7 +1015,13 @@ def create_flattened_gibbs_stepdistr(
     from torch.distributions import Categorical
     import itertools
     import time 
+    import git 
+    repo = git.Repo('.', search_parent_directories=True)
+    git_home = repo.working_tree_dir
 
+    filename = str(git_home)+"/for_debugging/troubleshooting_gibbs_sampling.txt"
+    writer = open(filename, "a")
+    start_tm = time.time()
     # simulate random ground truth trajectoreis
     GT_trajs = np.empty((len(obsvd_trajs),len(obsvd_trajs[0].obs),2),dtype=int)
     for i in range(len(obsvd_trajs)):
@@ -1034,6 +1040,10 @@ def create_flattened_gibbs_stepdistr(
     list_s = list(range(venv.observation_space.n))
     list_a = list(range(venv.action_space.n)) 
     combinations_sa_tuples = list(itertools.product(list_s,list_a)) 
+
+    print("time taken to create combinations_sa_tuples: {} minutes ".format((time.time()-start_tm)/60))
+    writer.write("time taken to create combinations_sa_tuples: {} minutes \n".format((time.time()-start_tm)/60)) 
+
     # list of probabilities specific to time step j in traj i 
     probs_sa_gt_sa_j = [0.0]*len(combinations_sa_tuples) 
 
@@ -1077,7 +1087,10 @@ def create_flattened_gibbs_stepdistr(
 
             sa_distr_trajs[i][j]=np.array(probs_sa_gt_sa_j)
 
-    print("time taken to create distributions: {} minutes ".format((time.time()-start_tm)/60)) 
+    print("time taken to create sa_distr_trajs: {} minutes ".format((time.time()-start_tm)/60)) 
+    writer.write("time taken to create sa_distr_trajs: {} minutes \n".format((time.time()-start_tm)/60)) 
+
+    writer.close()
 
     # flatten sa_distr_trajs to create obs_sa_distr nxtobs_sa_distr separately 
     keys = ["obs_sa_distr", "nxtobs_sa_distr"]
