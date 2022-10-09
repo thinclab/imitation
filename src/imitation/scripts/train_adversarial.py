@@ -17,6 +17,7 @@ from imitation.policies import serialize
 from imitation.scripts.common import common as common_config
 from imitation.scripts.common import demonstrations, reward, rl, train
 from imitation.scripts.config.train_adversarial import train_adversarial_ex
+import pickle
 import git
 
 logger = logging.getLogger("imitation.scripts.train_adversarial")
@@ -163,7 +164,6 @@ def train_adversarial(
         else:
             # create flattened sa_distr per transition and save
             sadistr_per_transition = rollout.create_flattened_gibbs_stepdistr(venv, gen_algo, expert_trajs)
-            import pickle
             # save distribution 
             with open(str(git_home)+"/sa_distr_pickled_files/"+str(env_name)+"/"+sa_distr_pickle_filename+'.pickle', 'wb') as handle:
                 pickle.dump(sadistr_per_transition, handle, protocol=pickle.HIGHEST_PROTOCOL)

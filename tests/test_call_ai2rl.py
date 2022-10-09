@@ -78,6 +78,11 @@ def incremental_train_adversarial(
 
     return lba_all_sessions,return_mean_all_sessions,return_max_all_sessions
 
+def create_file(filename):
+    file_handle = open(filename, "w")
+    file_handle.write("")
+    file_handle.close()
+    return 
 
 def run_trials_ai2rl(
     num_trials: int,
@@ -87,10 +92,21 @@ def run_trials_ai2rl(
     wdGibbsSamp:  bool, 
     threshold_stop_Gibbs_sampling: float
     ):
+    # make directory to save result arrays
+    import os
+    os.makedirs(str(git_home)+"/output/ai2rl/"+str(named_config_env), exist_ok=True)
 
     lba_values_over_AI2RL_trials = []
     return_mean_over_AI2RL_trials = []
     return_max_over_AI2RL_trials = []
+
+    # make one file per result array
+    lba_filename = str(git_home)+"/output/ai2rl/"+str(named_config_env)+"/lba_arrays.csv"
+    lba_fileh = create_file(lba_filename)
+    retmean_filename = str(git_home)+"/output/ai2rl/"+str(named_config_env)+"/ret_mean_arrays.csv"
+    retmean_fileh = create_file(retmean_filename)
+    retmax_filename = str(git_home)+"/output/ai2rl/"+str(named_config_env)+"/ret_max_arrays.csv"
+    retmax_fileh = create_file(retmax_filename)
 
     for i in range(0,num_trials):
         lba_all_sessions,return_mean_all_sessions,return_max_all_sessions = incremental_train_adversarial(rootdir=patrol_rootdir,\
@@ -100,6 +116,18 @@ def run_trials_ai2rl(
         lba_values_over_AI2RL_trials.append(lba_all_sessions) 
         return_mean_over_AI2RL_trials.append(return_mean_all_sessions) 
         return_max_over_AI2RL_trials.append(return_max_all_sessions) 
+
+        lba_fileh = open(lba_filename, "a")
+        retmean_fileh = open(retmean_filename, "a")
+        retmax_fileh = open(retmax_filename, "a")
+
+        lba_fileh.write(str(lba_all_sessions)[1:-1]+"\n")
+        retmean_fileh.write(str(return_mean_all_sessions)[1:-1]+"\n")
+        retmax_fileh.write(str(return_max_all_sessions)[1:-1]+"\n")
+
+        lba_fileh.close()
+        retmean_fileh.close()
+        retmax_fileh.close()
 
     avg_lba_per_session = np.average(lba_values_over_AI2RL_trials,0)
     avg_return_mean_per_session = np.average(return_mean_over_AI2RL_trials,0)
@@ -118,6 +146,7 @@ def save_sa_distr_all_sessions(
     wdGibbsSamp: bool,
     threshold_stop_Gibbs_sampling: float,
     ):
+
     # create arrays of rollout paths and names of rollout directories from rootdir 
     rollout_paths = []
     for subdir, dirs, files in os.walk(rootdir):
