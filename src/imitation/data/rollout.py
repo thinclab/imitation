@@ -358,10 +358,24 @@ def generate_trajectories(
     # are complete.
     #
     # To start with, all environments are active.
+    
+    distinct_noised_sa_pairs_list = []
+    distinct_sa_pairs_list = []
+    dones_counter = 0
+
     active = np.ones(venv.num_envs, dtype=bool)
     while np.any(active):
         acts = get_actions(obs)
         next_obs, rews, dones, infos = venv.step(acts)
+
+        for i in range(len(obs)):
+            s,a = obs[i],acts[i]
+            if (s,a) not in distinct_sa_pairs_list:
+                distinct_sa_pairs_list.append((s,a))
+
+            if dones[i]:
+
+                dones_counter += 1
 
         if noise_insertion: 
             for i in range(len(obs)):
@@ -369,6 +383,8 @@ def generate_trajectories(
                 if noisy_ob != obs[i] or noisy_act != acts[i]:
                     # print("noise inserted") 
                     obs[i], acts[i] = noisy_ob, noisy_act
+                    if (obs[i], acts[i]) not in distinct_noised_sa_pairs_list:
+                        distinct_noised_sa_pairs_list.append((obs[i], acts[i]))
 
         # If an environment is inactive, i.e. the episode completed for that
         # environment after `sample_until(trajectories)` was true, then we do
@@ -383,12 +399,20 @@ def generate_trajectories(
             dones,
             infos,
         )
+
+        obs = next_obs
+        
         trajectories.extend(new_trajs)
 
         if sample_until(trajectories):
             # Termination condition has been reached. Mark as inactive any
             # environments where a trajectory was completed this timestep.
             active &= ~dones
+    
+    total_sa_pairs =venv.observation_space.n*venv.action_space.n
+    print("rolling out done, number of distinct s-a pairs {} total s-a pairs {} \n".format(len(distinct_sa_pairs_list),total_sa_pairs)) 
+    print("number of done trajectories {} \n".format(dones_counter)) 
+
 
     # Note that we just drop partial trajectories. This is not ideal for some
     # algos; e.g. BC can probably benefit from partial trajectories, too.
@@ -400,8 +424,10 @@ def generate_trajectories(
     rng.shuffle(trajectories)
 
     # Sanity checks.
+    total_acts_count = 0
     for trajectory in trajectories:
         n_steps = len(trajectory.acts)
+        total_acts_count += n_steps
         # extra 1 for the end
         exp_obs = (n_steps + 1,) + venv.observation_space.shape
         real_obs = trajectory.obs.shape
@@ -412,6 +438,8 @@ def generate_trajectories(
         exp_rew = (n_steps,)
         real_rew = trajectory.rews.shape
         assert real_rew == exp_rew, f"expected shape {exp_rew}, got {real_rew}"
+
+    print("(number of distinct noisy s-a pairs)/(total s-a pairs) ",len(distinct_noised_sa_pairs_list)/total_sa_pairs)
 
     return trajectories
 
@@ -1042,7 +1070,7 @@ def create_flattened_gibbs_stepdistr(
     combinations_sa_tuples = list(itertools.product(list_s,list_a)) 
 
     print("time taken to create combinations_sa_tuples: {} minutes ".format((time.time()-start_tm)/60))
-    writer.write("time taken to create combinations_sa_tuples: {} minutes \n".format((time.time()-start_tm)/60)) 
+    # writer.write("time taken to create combinations_sa_tuples: {} minutes \n".format((time.time()-start_tm)/60)) 
 
     # list of probabilities specific to time step j in traj i 
     probs_sa_gt_sa_j = [0.0]*len(combinations_sa_tuples) 
@@ -1088,7 +1116,7 @@ def create_flattened_gibbs_stepdistr(
             sa_distr_trajs[i][j]=np.array(probs_sa_gt_sa_j)
 
     print("time taken to create sa_distr_trajs: {} minutes ".format((time.time()-start_tm)/60)) 
-    writer.write("time taken to create sa_distr_trajs: {} minutes \n".format((time.time()-start_tm)/60)) 
+    # writer.write("time taken to create sa_distr_trajs: {} minutes \n".format((time.time()-start_tm)/60)) 
 
     writer.close()
 

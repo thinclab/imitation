@@ -114,7 +114,17 @@ def eval_policy(
         policy = None
         if policy_type is not None:
             policy = serialize.load_policy(policy_type, policy_path, venv)
-        
+
+        # troubleshooting for testing why noise did not chnage lba
+        # get_actions_det = rollout._policy_to_callable(policy, venv, True)
+
+        # for s in range(124):
+        #     a = get_actions_det(s)
+        #     (obstr,actstr) = venv.env_method(method_name='get_obstr_actstr',indices=0,s=s,a=a)[0]
+        #     print(obstr+", "+actstr+"\t")
+        #     print("\n")
+        # exit()
+
         if noise_insertion:
             trajs = rollout.generate_trajectories(policy, venv, sample_until, noise_insertion=noise_insertion)
         else:

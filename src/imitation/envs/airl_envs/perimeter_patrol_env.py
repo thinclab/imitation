@@ -136,6 +136,7 @@ class PatrolModel(DiscreteEnv):
         self.P = P
         self._timestep = 0
         self._episode_length = 40
+        # self._episode_length = 10
 
         # read expert's policy in one format and write in expected format
         # p_dict = {}
@@ -177,8 +178,12 @@ class PatrolModel(DiscreteEnv):
 
         # exit(0)
         self.nS = nS
+
+        # self.insertNoiseprob = 0.1
         # self.insertNoiseprob = 0.3
-        self.insertNoiseprob = 0.6
+        # self.insertNoiseprob = 0.6
+        self.insertNoiseprob = 0.9
+        # self.insertNoiseprob = 1
         super(PatrolModel, self).__init__(nS, nA, self.P, self.isd) 
 
     def stateList(self):
@@ -204,8 +209,9 @@ class PatrolModel(DiscreteEnv):
         transitions = self.P[self.s][a]
         i = categorical_sample([t[0] for t in transitions], self.np_random)
         p, s, r, d = transitions[i]
-        # print("step  s {}, a {}, ns {}, options {}".format
-        # (self._stateList[self.s],self._actionList[a],self._stateList[s],transitions))
+        # print("\nstep  s {}, a {}, ns {}, options {}".format\
+        #     (self._stateList[self.s],self._actionList[a],self._stateList[s],transitions))
+        
         self.s = s
         self.lastaction = a
         if self._timestep == self._episode_length:
@@ -293,11 +299,19 @@ class PatrolModel(DiscreteEnv):
         #     if random.random() < self.insertNoiseprob:
         #         a_new = self._actionList.index('PatrolActionTurnLeft')
 
-        if act == 'PatrolActionTurnLeft' and (state_arr[0]==0 or state_arr[1]==0):
+        # if act == 'PatrolActionTurnLeft' and (state_arr[0]==0 or state_arr[1]==0):
+        if act == 'PatrolActionTurnLeft':
             if random.random() < self.insertNoiseprob:
                 a_new = self._actionList.index('PatrolActionMoveForward')
 
         return (s,a_new)
+    
+    
+    def get_obstr_actstr(self,s,a):
+        obstr = str(PatrolState(self._stateList[s]))
+        actstr = self._actionList[a]
+        return (obstr,actstr)
+    
     
     def S(self):
         return list(range(self.nS))

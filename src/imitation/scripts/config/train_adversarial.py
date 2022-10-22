@@ -188,7 +188,7 @@ def perimeter_patrol():
     # total_timesteps = int(5e5) # should be atleast same as rl batch size 
     total_timesteps = 2048
     # total_timesteps = 256
-    rl = dict(batch_size=total_timesteps)
+    rl = dict(batch_size=2048)
     algo_cls = 'airl'
 
 # Debug configs

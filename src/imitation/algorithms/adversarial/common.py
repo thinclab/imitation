@@ -486,9 +486,10 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
                     delta_avg_disc_logits = (avg_disc_logits - last_avg_disc_logits)
                     normed_delta_avg_disc_logits = th.linalg.norm(delta_avg_disc_logits, ord=1).cpu().data.numpy() 
-                    
-                    # wr_str = "normed_delta_avg_disc_logits {}".format(normed_delta_avg_disc_logits) 
-                    # writer.write(str(wr_str)+"\n") 
+
+                    if ind_avg == 1 or ind_avg%100 == 0 or normed_delta_avg_disc_logits < self.threshold_stop_Gibbs_sampling:
+                        wr_str = "normed_delta_avg_disc_logits {}".format(normed_delta_avg_disc_logits) 
+                        writer.write(str(wr_str)+"\n") 
                     
                     last_avg_disc_logits = avg_disc_logits
                 
