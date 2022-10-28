@@ -7,14 +7,14 @@ repo = git.Repo('.', search_parent_directories=True)
 git_home = repo.working_tree_dir
 
 
-def test_eval_policy(policypath,noiseinsertion):
+def test_eval_policy(policypath,noiseinsertion,env_name_config):
     config_updates = {
         "policy_path": policypath,
         "noise_insertion": noiseinsertion
     }
     run = eval_policy.eval_policy_ex.run(
         command_name='eval_policy',
-        named_configs=['perimeter_patrol'],
+        named_configs=[env_name_config],
         config_updates=config_updates,
     )
     assert run.status == "COMPLETED"
@@ -23,7 +23,8 @@ def test_eval_policy(policypath,noiseinsertion):
 
 if __name__ == '__main__':
 
-    policypath = "/home/katy/imitation/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final"
-    noiseinsertion = False
-
-    test_eval_policy(policypath,noiseinsertion)
+    # policypath = "/home/katy/imitation/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final"
+    noiseinsertion = False 
+    policypath = None 
+    env_name_config = 'perimeter_patrol' 
+    test_eval_policy(policypath, noiseinsertion, env_name_config) 

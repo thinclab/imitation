@@ -358,7 +358,7 @@ def generate_trajectories(
     # are complete.
     #
     # To start with, all environments are active.
-    
+
     distinct_noised_sa_pairs_list = []
     distinct_sa_pairs_list = []
     dones_counter = 0
@@ -534,6 +534,8 @@ def generate_trajectories_from_policylist(
     policy_list: list,
     venv: VecEnv,
     sample_until: GenTrajTerminationFn,
+    env_name: str,
+    noise_insertion: bool,
     *,
     deterministic_policy: bool = True,
     rng: np.random.RandomState = np.random,
@@ -577,9 +579,11 @@ def generate_trajectories_from_policylist(
 
     print("input policy_list ",policy_list)
     traj_str = ""
+    if env_name == "imitationNM/SortingOnions-v0":
+        # counters for assessing diversity in demonstration 
+        n_bin_trj, n_conv_trj = 0, 0
+
     acts = np.ones_like(obs)
-    # counters for assessing diversity in demonstration 
-    n_bin_trj, n_conv_trj = 0, 0
     # Now, we sample until `sample_until(trajectories)` is true.
     # If we just stopped then this would introduce a bias towards shorter episodes,
     # since longer episodes are more likely to still be active, i.e. in the process
@@ -594,30 +598,49 @@ def generate_trajectories_from_policylist(
         # print('obs[0] ',obs[0])
         for i in range(len(obs)):
             acts[i] = policy_list[obs[i]]
-            state_array = statesList[obs[i]]
-            if state_array[1] == 1 and acts[i] == 3: 
-                # traj with place good on conveyor
-                n_conv_trj += 1
-            if state_array[1] == 0 and acts[i] == 4: 
-                # traj with place bad in bin
-                n_bin_trj += 1
+            if env_name == "imitationNM/SortingOnions-v0":
+                state_array = statesList[obs[i]]
+                if state_array[1] == 1 and acts[i] == 3: 
+                    # traj with place good on conveyor
+                    n_conv_trj += 1
+                if state_array[1] == 0 and acts[i] == 4: 
+                    # traj with place bad in bin
+                    n_bin_trj += 1
         
         # backup current observation for debug print 
-        current_obs = obs
-        obs, rews, dones, infos = venv.step(acts)
+        next_obs, rews, dones, infos = venv.step(acts)
 
-        state_array = statesList[current_obs[0]] 
-        state_str = ""
-        if len(r_args[0]) > 0:
-            ol_map, pr_map, el_map, ls_map = r_args[0], r_args[1], r_args[2], r_args[3] 
-            ol, pr, el, ls = state_array[0], state_array[1], state_array[2], state_array[3] 
-            state_str = " onion - "+ol_map[ol]+", pred - "+pr_map[pr]+", gripper - "+el_map[el]+", LS - "+ls_map[ls] 
-        else:
+        if env_name == "imitationNM/SortingOnions-v0":
+            # printing only traj for first env 
+            state_array = statesList[obs[0]] 
+            state_str = ""
+            if len(r_args[0]) > 0:
+                ol_map, pr_map, el_map, ls_map = r_args[0], r_args[1], r_args[2], r_args[3] 
+                ol, pr, el, ls = state_array[0], state_array[1], state_array[2], state_array[3] 
+                state_str = " onion - "+ol_map[ol]+", pred - "+pr_map[pr]+", gripper - "+el_map[el]+", LS - "+ls_map[ls] 
+            else:
+                state_str = str(state_array)
+
+
+        if env_name == "imitationNM/PatrolModel-v0":
+            state_array = statesList[obs[0]] 
             state_str = str(state_array)
 
-        traj_str += "\n"+"state:"+state_str
-        traj_str += "\n"+"action:"+actionList[acts[0]]
-        traj_str += "\n"+"done:"+str(dones[0])
+
+        if env_name == "imitationNM/SortingOnions-v0" or env_name == "imitationNM/PatrolModel-v0":
+            traj_str += "\n"+"state:"+state_str
+            traj_str += "\n"+"action:"+ str(actionList[acts[0]])
+            traj_str += "\n"+"done:"+str(dones[0])
+            print(traj_str)
+
+            traj_str = ""
+
+        if noise_insertion: 
+            for i in range(len(obs)):
+                (noisy_ob,noisy_act) = venv.env_method(method_name='insertNoise',indices=0,s=obs[i],a=acts[i])[0]
+                if noisy_ob != obs[i] or noisy_act != acts[i]:
+                    # print("noise inserted") 
+                    obs[i], acts[i] = noisy_ob, noisy_act
 
         # If an environment is inactive, i.e. the episode completed for that
         # environment after `sample_until(trajectories)` was true, then we do
@@ -636,14 +659,17 @@ def generate_trajectories_from_policylist(
         )
         trajectories.extend(new_trajs)
 
+        obs = next_obs
+
         if sample_until(trajectories):
             # Termination condition has been reached. Mark as inactive any
             # environments where a trajectory was completed this timestep.
             active &= ~dones
 
-    with open('/home/katy/imitation/rollout_from_policylist.txt', 'a') as writer:
-        writer.write("\nnumber of trajectories with good placed on conveyor "+str(n_conv_trj))
-        writer.write("\nnumber of trajectories with bad placed in bin "+str(n_bin_trj))
+    if env_name == "imitationNM/SortingOnions-v0":
+        with open('/home/katy/imitation/rollout_from_policylist.txt', 'a') as writer:
+            writer.write("\nnumber of trajectories with good placed on conveyor "+str(n_conv_trj))
+            writer.write("\nnumber of trajectories with bad placed in bin "+str(n_bin_trj))
 
     # Note that we just drop partial trajectories. This is not ideal for some
     # algos; e.g. BC can probably benefit from partial trajectories, too.
@@ -948,9 +974,10 @@ def rollout_from_policylist(
     actionList: list, 
     r_args: list,
     policy_list: list,
+    noise_insertion: bool,
     venv: VecEnv,
     sample_until: GenTrajTerminationFn,
-    *,
+    env_name: str,
     unwrap: bool = False,
     exclude_infos: bool = True,
     verbose: bool = False,
@@ -982,7 +1009,15 @@ def rollout_from_policylist(
         may be collected to avoid biasing process towards short episodes; the user
         should truncate if required.
     """
-    trajs = generate_trajectories_from_policylist(statesList, actionList, r_args, policy_list, venv, sample_until, **kwargs)
+    trajs = generate_trajectories_from_policylist(
+                statesList = statesList, 
+                actionList = actionList, 
+                r_args = r_args,
+                policy_list = policy_list,
+                venv = venv,
+                sample_until = sample_until,
+                env_name = env_name,
+                noise_insertion = noise_insertion, **kwargs)
     if unwrap:
         trajs = [unwrap_traj(traj) for traj in trajs]
     if exclude_infos:

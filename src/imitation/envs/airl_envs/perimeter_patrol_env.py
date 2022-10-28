@@ -114,7 +114,7 @@ class PatrolModel(DiscreteEnv):
         weights = [1, 0, 0, 0, 0.75, 0] 
         # weights = [1, -0.75, 0.0, -0.75, 0.75, -0.75] 
         norm_weights = [float(i)/sum(np.absolute(weights)) for i in weights] 
-        self._rewardmodel.params = norm_weights
+        self._rewardmodel.params = norm_weights #[0.5714285714285714, 0.0, 0.0, 0.0, 0.42857142857142855, 0.0]
 
         P = {}
         p_str = ""
@@ -182,15 +182,19 @@ class PatrolModel(DiscreteEnv):
         # self.insertNoiseprob = 0.1
         # self.insertNoiseprob = 0.3
         # self.insertNoiseprob = 0.6
-        self.insertNoiseprob = 0.9
+        # self.insertNoiseprob = 0.9
+        # self.insertNoiseprob = 0.95
+        # self.insertNoiseprob = 0.99
+        self.insertNoiseprob = 0.998
+        # self.insertNoiseprob = 0.999
         # self.insertNoiseprob = 1
         super(PatrolModel, self).__init__(nS, nA, self.P, self.isd) 
 
-    def stateList(self):
+    def get_statelist(self):
         return self._stateList
 
-    def actionList(self):
-        return self._actionList
+    def get_actionlist(self):
+        return self._actions
 
     def reset(self):
         self.s = categorical_sample(self.isd, self.np_random)
@@ -199,6 +203,52 @@ class PatrolModel(DiscreteEnv):
         self._timestep = 0
         # print("self.s ",self.s)
         return int(self.s)
+
+    def bestpolicy_action(self, s):
+        # function to return best possible expert action in a state
+        # self._actions = [PatrolActionMoveForward(), PatrolActionTurnLeft(), 
+        # PatrolActionTurnRight(), PatrolActionStop()] 
+
+        best_a = None
+        state_loc = self._stateList[s].location
+
+        pstate = self._stateList[s]
+        moveforwardobj = PatrolActionMoveForward()
+        
+        reward_turnright = self._rewardmodel.reward(pstate,PatrolActionTurnRight())
+        reward_forward = self._rewardmodel.reward(pstate,PatrolActionMoveForward())
+        
+        
+        if reward_turnright>0: # is it at u-turn point?
+            best_a = self._actions.index(PatrolActionTurnRight())
+        elif reward_forward>0:  # is there no wall in front?
+            best_a = self._actions.index(PatrolActionMoveForward())
+        elif not self.is_legal(moveforwardobj.apply(self._stateList[s])):
+            # can't move forward, facing walls
+            # If it is at corner, do turn action based on direction 
+            if state_loc == [0,1,1] or state_loc == [16,1,2]: 
+                best_a = self._actions.index(PatrolActionTurnRight())
+            elif state_loc == [0,1,2] or state_loc == [16,1,3]:
+                best_a = self._actions.index(PatrolActionTurnLeft())
+            else: # all other cases facing walls
+                best_a = self._actions.index(PatrolActionTurnRight())
+        else:
+            # if neither getting reward at turn nor on move forward nor facing walls, move forward
+            best_a = self._actions.index(PatrolActionMoveForward())
+        
+        return best_a
+    
+    def get_expert_det_policy_list(self):
+        policy_acts_expert = [self._actions.index(PatrolActionMoveForward())]*len(self._stateList)
+        
+        for s_i in range(len(self._stateList)):
+            policy_acts_expert[s_i] = self.bestpolicy_action(s_i)
+
+            print("st: {} act: {} ".format(self._stateList[s_i].location,self._actions[policy_acts_expert[s_i]]))
+        
+        exit()
+
+        return policy_acts_expert
 
     def step_sa(self, s, a):
         self.s = s
@@ -308,7 +358,7 @@ class PatrolModel(DiscreteEnv):
     
     
     def get_obstr_actstr(self,s,a):
-        obstr = str(PatrolState(self._stateList[s]))
+        obstr = str(self._stateList[s])
         actstr = self._actionList[a]
         return (obstr,actstr)
     
@@ -556,7 +606,7 @@ class Boyd2RewardGroupedFeatures(LinearReward):
         next_state = action.apply(state)
         moved = False
 
-        if self._model.is_legal(next_state) and not all(next_state.location == state.location):
+        if self._model.is_legal(next_state) and not all(next_state.location[0:2] == state.location[0:2]):
             moved = True
             result[0] = 1
         

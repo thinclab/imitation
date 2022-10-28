@@ -126,7 +126,7 @@ def train_adversarial(
     env_name = _run.config["common"]["env_name"]
 
     venv = common_config.make_venv()
-
+    
     if agent_path is None:
         gen_algo = rl.make_rl_algo(venv)
     else:
