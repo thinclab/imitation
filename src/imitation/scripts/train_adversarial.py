@@ -23,7 +23,6 @@ import git
 logger = logging.getLogger("imitation.scripts.train_adversarial")
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
-
 def save(trainer, save_path):
     """Save discriminator and generator."""
     # We implement this here and not in Trainer since we do not want to actually
@@ -146,8 +145,8 @@ def train_adversarial(
     sadistr_per_transition = None
     repo = git.Repo('.', search_parent_directories=True)
     git_home = repo.working_tree_dir
-
-    os.makedirs(str(git_home)+"/sa_distr_pickled_files/"+str(env_name), exist_ok=True)
+    # path_to_sadistr_files = str(git_home)
+    path_to_sadistr_files = '/content/drive/MyDrive/ColabNotebooks'
 
     if wdGibbsSamp:
         ### multiple Gibbs sample per traj ###
@@ -159,13 +158,14 @@ def train_adversarial(
         
         if sa_distr_read:
             # read distribution for running training
-            with open(str(git_home)+"/sa_distr_pickled_files/"+str(env_name)+"/"+sa_distr_pickle_filename+'.pickle', 'rb') as handle:
+            with open(path_to_sadistr_files+"/sa_distr_pickled_files/"+str(env_name)+"/"+sa_distr_pickle_filename+'.pickle', 'rb') as handle:
                 sadistr_per_transition = pickle.load(handle)
         else:
             # create flattened sa_distr per transition and save
             sadistr_per_transition = rollout.create_flattened_gibbs_stepdistr(venv, gen_algo, expert_trajs)
             # save distribution 
-            with open(str(git_home)+"/sa_distr_pickled_files/"+str(env_name)+"/"+sa_distr_pickle_filename+'.pickle', 'wb') as handle:
+            os.makedirs(path_to_sadistr_files+"/sa_distr_pickled_files/"+str(env_name), exist_ok=True)
+            with open(path_to_sadistr_files+"/sa_distr_pickled_files/"+str(env_name)+"/"+sa_distr_pickle_filename+'.pickle', 'wb') as handle:
                 pickle.dump(sadistr_per_transition, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
             # do not run training
@@ -194,8 +194,8 @@ def train_adversarial(
         save(trainer, os.path.join(log_dir, "checkpoints", "final"))
 
     # demo_batch_size = _run.config["algorithm_kwargs"]['demo_batch_size']
-    # os.makedirs(str(git_home)+"/lba/"+str(env_name), exist_ok=True)
-    # filename=str(git_home)+"/lba/"+str(env_name)+"/demo_batch_size_"+str(demo_batch_size)+".txt"
+    # os.makedirs(path_to_sadistr_files+"/lba/"+str(env_name), exist_ok=True)
+    # filename=path_to_sadistr_files+"/lba/"+str(env_name)+"/demo_batch_size_"+str(demo_batch_size)+".txt"
     # appender = open(filename, "a")
     # appender.write("")
     # appender.close()

@@ -6,6 +6,9 @@ import git
 repo = git.Repo('.', search_parent_directories=True)
 git_home = repo.working_tree_dir
 
+# path_to_outputfolder = str(git_home)
+path_to_outputfolder = '/content/drive/MyDrive/ColabNotebooks'
+
 def test_train_adversarial():
     config_updates = {
         "demonstrations": dict(rollout_path='/home/katy/imitation/output/eval_policy/imitationNM_SortingOnions-v0/20220904_104903_cf1057/rollouts/final.pkl'),
@@ -119,20 +122,20 @@ def run_trials_ai2rl(
     ):
     # make directory to save result arrays
     import os
-    os.makedirs(str(git_home)+"/output/ai2rl/"+str(named_config_env), exist_ok=True)
+    os.makedirs(path_to_outputfolder+"/output/ai2rl/"+str(named_config_env), exist_ok=True)
 
     lba_values_over_AI2RL_trials = []
     return_mean_over_AI2RL_trials = []
     return_max_over_AI2RL_trials = []
 
     # make one file per result array
-    lba_filename = str(git_home)+"/output/ai2rl/"+str(named_config_env)+"/lba_arrays.csv"
+    lba_filename = path_to_outputfolder+"/output/ai2rl/"+str(named_config_env)+"/lba_arrays.csv"
     lba_fileh = create_file(lba_filename)
-    retmean_filename = str(git_home)+"/output/ai2rl/"+str(named_config_env)+"/ret_mean_arrays.csv"
+    retmean_filename = path_to_outputfolder+"/output/ai2rl/"+str(named_config_env)+"/ret_mean_arrays.csv"
     retmean_fileh = create_file(retmean_filename)
-    retmax_filename = str(git_home)+"/output/ai2rl/"+str(named_config_env)+"/ret_max_arrays.csv"
+    retmax_filename = path_to_outputfolder+"/output/ai2rl/"+str(named_config_env)+"/ret_max_arrays.csv"
     retmax_fileh = create_file(retmax_filename)
-    session_times_filename = str(git_home)+"/output/ai2rl/"+str(named_config_env)+"/session_times.csv"
+    session_times_filename = path_to_outputfolder+"/output/ai2rl/"+str(named_config_env)+"/session_times.csv"
     session_times_fileh = create_file(session_times_filename)
 
     for i in range(0,num_trials):
@@ -230,16 +233,16 @@ if __name__ == '__main__':
     num_trials = 11
     patrol_named_config_env = 'perimeter_patrol' 
 
-    # patrol_demonstration_policy_path = str(git_home)+"/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final" 
-    # patrol_rootdir_noisefree_input = str(git_home)+"/output/eval_policy/imitationNM_PatrolModel-v0/rollout_size_2048" 
-    # patrol_rootdir_noisy_input = str(git_home)+"/output/eval_policy/imitationNM_PatrolModel-v0/size_2048_wdnoise_0.998prob_rlxd_ifcondn" 
+    # patrol_demonstration_policy_path = path_to_outputfolder+"/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final" 
+    # patrol_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/rollout_size_2048" 
+    # patrol_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/size_2048_wdnoise_0.998prob_rlxd_ifcondn" 
     
     patrol_demonstration_policy_path = None
-    # patrol_rootdir_noisefree_input = str(git_home)+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size_2048_epilen5" 
-    patrol_rootdir_noisy_input = str(git_home)+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.254noise_0.998prob_rlxdifcondn"
+    # patrol_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size_2048_epilen5" 
+    patrol_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.254noise_0.998prob_rlxdifcondn"
 
     wdGibbsSamp = True 
-    threshold_stop_Gibbs_sampling = 0.05 
+    threshold_stop_Gibbs_sampling = 0.0125 
     patrol_total_timesteps_per_session = int(7.5e3) 
 
     # save_sa_distr_all_sessions(rootdir=patrol_rootdir_noisy_input,\
