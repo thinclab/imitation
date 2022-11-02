@@ -135,8 +135,9 @@ class PatrolModel(DiscreteEnv):
         
         self.P = P
         self._timestep = 0
-        self._episode_length = 40
-        # self._episode_length = 10
+        # self._episode_length = 40
+        self._episode_length = 5
+        # self._episode_length = 120
 
         # read expert's policy in one format and write in expected format
         # p_dict = {}
@@ -218,19 +219,20 @@ class PatrolModel(DiscreteEnv):
         reward_turnright = self._rewardmodel.reward(pstate,PatrolActionTurnRight())
         reward_forward = self._rewardmodel.reward(pstate,PatrolActionMoveForward())
         
-        
-        if reward_turnright>0: # is it at u-turn point?
+        if reward_turnright>0 and state_loc[2] == 2: # states right after turning around , facing away from end points
+            best_a = self._actions.index(PatrolActionMoveForward())
+        elif reward_turnright>0: # states while turning
             best_a = self._actions.index(PatrolActionTurnRight())
         elif reward_forward>0:  # is there no wall in front?
             best_a = self._actions.index(PatrolActionMoveForward())
         elif not self.is_legal(moveforwardobj.apply(self._stateList[s])):
             # can't move forward, facing walls
-            # If it is at corner, do turn action based on direction 
-            if state_loc == [0,1,1] or state_loc == [16,1,2]: 
+            # If it is at corner, do turn action based on location and orientation 
+            if all(state_loc == [0,1,1]) or all(state_loc == [16,1,2]): 
                 best_a = self._actions.index(PatrolActionTurnRight())
-            elif state_loc == [0,1,2] or state_loc == [16,1,3]:
+            elif all(state_loc == [0,1,2]) or all(state_loc == [16,1,3]):
                 best_a = self._actions.index(PatrolActionTurnLeft())
-            else: # all other cases facing walls
+            else: # all other states with agent facing walls
                 best_a = self._actions.index(PatrolActionTurnRight())
         else:
             # if neither getting reward at turn nor on move forward nor facing walls, move forward
@@ -240,14 +242,12 @@ class PatrolModel(DiscreteEnv):
     
     def get_expert_det_policy_list(self):
         policy_acts_expert = [self._actions.index(PatrolActionMoveForward())]*len(self._stateList)
-        
+        str_sa = ""
         for s_i in range(len(self._stateList)):
             policy_acts_expert[s_i] = self.bestpolicy_action(s_i)
-
-            print("st: {} act: {} ".format(self._stateList[s_i].location,self._actions[policy_acts_expert[s_i]]))
-        
-        exit()
-
+            
+            str_sa += "\n{} {}".format(self._stateList[s_i],self._actions[policy_acts_expert[s_i]])
+        # print(str_sa)
         return policy_acts_expert
 
     def step_sa(self, s, a):
@@ -261,11 +261,17 @@ class PatrolModel(DiscreteEnv):
         p, s, r, d = transitions[i]
         # print("\nstep  s {}, a {}, ns {}, options {}".format\
         #     (self._stateList[self.s],self._actionList[a],self._stateList[s],transitions))
+        # with open('/home/katy/imitation/rollout_from_policylist.txt', 'a') as writer:
+        #     writer.write("\n step input {} self._timestep {} ".format(self._actions[a],self._timestep))
         
         self.s = s
         self.lastaction = a
         if self._timestep == self._episode_length:
             d = True
+        
+        # if self._timestep == 5:
+        #     print("debug")
+
         return (int(s), r, d, {"prob": p})
     
     def T(self,state,action):
@@ -318,7 +324,7 @@ class PatrolModel(DiscreteEnv):
         '''
         state_arr = self._stateList[sg].location
         act = self._actionList[ag]
-        if act == 'PatrolActionMoveForward' and (state_arr[0]==0 or state_arr[1]==0):
+        if act == 'PatrolActionMoveForward' and (state_arr[0]==0 or state_arr[1]==1):
             if so == sg and ao == self._actionList.index('PatrolActionTurnLeft'):
                 return self.insertNoiseprob
             elif so == sg and ao == ag:
@@ -345,12 +351,12 @@ class PatrolModel(DiscreteEnv):
         act = self._actionList[a]
 
         a_new = a
-        # if act == 'PatrolActionMoveForward' and (state_arr[0]==0 or state_arr[1]==0):
-        #     if random.random() < self.insertNoiseprob:
-        #         a_new = self._actionList.index('PatrolActionTurnLeft')
+        if act == 'PatrolActionMoveForward':
+            if random.random() < self.insertNoiseprob:
+                a_new = self._actionList.index('PatrolActionTurnLeft')
 
         # if act == 'PatrolActionTurnLeft' and (state_arr[0]==0 or state_arr[1]==0):
-        if act == 'PatrolActionTurnLeft':
+        if act == 'PatrolActionTurnRight':
             if random.random() < self.insertNoiseprob:
                 a_new = self._actionList.index('PatrolActionMoveForward')
 
@@ -615,13 +621,13 @@ class Boyd2RewardGroupedFeatures(LinearReward):
 
                 if (state.location[0] >= 1 and state.location[0] <= 15):# longer hallway
                     result[1] = 1
-                if ((state.location[0] <= 1 or state.location[0] >= 15) and state.location[1] <= 2): #turning points
+                if ((state.location[0] <= 1 or state.location[0] >= 15) and state.location[1] <= 2): # corners
                     result[2] = 1
                 if (state.location[1] >= 2 and state.location[1] <= 3): # small hallway
                     result[3] = 1
                 if (state.location[1] >= 4 and state.location[1] <= 5): # small hallway
                     result[4] = 1
-                if (state.location[1] >= 6 and state.location[1] <= 8): # turning around points
+                if (state.location[1] >= 6 and state.location[1] <= 8): # dead end
                     result[5] = 1
 
         return result

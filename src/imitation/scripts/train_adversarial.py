@@ -209,6 +209,8 @@ def train_adversarial(
             policy_type = "ppo"
             policy = serialize.load_policy(policy_type, demonstration_policy_path, venv)
             policy_acts_demonstrator = rollout.get_policy_acts(policy, venv)
+        else:
+            policy_acts_demonstrator = venv.env_method(method_name='get_expert_det_policy_list',indices=[0]*venv.num_envs)[0]
 
         LBA = rollout.calc_LBA(venv, policy_acts_learner, policy_acts_demonstrator)
 

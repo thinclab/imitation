@@ -1,4 +1,4 @@
-"""Methods to collect, analyze and manipulate transition and trajectory rollouts."""
+﻿"""Methods to collect, analyze and manipulate transition and trajectory rollouts."""
 
 import collections
 import dataclasses
@@ -591,7 +591,12 @@ def generate_trajectories_from_policylist(
     # are complete.
     #
     # To start with, all environments are active.
+    distinct_noised_sa_pairs_list = []
+    distinct_sa_pairs_list = []
     active = np.ones(venv.num_envs, dtype=bool)
+    with open('/home/katy/imitation/rollout_from_policylist.txt', 'w') as writer:
+        writer.write("")
+
     while np.any(active):
         # acts = get_actions(obs)
 
@@ -607,8 +612,14 @@ def generate_trajectories_from_policylist(
                     # traj with place bad in bin
                     n_bin_trj += 1
         
-        # backup current observation for debug print 
         next_obs, rews, dones, infos = venv.step(acts)
+
+
+        for i in range(len(obs)):
+            s,a = obs[i],acts[i]
+            if (s,a) not in distinct_sa_pairs_list:
+                distinct_sa_pairs_list.append((s,a))
+
 
         if env_name == "imitationNM/SortingOnions-v0":
             # printing only traj for first env 
@@ -631,7 +642,8 @@ def generate_trajectories_from_policylist(
             traj_str += "\n"+"state:"+state_str
             traj_str += "\n"+"action:"+ str(actionList[acts[0]])
             traj_str += "\n"+"done:"+str(dones[0])
-            print(traj_str)
+            with open('/home/katy/imitation/rollout_from_policylist.txt', 'a') as writer:
+                writer.write(traj_str)
 
             traj_str = ""
 
@@ -641,6 +653,9 @@ def generate_trajectories_from_policylist(
                 if noisy_ob != obs[i] or noisy_act != acts[i]:
                     # print("noise inserted") 
                     obs[i], acts[i] = noisy_ob, noisy_act
+                    if (obs[i], acts[i]) not in distinct_noised_sa_pairs_list:
+                        distinct_noised_sa_pairs_list.append((obs[i], acts[i]))
+
 
         # If an environment is inactive, i.e. the episode completed for that
         # environment after `sample_until(trajectories)` was true, then we do
@@ -665,6 +680,11 @@ def generate_trajectories_from_policylist(
             # Termination condition has been reached. Mark as inactive any
             # environments where a trajectory was completed this timestep.
             active &= ~dones
+
+
+    total_sa_pairs = venv.observation_space.n*venv.action_space.n
+    print("rolling out done, number of distinct s-a pairs {} total s-a pairs {} \n".format(len(distinct_sa_pairs_list),total_sa_pairs)) 
+    print("(number of distinct noisy s-a pairs)/(total s-a pairs) ",len(distinct_noised_sa_pairs_list)/total_sa_pairs)
 
     if env_name == "imitationNM/SortingOnions-v0":
         with open('/home/katy/imitation/rollout_from_policylist.txt', 'a') as writer:

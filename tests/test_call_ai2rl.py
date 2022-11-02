@@ -229,11 +229,17 @@ if __name__ == '__main__':
 
     num_trials = 11
     patrol_named_config_env = 'perimeter_patrol' 
+
+    # patrol_demonstration_policy_path = str(git_home)+"/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final" 
     # patrol_rootdir_noisefree_input = str(git_home)+"/output/eval_policy/imitationNM_PatrolModel-v0/rollout_size_2048" 
-    patrol_rootdir_noisy_input = str(git_home)+"/output/eval_policy/imitationNM_PatrolModel-v0/size_2048_wdnoise_0.998prob_rlxd_ifcondn" 
-    patrol_demonstration_policy_path = str(git_home)+"/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final" 
+    # patrol_rootdir_noisy_input = str(git_home)+"/output/eval_policy/imitationNM_PatrolModel-v0/size_2048_wdnoise_0.998prob_rlxd_ifcondn" 
+    
+    patrol_demonstration_policy_path = None
+    # patrol_rootdir_noisefree_input = str(git_home)+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size_2048_epilen5" 
+    patrol_rootdir_noisy_input = str(git_home)+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.254noise_0.998prob_rlxdifcondn"
+
     wdGibbsSamp = True 
-    threshold_stop_Gibbs_sampling = 0.0125 
+    threshold_stop_Gibbs_sampling = 0.05 
     patrol_total_timesteps_per_session = int(7.5e3) 
 
     # save_sa_distr_all_sessions(rootdir=patrol_rootdir_noisy_input,\
