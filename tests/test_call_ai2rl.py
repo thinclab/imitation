@@ -6,8 +6,8 @@ import git
 repo = git.Repo('.', search_parent_directories=True)
 git_home = repo.working_tree_dir
 
-# path_to_outputfolder = str(git_home)
-path_to_outputfolder = '/content/drive/MyDrive/ColabNotebooks'
+path_to_outputfolder = str(git_home)
+# path_to_outputfolder = '/content/drive/MyDrive/ColabNotebooks'
 
 def test_train_adversarial():
     config_updates = {
