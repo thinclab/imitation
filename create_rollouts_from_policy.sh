@@ -6,10 +6,10 @@ policypath="/home/katy/imitation/output/train_rl/imitationNM_PatrolModel-v0/2022
 noiseinsertion=True
 for i in {1..50}
 do
-    # PPO learned policy
+    # PPO learned policy 
     # python -m imitation.scripts.eval_policy eval_policy with perimeter_patrol policy_path=$policypath noise_insertion=$noiseinsertion
 
-    # Hardcoded policy
+    # Hardcoded policy 
     python -m imitation.scripts.eval_policy eval_policy with perimeter_patrol noise_insertion=$noiseinsertion
     echo ""
 done

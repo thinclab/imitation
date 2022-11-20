@@ -180,13 +180,14 @@ class PatrolModel(DiscreteEnv):
         # exit(0)
         self.nS = nS
 
+        self.insertNoiseprob = 0.05
         # self.insertNoiseprob = 0.1
         # self.insertNoiseprob = 0.3
         # self.insertNoiseprob = 0.6
         # self.insertNoiseprob = 0.9
         # self.insertNoiseprob = 0.95
         # self.insertNoiseprob = 0.99
-        self.insertNoiseprob = 0.998
+        # self.insertNoiseprob = 0.998
         # self.insertNoiseprob = 0.999
         # self.insertNoiseprob = 1
         super(PatrolModel, self).__init__(nS, nA, self.P, self.isd) 

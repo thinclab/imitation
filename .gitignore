@@ -162,3 +162,7 @@ dmypy.json
 /quickstart/
 
 .vscode/
+
+# robust AI2RL
+imitation/for_debugging/
+rollout_from_policylist.txt

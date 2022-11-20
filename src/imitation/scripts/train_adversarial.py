@@ -145,8 +145,8 @@ def train_adversarial(
     sadistr_per_transition = None
     repo = git.Repo('.', search_parent_directories=True)
     git_home = repo.working_tree_dir
-    # path_to_sadistr_files = str(git_home)
-    path_to_sadistr_files = '/content/drive/MyDrive/ColabNotebooks'
+    path_to_sadistr_files = str(git_home)
+    # path_to_sadistr_files = '/content/drive/MyDrive/ColabNotebooks'
 
     if wdGibbsSamp:
         ### multiple Gibbs sample per traj ###

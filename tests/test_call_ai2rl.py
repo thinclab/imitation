@@ -2,6 +2,7 @@ import os
 from imitation.scripts import train_adversarial
 import numpy as np
 import time 
+
 import git 
 repo = git.Repo('.', search_parent_directories=True)
 git_home = repo.working_tree_dir
@@ -239,10 +240,10 @@ if __name__ == '__main__':
     
     patrol_demonstration_policy_path = None
     # patrol_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size_2048_epilen5" 
-    patrol_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.254noise_0.998prob_rlxdifcondn"
+    patrol_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.115noise_0.05prob_rlxdifcondn" 
 
-    wdGibbsSamp = True 
-    threshold_stop_Gibbs_sampling = 0.0125 
+    wdGibbsSamp = False 
+    threshold_stop_Gibbs_sampling = 0.0375 
     patrol_total_timesteps_per_session = int(7.5e3) 
 
     # save_sa_distr_all_sessions(rootdir=patrol_rootdir_noisy_input,\
