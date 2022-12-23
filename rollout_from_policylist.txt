@@ -1,0 +1,783 @@
+
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - placedconv, pred - unknown, gripper - home, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - placedconv, pred - unknown, gripper - home, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - placedconv, pred - unknown, gripper - home, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - placedconv, pred - unknown, gripper - home, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+state: onion - conv, pred - unknown, gripper - conv, LS - unavailable
+action:Pick
+done:False
+state: onion - home, pred - unknown, gripper - home, LS - unavailable
+action:InspectAfterPicking
+done:False
+state: onion - eye, pred - bad, gripper - eye, LS - unavailable
+action:PlaceInBin
+done:True
+state: onion - bin, pred - unknown, gripper - bin, LS - unavailable
+action:ClaimNewOnion
+done:False
+number of trajectories with good placed on conveyor 169
+number of trajectories with bad placed in bin 398

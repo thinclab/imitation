@@ -165,15 +165,12 @@ def seals_walker():
 
 @train_adversarial_ex.named_config
 def sorting_onions():
-    common = dict(env_name="imitationNM/SortingOnions-v0")
     algorithm_kwargs = dict(
         # Number of discriminator updates after each round of generator updates
-        n_disc_updates_per_round=4,
-        demo_batch_size=4,
-        allow_variable_horizon=True,
+        # n_disc_updates_per_round=4,
+        # demo_batch_size = 4,
+        allow_variable_horizon = True,
     )
-    total_timesteps = int(5e5) # should be atleast same as rl batch size 
-    # total_timesteps = int(3e3)
     algo_cls = 'airl'
 
 @train_adversarial_ex.named_config
@@ -185,9 +182,6 @@ def perimeter_patrol():
         # demo_batch_size = 4,
         allow_variable_horizon = True,
     )
-    # total_timesteps = int(5e5) # should be atleast same as rl batch size 
-    total_timesteps = 2048
-    # total_timesteps = 256
     rl = dict(batch_size=2048)
     algo_cls = 'airl'
 

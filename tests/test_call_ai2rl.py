@@ -25,7 +25,7 @@ def test_train_adversarial():
 def incremental_train_adversarial(
     rootdir: str,
     demonstration_policy_path: str,
-    named_config_env: str,
+    named_configs_in: list,
     wdGibbsSamp: bool,
     threshold_stop_Gibbs_sampling: float,
     total_timesteps_per_session: int,
@@ -61,12 +61,11 @@ def incremental_train_adversarial(
     i = 0
     run = train_adversarial.train_adversarial_ex.run(
         command_name='airl',
-        named_configs=[named_config_env],
+        named_configs=named_configs_in,
         config_updates=config_updates,
     )
     writer.write("{}, {}".format(i+1, round((time.time()-start_time_session)/60,3)))
     writer.write("\n")
-
 
     lba_all_sessions = [round(run.result["LBA"],3)]
     return_mean_all_sessions = [round(run.result['imit_stats']["return_mean"],3)]
@@ -87,7 +86,7 @@ def incremental_train_adversarial(
         start_time_session = time.time()
         run = train_adversarial.train_adversarial_ex.run(
             command_name='airl',
-            named_configs=[named_config_env],
+            named_configs=named_configs_in,
             config_updates=config_updates,
         )
         writer.write("{}, {}".format(i+1, round((time.time()-start_time_session)/60,3)))
@@ -116,11 +115,13 @@ def run_trials_ai2rl(
     num_trials: int,
     rootdir: str,
     demonstration_policy_path: str,
-    named_config_env: str,
+    named_configs_in: list,
     wdGibbsSamp:  bool, 
     threshold_stop_Gibbs_sampling: float,
-    total_timesteps_per_session: int
+    total_timesteps_per_session: int,
+    avg_lba_filename: str
     ):
+    named_config_env = named_configs_in[0]
     # make directory to save result arrays
     import os
     os.makedirs(path_to_outputfolder+"/output/ai2rl/"+str(named_config_env), exist_ok=True)
@@ -140,10 +141,9 @@ def run_trials_ai2rl(
     session_times_fileh = create_file(session_times_filename)
 
     for i in range(0,num_trials):
-
-        
+       
         lba_all_sessions,return_mean_all_sessions,return_max_all_sessions = incremental_train_adversarial(rootdir=rootdir,\
-            demonstration_policy_path=demonstration_policy_path,named_config_env=named_config_env,\
+            demonstration_policy_path=demonstration_policy_path,named_configs_in=named_configs_in,\
             wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
             total_timesteps_per_session=total_timesteps_per_session, time_tracking_filename=session_times_filename)
 
@@ -155,9 +155,9 @@ def run_trials_ai2rl(
         retmean_fileh = open(retmean_filename, "a")
         retmax_fileh = open(retmax_filename, "a")
 
-        lba_fileh.write(str(lba_all_sessions)[1:-1]+"\n")
-        retmean_fileh.write(str(return_mean_all_sessions)[1:-1]+"\n")
-        retmax_fileh.write(str(return_max_all_sessions)[1:-1]+"\n")
+        lba_fileh.write(str(list(lba_all_sessions))[1:-1]+"\n")
+        retmean_fileh.write(str(list(return_mean_all_sessions))[1:-1]+"\n")
+        retmax_fileh.write(str(list(return_max_all_sessions))[1:-1]+"\n")
 
         lba_fileh.close()
         retmean_fileh.close()
@@ -169,6 +169,10 @@ def run_trials_ai2rl(
     stddev_lba_per_session = np.std(lba_values_over_AI2RL_trials[1:],0) 
     stddev_return_mean_per_session = np.std(return_mean_over_AI2RL_trials[1:],0) 
     stddev_return_max_per_session = np.std(return_max_over_AI2RL_trials[1:],0)
+
+    avg_lba_fileh = open(avg_lba_filename, "a")
+    avg_lba_fileh.write(named_configs_in[0]+","+named_configs_in[1]+","+str(list(avg_lba_per_session))[1:-1]+"\n")
+    avg_lba_fileh.close()
 
     print("avg of lba values over sessions  \n ",list(avg_lba_per_session)) 
     print("avg of return_mean values over sessions  \n ",list(avg_return_mean_per_session)) 
@@ -182,7 +186,7 @@ def run_trials_ai2rl(
 def save_sa_distr_all_sessions(
     rootdir: str,
     demonstration_policy_path: str,
-    named_config_env: str,
+    named_configs_in: list,
     threshold_stop_Gibbs_sampling: float,
     total_timesteps_per_session: int
     ):
@@ -206,7 +210,7 @@ def save_sa_distr_all_sessions(
     # save sadistr without running training 
     run = train_adversarial.train_adversarial_ex.run(
         command_name='airl',
-        named_configs=[named_config_env],
+        named_configs=named_configs_in,
         config_updates=config_updates,
     )
 
@@ -223,7 +227,7 @@ def save_sa_distr_all_sessions(
 
         run = train_adversarial.train_adversarial_ex.run(
             command_name='airl',
-            named_configs=[named_config_env],
+            named_configs=named_configs_in,
             config_updates=config_updates,
         ) 
 
@@ -231,26 +235,36 @@ def save_sa_distr_all_sessions(
 
 if __name__ == '__main__':
 
-    num_trials = 11
-    patrol_named_config_env = 'perimeter_patrol' 
-
-    # patrol_demonstration_policy_path = path_to_outputfolder+"/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final" 
-    # patrol_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/rollout_size_2048" 
-    # patrol_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/size_2048_wdnoise_0.998prob_rlxd_ifcondn" 
-    
-    patrol_demonstration_policy_path = None
+    num_trials = 3 #11
+    # patrol_named_config_env = 'perimeter_patrol' 
+    # patrol_demonstration_policy_path = None
     # patrol_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size_2048_epilen5" 
-    patrol_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.115noise_0.05prob_rlxdifcondn" 
+    # patrol_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.115noise_0.05prob_rlxdifcondn" 
+    # patrol_total_timesteps_per_session = int(7.5e3) 
+
+    sorting_named_config_env = 'sorting_onions' 
+    named_config_env = sorting_named_config_env
+    sorting_demonstration_policy_path = None
+    sorting_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_SortingOnions-v0/size_2048_epilen6" 
+    # sorting_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/??" 
+    sorting_total_timesteps_per_session = int(1e4) 
 
     wdGibbsSamp = False 
     threshold_stop_Gibbs_sampling = 0.0375 
-    patrol_total_timesteps_per_session = int(7.5e3) 
 
+    ## needed to run this with wdGibbsSamp = True before running run_trials_ai2rl with wdGibbsSamp = True
     # save_sa_distr_all_sessions(rootdir=patrol_rootdir_noisy_input,\
-    #         demonstration_policy_path=patrol_demonstration_policy_path,named_config_env=patrol_named_config_env,\
+    #         demonstration_policy_path=patrol_demonstration_policy_path,named_configs_in=[patrol_named_config_env],\
     #         threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling, total_timesteps_per_session=patrol_total_timesteps_per_session)
 
-    run_trials_ai2rl(num_trials=num_trials,rootdir=patrol_rootdir_noisy_input,\
-            demonstration_policy_path=patrol_demonstration_policy_path,named_config_env=patrol_named_config_env,\
-            wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling, total_timesteps_per_session=patrol_total_timesteps_per_session)
+    avg_lba_filename = path_to_outputfolder+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
+    # avg_lba_fileh = create_file(avg_lba_filename)
+        
+    lists_config_method_names = [["rl.sorting_onions_tuning_gae_lambda3"], ["rl.sorting_onions_tuning_LR1"], ["rl.sorting_onions_tuning_LR2"]]  
+    for list_config_method_names in lists_config_method_names:  
+        sorting_named_configs_in = [sorting_named_config_env] + list_config_method_names  
+        run_trials_ai2rl(num_trials=num_trials,rootdir=sorting_rootdir_noisefree_input,\
+                demonstration_policy_path=sorting_demonstration_policy_path,named_configs_in=sorting_named_configs_in,\
+                wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
+                total_timesteps_per_session=sorting_total_timesteps_per_session, avg_lba_filename=avg_lba_filename) 
 

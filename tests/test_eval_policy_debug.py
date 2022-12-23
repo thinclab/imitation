@@ -12,11 +12,17 @@ def test_eval_policy(policypath,noiseinsertion,env_name_config):
         "policy_path": policypath,
         "noise_insertion": noiseinsertion
     }
-    run = eval_policy.eval_policy_ex.run(
-        command_name='eval_policy',
-        named_configs=[env_name_config],
-        config_updates=config_updates,
-    )
+    if env_name_config:
+        run = eval_policy.eval_policy_ex.run(
+            command_name='eval_policy',
+            named_configs=[env_name_config],
+            config_updates=config_updates,
+        )
+    else:
+        run = eval_policy.eval_policy_ex.run(
+            command_name='eval_policy',
+            config_updates=config_updates,
+        )
     assert run.status == "COMPLETED"
     print(run.result)
 
@@ -26,5 +32,5 @@ if __name__ == '__main__':
     # policypath = "/home/katy/imitation/output/train_rl/imitationNM_PatrolModel-v0/20220923_142937_f57e0c/policies/final"
     noiseinsertion = False 
     policypath = None 
-    env_name_config = 'perimeter_patrol' 
+    env_name_config = None #'perimeter_patrol' 
     test_eval_policy(policypath, noiseinsertion, env_name_config) 

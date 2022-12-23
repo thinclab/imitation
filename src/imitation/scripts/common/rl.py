@@ -32,7 +32,8 @@ def config_hook(config, command_name, logger):
     """Sets defaults equivalent to sb3.PPO default hyperparameters."""
     del command_name, logger
     res = {}
-    if config["rl"]["rl_cls"] is None or config["rl"]["rl_cls"] == sb3.PPO:
+    if config["rl"]["rl_cls"] is None: 
+        # or config["rl"]["rl_cls"] == sb3.PPO:
         res["rl_cls"] = sb3.PPO
         res["batch_size"] = 2048  # rl_kwargs["n_steps"] = batch_size // venv.num_envs
         res["rl_kwargs"] = dict(
@@ -43,6 +44,81 @@ def config_hook(config, command_name, logger):
         )
     return res
 
+@rl_ingredient.named_config
+def sorting_onions_tuning_batch_size1():
+    rl_cls = sb3.PPO
+    batch_size=2048 
+    rl_kwargs=dict(
+        learning_rate=3e-4,
+        batch_size=512,
+        n_epochs=10,
+        ent_coef=0.0,)
+
+@rl_ingredient.named_config
+def sorting_onions_tuning_batch_size2():
+    rl_cls = sb3.PPO
+    batch_size=2048
+    rl_kwargs=dict(
+        learning_rate=3e-4,
+        batch_size=8,
+        n_epochs=10,
+        ent_coef=0.0,)
+
+@rl_ingredient.named_config
+def sorting_onions_tuning_gae_lambda1():
+    rl_cls = sb3.PPO
+    batch_size=2048
+    rl_kwargs=dict(
+        learning_rate=3e-4,
+        batch_size=8,
+        n_epochs=10,
+        ent_coef=0.0,
+        gae_lambda=0.99,)
+
+@rl_ingredient.named_config
+def sorting_onions_tuning_gae_lambda2():
+    rl_cls = sb3.PPO
+    batch_size=2048
+    rl_kwargs=dict(
+        learning_rate=3e-4,
+        batch_size=8,
+        n_epochs=10,
+        ent_coef=0.0,
+        gae_lambda=0.80,)
+
+@rl_ingredient.named_config
+def sorting_onions_tuning_gae_lambda3():
+    rl_cls = sb3.PPO
+    batch_size=2048
+    rl_kwargs=dict(
+        learning_rate=3e-4,
+        batch_size=8,
+        n_epochs=10,
+        ent_coef=0.0,
+        gae_lambda=0.70,)
+
+
+@rl_ingredient.named_config
+def sorting_onions_tuning_LR1():
+    rl_cls = sb3.PPO
+    batch_size=2048
+    rl_kwargs=dict(
+        learning_rate=3e-5,
+        batch_size=8,
+        n_epochs=10,
+        ent_coef=0.0,
+        gae_lambda=0.70,)
+
+@rl_ingredient.named_config
+def sorting_onions_tuning_LR2():
+    rl_cls = sb3.PPO
+    batch_size=2048
+    rl_kwargs=dict(
+        learning_rate=3e-3,
+        batch_size=8,
+        n_epochs=10,
+        ent_coef=0.0,
+        gae_lambda=0.70,)
 
 @rl_ingredient.named_config
 def fast():

@@ -66,14 +66,16 @@ class SortingOnions(DiscreteEnv):
     def __init__(self):
 
         p_fail = 0.05 
-        params_pickinspectplace = [2.5, 2, 2, 2.5, 1, -0.5, -0.5, 2, -0.5, -0.5, 2] # [2,1,2,1,0.2,0.1,0,4,0,0,4] 
-        # params_pickinspectplace = [2.5, 2, 2, 2.5, 1, 2, -0.5, 2, -0.5, -0.5, 2]
+        # params_pickinspectplace = [2.5, 2, 2, 2.5, 1, -0.5, -0.5, 2, -0.5, -0.5, 2] #No noise
+        # params_pickinspectplace = [2,1,2,1,0.2,0.1,0,4,0,0,4] #No noise
+        params_pickinspectplace = [2.5, 2, 2, 2.5, 1, 2, -0.5, 2, -0.5, -0.5, 2] #No noise
+
         params = params_pickinspectplace 
         norm_weights_reward7 = [float(i)/sum(np.absolute(params)) for i in params] 
         reward_obj = sortingReward7(len(norm_weights_reward7)) 
         reward_obj.params = norm_weights_reward7
 
-        self.statelist = []
+        self._stateList = []
         for ol in [0,1,2,3]:
             for pr in [0,1,2]:
                 for el in [0,1,2,3]:
@@ -81,10 +83,12 @@ class SortingOnions(DiscreteEnv):
                     # not on conveyor with its location same as gripper 
                     if (ol!=0 and ol==el) or ol==0:
                         for ls in [2]:
-                            self.statelist.append([ol, pr, el, ls]) 
-        self.statelist.append([-1,-1,-1,-1]) 
+                            self._stateList.append([ol, pr, el, ls]) 
+        self._stateList.append([-1,-1,-1,-1]) 
 
-        # self.statelist = [[ 1, 0, 1, 2],\
+        # print("len self._stateList ",len(self._stateList))
+
+        # self._stateList = [[ 1, 0, 1, 2],\
         #     [ 2, 2, 2, 2],\
         #     [ 0, 2, 2, 2],\
         #     [ 3, 2, 3, 2],\
@@ -103,23 +107,23 @@ class SortingOnions(DiscreteEnv):
         #     [-1,-1,-1,-1]] # sink state
             # ,[-2,-2,-2,-2]] # terminal state
 
-        self.actionlist = [InspectAfterPicking(),InspectWithoutPicking(),\
+        self._actions = [InspectAfterPicking(),InspectWithoutPicking(),\
         Pick(),PlaceOnConveyor(),PlaceInBin(),ClaimNewOnion(),\
         ClaimNextInList()]
 
-        nS = len(self.statelist) 
-        nA = len(self.actionlist) 
+        nS = len(self._stateList) 
+        nA = len(self._actions) 
         P = {} 
         start_ss = sortingState(0, 2, 0, 2) 
         sink_ss = sortingState(-1, -1, -1, -1) 
         # term_ss = sortingState(-2, -2, -2, -2) 
         p_str = ""
         
-        for s in range(len(self.statelist)):
+        for s in range(len(self._stateList)):
             P[s] = {a: [] for a in range(nA)}
-            ol, pr, el, ls = self.statelist[s][0], self.statelist[s][1], self.statelist[s][2], self.statelist[s][3]
+            ol, pr, el, ls = self._stateList[s][0], self._stateList[s][1], self._stateList[s][2], self._stateList[s][3]
             
-            for a in range(len(self.actionlist)):
+            for a in range(len(self._actions)):
                 # if source state is sink or terminal, then next state is too.
                 # continue to next iteration.
                 if  ol == -1:
@@ -131,12 +135,12 @@ class SortingOnions(DiscreteEnv):
                 #     continue
 
                 ss = sortingState(ol, pr, el, ls)
-                sa = self.actionlist[a] 
+                sa = self._actions[a] 
                 new_s = None
 
                 if sa in self.A(ss): 
                     nss = sa.apply(ss) 
-                    new_s = self.statelist.index([nss._onion_location, nss._prediction, nss._EE_location, nss._listIDs_status])
+                    new_s = self._stateList.index([nss._onion_location, nss._prediction, nss._EE_location, nss._listIDs_status])
 
                     if a==3 or a==4:
                         done = True
@@ -146,10 +150,10 @@ class SortingOnions(DiscreteEnv):
                     # nss = sa.apply(ss) 
                     # if (nss == term_ss):
                     #     # terminal state ends the episode
-                    #     new_s = self.statelist.index([-2,-2,-2,-2])
+                    #     new_s = self._stateList.index([-2,-2,-2,-2])
                     #     done = True
                     # else: 
-                    #     new_s = self.statelist.index([nss._onion_location, nss._prediction, nss._EE_location, nss._listIDs_status])
+                    #     new_s = self._stateList.index([nss._onion_location, nss._prediction, nss._EE_location, nss._listIDs_status])
                     #     done = False
                     
                     rew = reward_obj.reward(ss, sa)
@@ -164,7 +168,7 @@ class SortingOnions(DiscreteEnv):
 
                 else: 
                     # if action is not allowed, it should lead to a sink state deterministically
-                    new_s = self.statelist.index([-1,-1,-1,-1]) 
+                    new_s = self._stateList.index([-1,-1,-1,-1]) 
                     # there is should a penalty of reaching sink state, penalty higher than other weights
                     P[s][a] = [(1.0, new_s, -1.0, True)] 
 
@@ -172,21 +176,129 @@ class SortingOnions(DiscreteEnv):
                 #     p_str += "\nP[s][a] for place actions"+str((s,a,P[s][a])) 
 
         self.isd = np.zeros(nS)
-        start_ss_array = [0, 2, 0, 2]
-        self.isd[self.statelist.index(start_ss_array)] = 1.0
+        #start_ss_array = [0, 2, 0, 2]
+        #self.isd[self._stateList.index(start_ss_array)] = 1.0
+        start_ss_array = []
+        for ol in [0,1,2,3]:
+            for pr in [0,1,2]:
+                for el in [0,1,2,3]:
+                    # onion can be either on conveyor or
+                    # not on conveyor with its location same as gripper
+                    if (ol!=0 and ol==el) or ol==0:
+                        for ls in [2]:
+                            if [ol, pr, el, ls] == [0, 2, 0, 2]:
+                                start_ss_array.append([ol, pr, el, ls])
+                            # commenting to keep variance low in LBA results
+                            # if pr == 0:
+                            #     start_ss_array.append([ol, pr, el, ls])        
+        
+        for arr in start_ss_array:
+            self.isd[self._stateList.index(arr)] = 1/len(start_ss_array)
 
         with open('./env_transition_dict.txt', 'w') as writer:
             writer.write(p_str)
 
         self.P = P
+        self._timestep = 0
+        self._episode_length = 6
 
         super(SortingOnions, self).__init__(nS, nA, self.P, self.isd) 
 
+    def step(self, a):
+        self._timestep += 1
+        transitions = self.P[self.s][a]
+        i = categorical_sample([t[0] for t in transitions], self.np_random)
+        p, s, r, d = transitions[i]
+        
+        self.s = s
+        self.lastaction = a
+        if self._timestep == self._episode_length:
+            d = True
+
+        return (int(s), r, d, {"prob": p})
+
+    def reset(self):
+        self.s = categorical_sample(self.isd, self.np_random)
+        self.lastaction = None
+        self._timestep = 0
+        return int(self.s)
+
+    def bestpolicy_action(self,s):
+        '''
+        return index of best action for input index for state
+
+        reference
+        self._actions = [InspectAfterPicking(),InspectWithoutPicking(),\
+        Pick(),PlaceOnConveyor(),PlaceInBin(),ClaimNewOnion(),\
+        ClaimNextInList()]
+
+        '''
+
+        best_a = self._actions.index(Pick())
+
+        ol, pr, el, ls = self._stateList[s]
+        if ol == 0:
+            # onion on conveyor
+            if pr == 2:
+                # pred unknown
+                best_a = self._actions.index(Pick()) # pick
+            else:
+                # known
+                best_a = self._actions.index(ClaimNewOnion()) # claim new
+        elif ol == 3:
+            # onion at home (el has to be same by def of statelist)
+            if pr == 2:
+                # unknown
+                best_a = self._actions.index(InspectAfterPicking()) # inspect
+            elif pr == 0:
+                # onion bad
+                best_a = self._actions.index(PlaceInBin()) # to bin
+            else:
+                # onion good
+                best_a = self._actions.index(PlaceOnConveyor()) # to conv
+        elif ol == 1:
+            # onion at eye (by def of statelist, el has to be same)
+            if pr == 2:
+                # unknown
+                best_a = self._actions.index(InspectAfterPicking()) # inspect
+            elif pr == 0:
+                # onion bad
+                best_a = self._actions.index(PlaceInBin()) # to bin
+            else:
+                # onion good
+                best_a = self._actions.index(PlaceOnConveyor()) # to conv                    
+        else:
+            # ol == 2, onion at bin
+            best_a = self._actions.index(ClaimNewOnion()) # claim new, only action valid
+
+        return best_a
+
+    def insertNoise(self, s, a):
+        import random
+        ss = sortingState(self._stateList[s][0],self._stateList[s][1],self._stateList[s][2],self._stateList[s][3])
+        noisy_s = self._stateList[s]
+        aa = self._actions[a]
+        insertNoiseprob = 0.3
+        if random.random() < insertNoiseprob:
+            if ((ss._prediction == 0) and aa==PlaceInBin()):
+                aa = PlaceOnConveyor()
+            elif ((ss._prediction == 0) and aa==PlaceOnConveyor()):
+                aa = PlaceInBin()
+            elif ((ss._prediction == 0) and aa==ClaimNewOnion()):
+                ss._prediction = 1
+                noisy_s[1] = 1
+        si, ai = self._stateList.index(noisy_s), self._actions.index(aa)
+        if not ((a == ai) and (si == s)):
+            print("Noisy obs: Input sa=",s,a,"Output=",si,ai)
+        #else:
+        #    print("No noise")
+        return (si, ai)
+    
     def get_statelist(self):
-        return self.statelist
+        return self._stateList
 
     def get_actionlist(self):
-        return self.actionlist
+        return self._actions
 
     def get_actionlist_string(self):
         return np.array(['InspectAfterPicking','InspectWithoutPicking',\
@@ -201,41 +313,14 @@ class SortingOnions(DiscreteEnv):
         r_args = [ol_map, pr_map, el_map, ls_map]
         return r_args 
 
-    def perfect_demonstrator_det_policy_list(self):
-        policy_acts_expert = [2]*len(self.statelist)
-        
-        for s_i in range(len(self.statelist)):
-            ol, pr, el, ls = self.statelist[s_i]
-            if ol == 0: 
-                # onion on conveyor
-                if pr == 2:
-                    # pred unknown
-                    policy_acts_expert[s_i] = 2 # pick 
-                else: 
-                    # known 
-                    policy_acts_expert[s_i] = 5 # claim new 
-            elif ol == 3:
-                # onion at home (el has to be same by def of statelist) 
-                if pr == 2:
-                    # unknown 
-                    policy_acts_expert[s_i] = 0 # inspect 
-                elif pr == 0:
-                    policy_acts_expert[s_i] = 4 # to bin 
-                else:
-                    policy_acts_expert[s_i] = 3 # to conv
-            elif ol == 1:
-                # onion at eye (by def of statelist, el has to be same)
-                if pr == 2:
-                    # unknown 
-                    policy_acts_expert[s_i] = 0 # inspect 
-                elif pr == 0:
-                    policy_acts_expert[s_i] = 4 # to bin 
-                else:
-                    policy_acts_expert[s_i] = 3 # to conv                    
-            else:
-                # ol == 2, onion at bin 
-                policy_acts_expert[s_i] = 5 # claim new, only action valid 
-        
+    def get_expert_det_policy_list(self):
+        policy_acts_expert = [self._actions.index(Pick())]*len(self._stateList)
+        str_sa = ""
+        for s_i in range(len(self._stateList)):
+            policy_acts_expert[s_i] = self.bestpolicy_action(s_i)
+            
+            str_sa += "\n{} {}".format(self._stateList[s_i],self._actions[policy_acts_expert[s_i]])
+        # print(str_sa)
         return policy_acts_expert
 
     def A(self,state=None):
@@ -695,4 +780,3 @@ class sortingReward7(LinearReward):
                      result += '|{: 4.4f}|'.format(self.reward(s, a))
                 result += '\n\n'
         return result
-

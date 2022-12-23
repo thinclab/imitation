@@ -15,7 +15,7 @@ def replay_defaults():
     
     common = dict(env_name="imitationNM/SortingOnions-v0")
 
-    eval_n_timesteps = int(1e4)  # Min timesteps to evaluate, optional.
+    eval_n_timesteps = int(2048)  # Min timesteps to evaluate, optional.
     eval_n_episodes = None  # Num episodes to evaluate, optional.
 
     videos = False  # save video files
