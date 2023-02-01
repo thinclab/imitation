@@ -1127,9 +1127,6 @@ def create_flattened_gibbs_stepdistr(
     print("time taken to create combinations_sa_tuples: {} minutes ".format((time.time()-start_tm)/60))
     # writer.write("time taken to create combinations_sa_tuples: {} minutes \n".format((time.time()-start_tm)/60)) 
 
-    # list of probabilities specific to time step j in traj i 
-    probs_sa_gt_sa_j = [0.0]*len(combinations_sa_tuples) 
-
     # temp storage of traj specific list of probs_sa_gt_sa_j 
     sa_distr_trajs = np.zeros((len(obsvd_trajs),len(obsvd_trajs[0].obs),len(combinations_sa_tuples)),dtype=float) 
     
@@ -1139,6 +1136,9 @@ def create_flattened_gibbs_stepdistr(
         GT_traj = GT_trajs[i]
 
         for j in range(len(GT_traj)):
+            
+            # list of probabilities specific to time step j in traj i 
+            probs_sa_gt_sa_j = [0.0]*len(combinations_sa_tuples) 
             
             for s in range(venv.observation_space.n):
                 for a in range(venv.action_space.n):

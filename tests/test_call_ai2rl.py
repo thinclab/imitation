@@ -236,35 +236,38 @@ def save_sa_distr_all_sessions(
 if __name__ == '__main__':
 
     num_trials = 3 #11
-    # patrol_named_config_env = 'perimeter_patrol' 
-    # patrol_demonstration_policy_path = None
-    # patrol_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size_2048_epilen5" 
-    # patrol_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.115noise_0.05prob_rlxdifcondn" 
-    # patrol_total_timesteps_per_session = int(7.5e3) 
+    patrol_named_config_env = 'perimeter_patrol' 
+    patrol_demonstration_policy_path = None
+    patrol_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size_2048_epilen5" 
+    patrol_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.115noise_0.05prob_rlxdifcondn" 
+    patrol_total_timesteps_per_session = int(7.5e3) 
 
-    sorting_named_config_env = 'sorting_onions' 
-    named_config_env = sorting_named_config_env
-    sorting_demonstration_policy_path = None
-    sorting_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_SortingOnions-v0/size_2048_epilen6" 
+    # sorting_named_config_env = 'sorting_onions' 
+    # sorting_demonstration_policy_path = None
+    # sorting_rootdir_noisefree_input = path_to_outputfolder+"/output/eval_policy/imitationNM_SortingOnions-v0/size_2048_epilen6" 
     # sorting_rootdir_noisy_input = path_to_outputfolder+"/output/eval_policy/??" 
-    sorting_total_timesteps_per_session = int(1e4) 
+    # sorting_total_timesteps_per_session = int(1e4) 
 
-    wdGibbsSamp = False 
     threshold_stop_Gibbs_sampling = 0.0375 
 
-    ## needed to run this with wdGibbsSamp = True before running run_trials_ai2rl with wdGibbsSamp = True
+    # wdGibbsSamp = True
+    # needed to run this with wdGibbsSamp = True before running run_trials_ai2rl with wdGibbsSamp = True
     # save_sa_distr_all_sessions(rootdir=patrol_rootdir_noisy_input,\
     #         demonstration_policy_path=patrol_demonstration_policy_path,named_configs_in=[patrol_named_config_env],\
     #         threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling, total_timesteps_per_session=patrol_total_timesteps_per_session)
+    # exit(0)
 
+    named_config_env = patrol_named_config_env
     avg_lba_filename = path_to_outputfolder+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
     # avg_lba_fileh = create_file(avg_lba_filename)
         
-    lists_config_method_names = [["rl.sorting_onions_tuning_gae_lambda3"], ["rl.sorting_onions_tuning_LR1"], ["rl.sorting_onions_tuning_LR2"]]  
+    wdGibbsSamp = True 
+    # lists_config_method_names = [["rl.sorting_onions_tuning_gae_lambda3"], ["rl.sorting_onions_tuning_LR1"], ["rl.sorting_onions_tuning_LR2"]]  
+    lists_config_method_names = [[]]
     for list_config_method_names in lists_config_method_names:  
-        sorting_named_configs_in = [sorting_named_config_env] + list_config_method_names  
-        run_trials_ai2rl(num_trials=num_trials,rootdir=sorting_rootdir_noisefree_input,\
-                demonstration_policy_path=sorting_demonstration_policy_path,named_configs_in=sorting_named_configs_in,\
+        sorting_named_configs_in = [patrol_named_config_env] + list_config_method_names  
+        run_trials_ai2rl(num_trials=num_trials,rootdir=patrol_rootdir_noisy_input,\
+                demonstration_policy_path=patrol_demonstration_policy_path,named_configs_in=sorting_named_configs_in,\
                 wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
-                total_timesteps_per_session=sorting_total_timesteps_per_session, avg_lba_filename=avg_lba_filename) 
+                total_timesteps_per_session=patrol_total_timesteps_per_session, avg_lba_filename=avg_lba_filename) 
 

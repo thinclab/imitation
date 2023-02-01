@@ -370,34 +370,85 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     batch["log_policy_act_prob"],
                 )
             else:
+                import time 
+                start_tm_disc_train = time.time()
+
                 # disc_logits via Gibbs sampling 
                 import git 
-                repo = git.Repo('.', search_parent_directories=True)
-                git_home = repo.working_tree_dir
+                repo = git.Repo('.', search_parent_directories=True) 
+                git_home = repo.working_tree_dir 
 
-                filename=str(git_home)+"/for_debugging/troubleshooting_gibbs_sampling.txt"
-                writer = open(filename, "a")
-                sa_distr_samples = self._next_sa_distr_batch()
-
+                filename=str(git_home)+"/for_debugging/troubleshooting_gibbs_sampling.txt" 
+                writer = open(filename, "a") 
+                
                 from torch.distributions import Categorical 
-                import itertools 
-                import math 
 
-                '''
-                Gibbs Sampling:
+                def create_gibbs_sampler(expert_samples_batch,GT_traj,writer):
+                    '''
+                    GT_traj has length expert_samples_batch['obs']+1 
+                    for index j in expert_samples_batch['obs'], create corresponding list of probability values.  
+                    This creationg is possible all timesteps of expert_samples_batch['obs'] because we have 
+                    expert_samples_batch['acts'] value for each time step. But this list can't be created for
+                    expert_samples_batch['nextobs'] last timestep (same as last timestep of GT_traj) because there 
+                    is no last action in input demonstration (only a last state). For such edge cases, we 
+                    assume prob values 1 for observation model part. 
+                    
+                    sa_distr_samples['obs_sa_distr'][j] and sa_distr_samples['nxtobs_sa_distr'][j] separate out that 
+                    last timestep 
 
-                use a loop for following with a stopping criteria based on delta in average disc_logits array values
-                    for each step in expert_samples, use obs_sa_distr for current time step to modify obs-act of current step and next_obs of prev step. 
-                    next_obs of last expert sample will be changed using next_obs_sadistr
-                    use Gibbs sample modified expert_samples to compute disc_logits
-                    add disc_logits array to sum so far
+                    '''
 
-                '''
-                list_s = list(range(self.venv.observation_space.n))
-                list_a = list(range(self.venv.action_space.n))
-                combinations_sa_tuples = list(itertools.product(list_s,list_a))
+                    import torch as th
+                    start_tm = time.time()
 
-                def sample_sa(probs_sa_gt_sa_j,combinations_sa_tuples,writer):
+                    # temp storage of traj specific list of probs_sa_gt_sa_j 
+                    sa_distr_trajs = np.zeros((len(GT_traj),len(combinations_sa_tuples)),dtype=float) 
+
+                    for j in range(len(GT_traj)):
+                        
+                        # list of probabilities specific to time step j 
+                        probs_sa_gt_sa_j = [0.0]*len(combinations_sa_tuples) 
+
+                        for s in range(self.venv.observation_space.n):
+                            for a in range(self.venv.action_space.n):
+
+                                if j==0:
+                                    P_s_prevs_preva = 1.0
+                                else: 
+                                    P_s_prevs_preva = self.venv.env_method(method_name='P_sasp',indices=0,s=GT_traj[j-1][0],a=GT_traj[j-1][1],sp=s)[0]
+
+                                if j==len(GT_traj)-1:
+                                    # GT_traj[j+1] is empty for len(GT_traj)-1 index
+                                    P_nexts_s_a = 1.0 
+                                else: 
+                                    P_nexts_s_a = self.venv.env_method(method_name='P_sasp',indices=0,s=s,a=a,sp=GT_traj[j+1][0])[0] 
+                                
+                                if j==len(GT_traj)-1: 
+                                    # obsvd_traj.acts is empty at len(GT_traj)-1
+                                    P_obssa_GTsa = 1.0
+                                else:
+                                    P_obssa_GTsa = self.venv.env_method(method_name='obs_model',indices=0,sg=s,ag=a,so=expert_samples_batch['obs'][j].item(),ao=expert_samples_batch['acts'][j].item())[0] 
+
+                                s_th = th.as_tensor([s], device=self.gen_algo.device) 
+                                a_th = th.as_tensor([a], device=self.gen_algo.device) 
+
+                                policy_a_giv_s = self.policy.prob_acts(obs=s_th,actions=a_th)[0].item() 
+
+                                probs_sa_gt_sa_j[combinations_sa_tuples.index((s,a))] = P_s_prevs_preva * \
+                                    policy_a_giv_s * P_nexts_s_a * P_obssa_GTsa 
+                        
+                        sa_distr_trajs[j]=np.array(probs_sa_gt_sa_j)
+
+                    # print("time taken to create sa_distr_trajs: {} minutes ".format((time.time()-start_tm)/60)) 
+                    writer.write("time taken to create sa_distr_trajs: {} minutes \n".format((time.time()-start_tm)/60)) 
+
+                    sa_distr_samples = {}
+                    sa_distr_samples["obs_sa_distr"] = sa_distr_trajs[:-1]
+                    sa_distr_samples["nxtobs_sa_distr"] = sa_distr_trajs[1:]
+
+                    return sa_distr_samples  
+
+                def sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer):
                     # internal method to sample a state action pair given list of probs
 
                     s, a = None, None
@@ -441,36 +492,93 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
                     return s, a
 
+                import itertools
+                import time
+                list_s = list(range(self.venv.observation_space.n))
+                list_a = list(range(self.venv.action_space.n))
+                start_tm = time.time()
+                combinations_sa_tuples = list(itertools.product(list_s,list_a))
+                print("time taken to create combinations_sa_tuples: {} minutes ".format((time.time()-start_tm)/60))
+
+                # create GT_trajs 
+                # simulate random ground truth trajectories from learned policy 
+                GT_traj = np.empty((len(expert_samples['obs'])+1,2),dtype=int)
+                self.venv.reset()
+                GT_traj = np.array([[self.venv.get_attr('s')[0],None]])
+                for j in range(len(expert_samples['obs'])):
+                    a, _ = self.policy.predict(GT_traj[j][0],deterministic=False)
+                    GT_traj[j][1] = a.item(0)
+                    ret_tuples = self.venv.env_method(method_name='step_sa',indices=[0]*self.venv.num_envs,s=GT_traj[j][0],a=GT_traj[j][1])
+                    ns = ret_tuples[0][0] 
+                    GT_traj = np.vstack((GT_traj,np.array([ns, -1]))) 
+
+                # sa_distr_samples = self._next_sa_distr_batch() 
+
+                import math 
                 normed_delta_avg_disc_logits = math.inf
                 sum_avg_disc_logits = th.tensor( [0.0]*(len(expert_samples['obs'])+len(gen_samples['obs'])), device=self.gen_algo.device)
                 ind_avg = 0
-                # avg_disc_logits = th.tensor( [0.0]*(len(expert_samples['obs'])+len(gen_samples['obs'])) )
+                avg_disc_logits = th.tensor( [0.0]*(len(expert_samples['obs'])+len(gen_samples['obs'])) )
                 last_avg_disc_logits = th.tensor( [0.0]*(len(expert_samples['obs'])+len(gen_samples['obs'])), device=self.gen_algo.device)
+                # to compute logits, we only need sampled ground truth in same format as expert_samples 
+                gibbs_sampled_expert_samples = {}
+                for key,val in expert_samples.items():
+                    if key!='infos':
+                        gibbs_sampled_expert_samples[key] = val.detach().clone()
+                    else: 
+                        gibbs_sampled_expert_samples[key] = val.copy()
 
+                '''
+                use a loop for following with a stopping criteria based on delta in average disc_logits array values
+                    create gibbs sampler distribution for each timestep in expert_samples
+                    for each step in expert_samples, use obs_sa_distr for current time step to modify obs-act of current step and next_obs of prev step. 
+                    next_obs of last expert sample will be changed using next_obs_sadistr
+                    use Gibbs sample modified expert_samples to compute disc_logits
+                    add disc_logits array to sum so far
+                    compute running average of logits
+                    compute delta change in average w.r.t previous iteration 
+
+                '''
                 while normed_delta_avg_disc_logits > self.threshold_stop_Gibbs_sampling:
                     
+                    sa_distr_samples = create_gibbs_sampler(expert_samples,GT_traj,writer) 
+
+                    #################################################################################
+                    # gibbs sample 'potential ground truth' and get it formatted for computing logits 
+                    # sampled 'potential ground truth' should not replace original noisy observations 
                     for j in range(len(expert_samples['obs'])):
                         
                         # sampling must happen specifically for index j
                         probs_sa_gt_sa_j = sa_distr_samples['obs_sa_distr'][j].tolist() 
-                        s,a = sample_sa(probs_sa_gt_sa_j,combinations_sa_tuples,writer)
-
+                        s,a = sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer)
+                        
+                        # to compute logits, we only need sampled ground truth in same format as expert_samples 
                         if s:
-                            expert_samples['obs'][j] = s
-                            expert_samples['acts'][j] = a
+                            # if sampling valid, get samples ready for computing logits 
+                            gibbs_sampled_expert_samples['obs'][j] = s
+                            gibbs_sampled_expert_samples['acts'][j] = a
 
                             # update next obs of prev step based on obs sampled for current step 
-                            if j>0 and j<len(expert_samples['obs']):
-                                expert_samples['next_obs'][j-1] = expert_samples['obs'][j]
+                            if j>0 and j<len(gibbs_sampled_expert_samples['obs']):
+                                gibbs_sampled_expert_samples['next_obs'][j-1] = gibbs_sampled_expert_samples['obs'][j]
+
+                            # update ground truth trajectory GT_traj to get Gibbs sampler for next iteration of while loop 
+                            GT_traj[j][0] = s
+                            GT_traj[j][1] = a
 
                     # sampling last next obs 
                     probs_sa_gt_sa_j = sa_distr_samples['nxtobs_sa_distr'][-1].tolist()
-                    s,a = sample_sa(probs_sa_gt_sa_j,combinations_sa_tuples,writer)
-                    if s:
-                        expert_samples['next_obs'][-1] = s
+                    last_s,last_a = sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer)
+                    if last_s:
+                        gibbs_sampled_expert_samples['next_obs'][-1] = last_s
+
+                        # update ground truth trajectory GT_traj to get Gibbs sampler for next iteration of while loop 
+                        GT_traj[len(expert_samples['obs'])][0] = last_s
+
+                    #################################################################################
 
                     batch = self._make_disc_train_batch(
-                        gen_samples=gen_samples, expert_samples=expert_samples
+                        gen_samples=gen_samples, expert_samples=gibbs_sampled_expert_samples
                     )
                     disc_logits = self.logits_expert_is_high(
                         batch["state"],
@@ -480,22 +588,31 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                         batch["log_policy_act_prob"],
                     )
 
+                    # get running average 
                     ind_avg += 1
                     sum_avg_disc_logits += disc_logits
                     avg_disc_logits = sum_avg_disc_logits/ind_avg
 
+                    # norm of change in average w.r.t last iteration 
                     delta_avg_disc_logits = (avg_disc_logits - last_avg_disc_logits)
                     normed_delta_avg_disc_logits = th.linalg.norm(delta_avg_disc_logits, ord=1).cpu().data.numpy() 
 
-                    if ind_avg == 1 or ind_avg%100 == 0 or normed_delta_avg_disc_logits < self.threshold_stop_Gibbs_sampling:
-                        wr_str = "normed_delta_avg_disc_logits {}".format(normed_delta_avg_disc_logits) 
+                    if True: #ind_avg == 1 or ind_avg%100 == 0 or normed_delta_avg_disc_logits < self.threshold_stop_Gibbs_sampling:
+                        print("iteration {} normed_delta_avg_disc_logits {}".format(ind_avg, normed_delta_avg_disc_logits))
+                        wr_str = "iteration {} normed_delta_avg_disc_logits {}".format(ind_avg, normed_delta_avg_disc_logits) 
                         writer.write(str(wr_str)+"\n") 
-                    
+
+                    # update lat_avg variable to get normed delta for next iteration 
                     last_avg_disc_logits = avg_disc_logits
-                
+
+
+                wr_str = " normed_delta_avg_disc_logits converged in {}".format(round(( time.time()- start_tm_disc_train)/60,2)) 
+                writer.write(str(wr_str)+"\n")    
                 writer.close()
-                # print("Gibbs sampled discimantor logits")
-                        
+                
+                print("Gibbs sampled averaged discimantor logits ",avg_disc_logits)
+                disc_logits = avg_disc_logits
+            
             loss = F.binary_cross_entropy_with_logits(
                 disc_logits,
                 batch["labels_expert_is_one"].float(),
