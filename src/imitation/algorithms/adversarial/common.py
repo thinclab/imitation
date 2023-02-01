@@ -371,19 +371,37 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 )
             else:
                 import time 
+                from torch.distributions import Categorical 
+                import git 
+                import math 
+                import gym
+                import torch as th
+                import itertools
+
                 start_tm_disc_train = time.time()
 
                 # disc_logits via Gibbs sampling 
-                import git 
                 repo = git.Repo('.', search_parent_directories=True) 
                 git_home = repo.working_tree_dir 
 
                 filename=str(git_home)+"/for_debugging/troubleshooting_gibbs_sampling.txt" 
                 writer = open(filename, "a") 
                 
-                from torch.distributions import Categorical 
 
-                def create_gibbs_sampler(expert_samples_batch,GT_traj,writer):
+                def get_state_space_upperlimit(venv):
+                    '''
+                    if venv state space is discrete, then return observation space limit
+                    if it's continuous, then return total number of partitions of state space 
+                    '''
+                    if isinstance(venv.observation_space, gym.spaces.Discrete):
+                        return self.venv.observation_space.n
+                    elif isinstance(venv.observation_space, gym.spaces.Box): 
+                        # TODO: return the total number of space partitions 
+                        return None
+                    else:
+                        raise TypeError("Unsupported type of state space")
+
+                def create_gibbs_sampler(expert_samples_batch,GT_traj,combinations_sa_tuples,writer):
                     '''
                     GT_traj has length expert_samples_batch['obs']+1 
                     for index j in expert_samples_batch['obs'], create corresponding list of probability values.  
@@ -398,7 +416,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
                     '''
 
-                    import torch as th
                     start_tm = time.time()
 
                     # temp storage of traj specific list of probs_sa_gt_sa_j 
@@ -409,7 +426,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                         # list of probabilities specific to time step j 
                         probs_sa_gt_sa_j = [0.0]*len(combinations_sa_tuples) 
 
-                        for s in range(self.venv.observation_space.n):
+                        for s in range(get_state_space_upperlimit(self.venv)):
                             for a in range(self.venv.action_space.n):
 
                                 if j==0:
@@ -449,7 +466,11 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     return sa_distr_samples  
 
                 def sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer):
-                    # internal method to sample a state action pair given list of probs
+                    '''
+                    internal method to sample from a given list of probs
+                    for discrete states, returned value s in state index
+                    for continuous states, returned value s is index of partition of state space 
+                    '''
 
                     s, a = None, None
                     total_mass = 0
@@ -457,11 +478,11 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                         total_mass += pr
                     
                     # It is possible and valid that dict_gt_sa has all values 0? Most of cases are coming 0. 
-                    # Skip the case where all values in dict_gt_sa are zero
+                    # Skip the case where all values in probs_sa_gt_sa_j are zero
                     if (total_mass != 0):
                         # wr_str = "sample_sa: probs_sa_gt_sa_j all values aren't 0s"
                         # writer.write(str(wr_str)+"\n")
-                        # is distr uniform?
+                        
                         if len(set(probs_sa_gt_sa_j)) == 1: 
                             # sample and replace GT s-a in GT_traj
                             norm = [float(i)/sum(probs_sa_gt_sa_j) for i in probs_sa_gt_sa_j]
@@ -492,9 +513,16 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
                     return s, a
 
-                import itertools
-                import time
-                list_s = list(range(self.venv.observation_space.n))
+                def get_state_from_sampled_index(s,venv):
+                    if isinstance(venv.observation_space, gym.spaces.Discrete):
+                        return s 
+                    elif isinstance(venv.observation_space, gym.spaces.Box): 
+                        # TODO: get state from sampled index s of space partition
+                        return None
+                    else:
+                        raise TypeError("Unsupported type of state space")
+
+                list_s = list(range(get_state_space_upperlimit(self.venv)))
                 list_a = list(range(self.venv.action_space.n))
                 start_tm = time.time()
                 combinations_sa_tuples = list(itertools.product(list_s,list_a))
@@ -513,8 +541,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     GT_traj = np.vstack((GT_traj,np.array([ns, -1]))) 
 
                 # sa_distr_samples = self._next_sa_distr_batch() 
-
-                import math 
                 normed_delta_avg_disc_logits = math.inf
                 sum_avg_disc_logits = th.tensor( [0.0]*(len(expert_samples['obs'])+len(gen_samples['obs'])), device=self.gen_algo.device)
                 ind_avg = 0
@@ -531,9 +557,9 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 '''
                 use a loop for following with a stopping criteria based on delta in average disc_logits array values
                     create gibbs sampler distribution for each timestep in expert_samples
-                    for each step in expert_samples, use obs_sa_distr for current time step to modify obs-act of current step and next_obs of prev step. 
-                    next_obs of last expert sample will be changed using next_obs_sadistr
-                    use Gibbs sample modified expert_samples to compute disc_logits
+                    for each step in expert_samples, use obs_sa_distr for current time step to create GT gibbs sampled expert samples. 
+                    (Do not modify observations in expert_samples)
+                    use Gibbs sampled expert_samples to compute disc_logits
                     add disc_logits array to sum so far
                     compute running average of logits
                     compute delta change in average w.r.t previous iteration 
@@ -541,7 +567,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 '''
                 while normed_delta_avg_disc_logits > self.threshold_stop_Gibbs_sampling:
                     
-                    sa_distr_samples = create_gibbs_sampler(expert_samples,GT_traj,writer) 
+                    sa_distr_samples = create_gibbs_sampler(expert_samples,GT_traj,combinations_sa_tuples,writer) 
 
                     #################################################################################
                     # gibbs sample 'potential ground truth' and get it formatted for computing logits 
@@ -554,6 +580,8 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                         
                         # to compute logits, we only need sampled ground truth in same format as expert_samples 
                         if s:
+                            s = get_state_from_sampled_index(s,self.venv)
+
                             # if sampling valid, get samples ready for computing logits 
                             gibbs_sampled_expert_samples['obs'][j] = s
                             gibbs_sampled_expert_samples['acts'][j] = a
@@ -567,10 +595,11 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                             GT_traj[j][1] = a
 
                     # sampling last next obs 
-                    probs_sa_gt_sa_j = sa_distr_samples['nxtobs_sa_distr'][-1].tolist()
-                    last_s,last_a = sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer)
-                    if last_s:
-                        gibbs_sampled_expert_samples['next_obs'][-1] = last_s
+                    probs_sa_gt_sa_j = sa_distr_samples['nxtobs_sa_distr'][-1].tolist() 
+                    last_s,last_a = sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer) 
+                    if last_s: 
+                        last_s = get_state_from_sampled_index(last_s, self.venv) 
+                        gibbs_sampled_expert_samples['next_obs'][-1] = last_s 
 
                         # update ground truth trajectory GT_traj to get Gibbs sampler for next iteration of while loop 
                         GT_traj[len(expert_samples['obs'])][0] = last_s
@@ -604,7 +633,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
                     # update lat_avg variable to get normed delta for next iteration 
                     last_avg_disc_logits = avg_disc_logits
-
 
                 wr_str = " normed_delta_avg_disc_logits converged in {}".format(round(( time.time()- start_tm_disc_train)/60,2)) 
                 writer.write(str(wr_str)+"\n")    
