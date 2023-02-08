@@ -1078,6 +1078,35 @@ def calc_LBA(venv, policy_acts, policy_acts_reference=None):
 
     return LBA
 
+def calc_LBA_cont_states_discrete_act(venv, expert_policy, learner_policy):
+    '''
+    Calculate monte carlo integration estimate for LBA in continuous state discrete action domain 
+    LBA = 1/(size of state space)*sum_over_partions(integral_over_partition)
+    where integral_over_partition = 
+    (size of partition) * 1/(number of samples)*sum_over_samples(indicator(learner_action = expert_action for sampled state))
+
+    '''
+
+    get_actions_expert = _policy_to_callable(expert_policy, venv)
+    get_actions_learner = _policy_to_callable(learner_policy, venv)
+    state_space_partitions = venv.env_method(method_name='state_space_partitions',indices=[0]*venv.num_envs)[0]
+    
+    sum_estimate = 0
+    for ind_part in range(len(state_space_partitions)):
+        
+        sampled_states, size_part = venv.env_method(method_name='discrete_samples_to_estimate_integral',indices=[0]*venv.num_envs,ind=ind_part)[0]
+        sum_estimate_part = 0
+        for sampled_state in sampled_states:
+            if (get_actions_expert(sampled_state).item() == get_actions_learner(sampled_state).item()):
+                sum_estimate_part += 1
+        
+        sum_estimate += size_part*1/len(sampled_states)*sum_estimate_part
+
+    state_space_size = venv.env_method(method_name='state_space_size',indices=[0]*venv.num_envs)[0]
+
+    return 1/(state_space_size)*sum_estimate
+
+
 def create_flattened_gibbs_stepdistr(
     venv: VecEnv,
     gen_algo: BaseAlgorithm,

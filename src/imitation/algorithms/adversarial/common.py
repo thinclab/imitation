@@ -432,18 +432,21 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                                 if j==0:
                                     P_s_prevs_preva = 1.0
                                 else: 
+                                    # for continuous state space, this call has s as a continuous state but sp as a partition for state space
                                     P_s_prevs_preva = self.venv.env_method(method_name='P_sasp',indices=0,s=GT_traj[j-1][0],a=GT_traj[j-1][1],sp=s)[0]
 
                                 if j==len(GT_traj)-1:
                                     # GT_traj[j+1] is empty for len(GT_traj)-1 index
                                     P_nexts_s_a = 1.0 
                                 else: 
+                                    # for continuous state space, this call has s as a partition for state space but sp as a continuous state
                                     P_nexts_s_a = self.venv.env_method(method_name='P_sasp',indices=0,s=s,a=a,sp=GT_traj[j+1][0])[0] 
                                 
                                 if j==len(GT_traj)-1: 
                                     # obsvd_traj.acts is empty at len(GT_traj)-1
                                     P_obssa_GTsa = 1.0
                                 else:
+                                    # for continuous state space, this call has sg as a partition for state space but so as a continuous state 
                                     P_obssa_GTsa = self.venv.env_method(method_name='obs_model',indices=0,sg=s,ag=a,so=expert_samples_batch['obs'][j].item(),ao=expert_samples_batch['acts'][j].item())[0] 
 
                                 s_th = th.as_tensor([s], device=self.gen_algo.device) 

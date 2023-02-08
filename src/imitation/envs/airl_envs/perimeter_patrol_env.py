@@ -316,11 +316,7 @@ class PatrolModel(DiscreteEnv):
         ag: ground truth action
 
         returns: 
-        (dictionary format of return gets stuck in vector env method calls)
-        a list of tuples where each tuple has 
-        so: observed state
-        ao: observed action
-        p:  probability of observing so and ao
+        probability of observing the input
 
         '''
         state_arr = self._stateList[sg].location
@@ -353,12 +349,12 @@ class PatrolModel(DiscreteEnv):
 
         a_new = a
         if act == 'PatrolActionMoveForward':
-            if random.random() < self.insertNoiseprob:
+            if random.uniform(0.0, 1.0) < self.insertNoiseprob:
                 a_new = self._actionList.index('PatrolActionTurnLeft')
 
         # if act == 'PatrolActionTurnLeft' and (state_arr[0]==0 or state_arr[1]==0):
         if act == 'PatrolActionTurnRight':
-            if random.random() < self.insertNoiseprob:
+            if random.uniform(0.0, 1.0) < self.insertNoiseprob:
                 a_new = self._actionList.index('PatrolActionMoveForward')
 
         return (s,a_new)

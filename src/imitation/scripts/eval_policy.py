@@ -157,6 +157,7 @@ def eval_policy(
 
 @eval_policy_ex.command
 def lba_for_det_act_list_from_policypath(_run, policy_path: str):
+    # only for discrete state and discrete action domains 
 
     _seed = 0
     env_name = _run.config["common"]["env_name"]

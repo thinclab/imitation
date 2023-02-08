@@ -218,7 +218,15 @@ def train_adversarial(
         # appender = open(filename, "a")
         # appender.write(str(LBA)+"\n")
         # appender.close()
+    elif env_name == "imitationNM/DiscretizedStateMountainCar-v0": 
+        # LBA for continuous state discrete action domain 
+        if demonstration_policy_path:
+            policy_type = "ppo"
+            policy = serialize.load_policy(policy_type, demonstration_policy_path, venv)
 
+            LBA = rollout.calc_LBA_cont_states_discrete_act(venv, expert_policy=policy, learner_policy=trainer.policy)
+        else:
+            raise ValueError("demonstration path is necessary to compute LBA for continuous state discrete action domain")
     else:
         stats = train.eval_policy(trainer.policy, trainer.venv_train) 
 

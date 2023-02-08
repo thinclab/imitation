@@ -279,7 +279,7 @@ class SortingOnions(DiscreteEnv):
         noisy_s = self._stateList[s]
         aa = self._actions[a]
         insertNoiseprob = 0.3
-        if random.random() < insertNoiseprob:
+        if random.uniform(0.0, 1.0) < insertNoiseprob:
             if ((ss._prediction == 0) and aa==PlaceInBin()):
                 aa = PlaceOnConveyor()
             elif ((ss._prediction == 0) and aa==PlaceOnConveyor()):

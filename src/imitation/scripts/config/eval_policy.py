@@ -115,6 +115,12 @@ def perimeter_patrol():
     eval_n_timesteps = 2048 
     # eval_n_timesteps = 256 
 
+@eval_policy_ex.named_config
+def discretized_state_mountain_car():
+    common = dict(env_name = "imitationNM/DiscretizedStateMountainCar-v0")
+    eval_n_timesteps = 2048 
+
+
 # @eval_policy_ex.named_config
 # def rollouts_from_policylist_and_save_only_defaults(log_dir):
 
