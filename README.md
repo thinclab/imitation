@@ -2,17 +2,26 @@ This is forked and modified from https://github.com/HumanCompatibleAI/imitation 
 
 # Installation 
 
-Set up conda environment
-conda env create -f env_HumanCompatibleAIpy3.8.yml
+1) git clone http://github.com/thinclab/imitation
 
-The code is designed to work with a modifed version of stable baselines, https://github.com/thinclab/stable-baselines3 . It is customized to accommodate discrete state discrete action gym environments. Install that repository:  
+2) Set up conda environment and activate it
+
+conda env create -f env_HumanCompatibleAIpy3.8.yml python=3.8
+conda activate HumanCompatibleAIpy3.8
+
+3) The code is designed to work with a modifed version of stable baselines, https://github.com/thinclab/stable-baselines3 . It is customized to accommodate discrete state discrete action gym environments. Install that repository:  
+
 git clone https://github.com/thinclab/stable-baselines3
+
 cd stable-baselines3
+
 pip install -e .
 
 
-git clone http://github.com/thinclab/imitation
+4) Now setup imitation library
+
 cd imitation
+
 pip install -e .
 
 
