@@ -148,6 +148,12 @@ def sorting_onions():
     total_timesteps = int(5e5) # int(5e4) 
     normalize_reward = False 
 
+
+@train_rl_ex.named_config
+def discretized_state_mountain_car():
+    common = dict(env_name = "imitationNM/DiscretizedStateMountainCar-v0", _seed=0)
+    rl = dict(_seed=0)
+
 # Debug configs
 
 

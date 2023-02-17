@@ -185,6 +185,15 @@ def perimeter_patrol():
     rl = dict(batch_size=2048)
     algo_cls = 'airl'
 
+@train_adversarial_ex.named_config
+def discretized_state_mountain_car():
+    common = dict(env_name="imitationNM/DiscretizedStateMountainCar-v0",num_vec = 4)
+    algorithm_kwargs = dict(
+        allow_variable_horizon = True,
+    )
+    rl = dict(batch_size=2048)
+    algo_cls = 'airl'
+
 # Debug configs
 
 @train_adversarial_ex.named_config

@@ -46,6 +46,10 @@ The learned behavior accuracy is measure of match between action choices of expe
 
 Each trial of online AIRL should generate an array of LBA values. Code averges these values  over all trials, resulting in an array of (average, stddev) value per session. This value should go higher with more sessions eventually plateauing. 
 
+# Troubleshooting
+
+For environments like mountain car, you can render learned policy using eval_policy. If it raises libGL error like https://stackoverflow.com/questions/72110384/libgl-error-mesa-loader-failed-to-open-iris , please follow solution solve.. shell script file
+
 # Citations (BibTeX)
 ```
 @misc{arora2022imitation,

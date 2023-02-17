@@ -11,8 +11,12 @@ import numpy as np
 # a,b = np.array([-1,-1]),np.array([1,1])
 # print(np.prod(b-a))
 
-from scipy.stats import multivariate_normal
-x, y = np.mgrid[-1:1:.01, -1:1:.01]
-pos = np.dstack((x, y))
-rv = multivariate_normal([0.5, -0.2], [[0.1, 0.0], [0.0, 0.1]])
-print(rv.pdf(np.array([0.5, -0.2])))
+# from scipy.stats import multivariate_normal
+# x, y = np.mgrid[-1:1:.01, -1:1:.01]
+# pos = np.dstack((x, y))
+# rv = multivariate_normal([0.5, -0.2], [[0.1, 0.0], [0.0, 0.1]])
+# print(rv.pdf(np.array([0.5, -0.2])))
+
+# sum_size_parts_rd = np.round(0.25200000405311584,3)
+sum_size_parts_rd = float(str(0.25200000405311584)[:len(str(0.001))])
+print(sum_size_parts_rd)

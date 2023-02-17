@@ -1,0 +1,16 @@
+
+# Discretized mountain car domain:
+
+## Expert's policy 
+
+It is saved in: 'output/train_rl/imitationNM_DiscretizedStateMountainCar-v0/20230213_162249_183501/policies/000001000000'
+
+Corresponding epi_reward_mean plot data is in 'train_rl/imitationNM_DiscretizedStateMountainCar-v0/20230213_162249_183501/log'
+
+Using this path is tests/test_mountain_car_policy_render.py file can show some example trajectories 
+
+## LBA for noise free input 
+
+Generate rollouts for above policy with noise insertion set False
+
+Run ai2rl on these rollouts 

@@ -12,7 +12,7 @@ from stable_baselines3.common.utils import check_for_correct_spaces
 from stable_baselines3.common.vec_env import VecEnv
 
 from imitation.data import types
-
+import gym
 
 def unwrap_traj(traj: types.TrajectoryWithRew) -> types.TrajectoryWithRew:
     """Uses `RolloutInfoWrapper`-captured `obs` and `rews` to replace fields.
@@ -362,20 +362,20 @@ def generate_trajectories(
     distinct_noised_sa_pairs_list = []
     distinct_sa_pairs_list = []
     dones_counter = 0
-
+    
     active = np.ones(venv.num_envs, dtype=bool)
     while np.any(active):
         acts = get_actions(obs)
         next_obs, rews, dones, infos = venv.step(acts)
+        if not isinstance(venv.observation_space, gym.spaces.Box): # it doesn't make sense to count distinct values in a continuous /Box space  
+            for i in range(len(obs)):
+                s,a = obs[i],acts[i]
+                if (s,a) not in distinct_sa_pairs_list:
+                    distinct_sa_pairs_list.append((s,a))
 
-        for i in range(len(obs)):
-            s,a = obs[i],acts[i]
-            if (s,a) not in distinct_sa_pairs_list:
-                distinct_sa_pairs_list.append((s,a))
+                if dones[i]:
 
-            if dones[i]:
-
-                dones_counter += 1
+                    dones_counter += 1
 
         if noise_insertion: 
             for i in range(len(obs)):
@@ -383,8 +383,9 @@ def generate_trajectories(
                 if noisy_ob != obs[i] or noisy_act != acts[i]:
                     # print("noise inserted") 
                     obs[i], acts[i] = noisy_ob, noisy_act
-                    if (obs[i], acts[i]) not in distinct_noised_sa_pairs_list:
-                        distinct_noised_sa_pairs_list.append((obs[i], acts[i]))
+                    if not isinstance(venv.observation_space, gym.spaces.Box): 
+                        if (obs[i], acts[i]) not in distinct_noised_sa_pairs_list:
+                            distinct_noised_sa_pairs_list.append((obs[i], acts[i]))
 
         # If an environment is inactive, i.e. the episode completed for that
         # environment after `sample_until(trajectories)` was true, then we do
@@ -409,10 +410,11 @@ def generate_trajectories(
             # environments where a trajectory was completed this timestep.
             active &= ~dones
     
-    total_sa_pairs =venv.observation_space.n*venv.action_space.n
-    print("rolling out done, number of distinct s-a pairs {} total s-a pairs {} \n".format(len(distinct_sa_pairs_list),total_sa_pairs)) 
-    print("number of done trajectories {} \n".format(dones_counter)) 
-
+    if not isinstance(venv.observation_space, gym.spaces.Box): 
+        total_sa_pairs =venv.observation_space.n*venv.action_space.n
+        print("rolling out done, number of distinct s-a pairs {} total s-a pairs {} \n".format(len(distinct_sa_pairs_list),total_sa_pairs)) 
+        print("number of done trajectories {} \n".format(dones_counter)) 
+        print("(number of distinct noisy s-a pairs)/(total s-a pairs) ",len(distinct_noised_sa_pairs_list)/total_sa_pairs)
 
     # Note that we just drop partial trajectories. This is not ideal for some
     # algos; e.g. BC can probably benefit from partial trajectories, too.
@@ -438,8 +440,6 @@ def generate_trajectories(
         exp_rew = (n_steps,)
         real_rew = trajectory.rews.shape
         assert real_rew == exp_rew, f"expected shape {exp_rew}, got {real_rew}"
-
-    print("(number of distinct noisy s-a pairs)/(total s-a pairs) ",len(distinct_noised_sa_pairs_list)/total_sa_pairs)
 
     return trajectories
 
@@ -1104,7 +1104,11 @@ def calc_LBA_cont_states_discrete_act(venv, expert_policy, learner_policy):
 
     state_space_size = venv.env_method(method_name='state_space_size',indices=[0]*venv.num_envs)[0]
 
-    return 1/(state_space_size)*sum_estimate
+    lba_0_to_1 = 1/(state_space_size)*round(sum_estimate,3)
+
+    assert (lba_0_to_1>=0 and lba_0_to_1 <= 1),f"lba computation mistake. it should be between 0 and 1, got {lba_0_to_1}"
+
+    return lba_0_to_1*100
 
 
 def create_flattened_gibbs_stepdistr(

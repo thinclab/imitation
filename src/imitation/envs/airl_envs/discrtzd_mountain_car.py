@@ -36,14 +36,14 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
 
         low_position = self.min_position
         low_array[0] = low_position
-        for i in range(1,D):
-            high_position = low_position + i*(self.max_position -self.min_position)/D
+        for i in range(1,D+1):
+            high_position = low_position + (self.max_position -self.min_position)/D
             high_array[0] = high_position
 
             low_speed = -self.max_speed
             low_array[1] = low_speed
-            for i in range(1,D):
-                high_speed = low_speed + i*(self.max_speed-(-self.max_speed))/D
+            for i in range(1,D+1):
+                high_speed = low_speed + (self.max_speed-(-self.max_speed))/D
                 high_array[1] = high_speed
                 # create box
                 self._obs_sp_partitions.append(spaces.Box(low_array, high_array, dtype=np.float32))
@@ -57,6 +57,19 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
             low_array[0] = low_position
 
         self.insertNoiseprob = 0.25
+
+        size_parts = [] 
+        for part_ind in range(len(self._obs_sp_partitions)):
+            _, size = self.discrete_samples_to_estimate_integral(part_ind)
+            size_parts.append(size) 
+        
+        state_space_size = self.state_space_size()
+        # sum_size_parts_rd = np.round(sum(size_parts),3) 
+        # writing hack below as round function didn't work as expected. this hack applies to only this state space and these partitions. 
+        sum_size_parts_rd = float(str(sum(size_parts))[:len(str(0.001))])
+
+        assert (state_space_size == sum_size_parts_rd),f"size of whole space {state_space_size} should be sum of parts {sum_size_parts_rd}"
+
 
     def find_partition(self,s):
         # finds the index of the partition an input state belong to 
@@ -225,6 +238,8 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
 
     def state_space_size(self):
         # return the size of overall state space
-        low_array = self.observation_space.low
-        high_array = self.observation_space.high
+        # low_array = self.observation_space.low 
+        low_array = np.array([self.min_position, -self.max_speed])
+        # high_array = self.observation_space.high 
+        high_array = np.array([self.max_position, self.max_speed])
         return np.prod(high_array-low_array)

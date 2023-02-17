@@ -227,6 +227,10 @@ def train_adversarial(
             LBA = rollout.calc_LBA_cont_states_discrete_act(venv, expert_policy=policy, learner_policy=trainer.policy)
         else:
             raise ValueError("demonstration path is necessary to compute LBA for continuous state discrete action domain")
+        
+        
+        # following call will work only if multiple episodes are guaranteed to be done, that is not guaraneteed in mountain car policy 
+        # stats = train.eval_policy(trainer.policy, trainer.venv_train) 
     else:
         stats = train.eval_policy(trainer.policy, trainer.venv_train) 
 

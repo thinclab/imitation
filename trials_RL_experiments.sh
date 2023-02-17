@@ -1,9 +1,10 @@
 # format
-# python -m imitation.scripts.train_rl with sorting_onions common.fast train.fast rl.fast fast common.log_dir=quickstart/rl/
+# python -m imitation.scripts.train_rl with discretized_state_mountain_car common.fast train.fast rl.fast fast common.log_dir=quickstart/rl/
 
 for i in {1..10}
 do
-    python -m imitation.scripts.train_rl with perimeter_patrol
+    python -m imitation.scripts.train_rl with discretized_state_mountain_car
+
     echo ""
 done
 

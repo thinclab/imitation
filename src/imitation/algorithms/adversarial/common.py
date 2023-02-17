@@ -375,7 +375,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 import git 
                 import math 
                 import gym
-                import torch as th
                 import itertools
 
                 start_tm_disc_train = time.time()
@@ -656,6 +655,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             self._disc_step += 1
 
             # compute/write stats and TensorBoard data
+            import torch as th
             with th.no_grad():
                 train_stats = compute_train_stats(
                     disc_logits,

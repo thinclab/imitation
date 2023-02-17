@@ -31,7 +31,7 @@ def config():
 
     # Environment config
     # env_name = "seals/CartPole-v0"  # environment to train on
-    env_name="imitationNM/SortingOnions-v0"
+    env_name = "imitationNM/SortingOnions-v0"
     num_vec = 8  # number of environments in VecEnv
     parallel = True  # Use SubprocVecEnv rather than DummyVecEnv
     max_episode_steps = None  # Set to positive int to limit episode horizons
