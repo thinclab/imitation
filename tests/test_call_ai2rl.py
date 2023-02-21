@@ -96,8 +96,9 @@ def incremental_train_adversarial(
 
     # second call onwards every call should pick next demonstration and gen_policy checkpoint from previous call
     for i in range (1,len(rollout_paths)):
-        if i > hard_lmt_sessioncount: 
-            break
+        if hard_lmt_sessioncount is not None:
+            if i > hard_lmt_sessioncount: 
+                break
 
         config_updates = {
             "agent_path": agent_path,
@@ -267,7 +268,7 @@ def run_trials_ai2rl(
 if __name__ == '__main__':
 
     ## setting hyper parameters for training ##
-    num_trials = 6
+    num_trials = 7
 
     # perimeter patrol env
     patrol_named_config_env = 'perimeter_patrol' 
@@ -285,11 +286,11 @@ if __name__ == '__main__':
 
     # discretized statespace mountain car env
     dmc_named_config_env = 'discretized_state_mountain_car' 
-    dmc_demonstration_policy_path = parent_of_output_dir+'/output/train_rl/imitationNM_DiscretizedStateMountainCar-v0/set2_policy/20230217_141758_a70bb2/policies/final'
-    dmc_rootdir_noisefree_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/set2" 
+    dmc_demonstration_policy_path = parent_of_output_dir+'/output/train_rl/imitationNM_DiscretizedStateMountainCar-v0/set3_policy/20230217_160919_a9fee2/policies/final'
+    dmc_rootdir_noisefree_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/set3" 
     # dmc_rootdir_noisy_input = 
     dmc_total_timesteps_per_session = int(2048)
-    dmc_hard_lmt_sessioncount=32
+    dmc_hard_lmt_sessioncount= None
 
     # wdGibbsSamp = True
     # needed to run this with wdGibbsSamp = True before running run_trials_ai2rl with wdGibbsSamp = True
