@@ -72,7 +72,6 @@ def incremental_train_adversarial(
         "demonstration_policy_path": demonstration_policy_path,
         "wdGibbsSamp": wdGibbsSamp,
         "threshold_stop_Gibbs_sampling": threshold_stop_Gibbs_sampling,
-        "sa_distr_read": True,
         "total_timesteps": total_timesteps_per_session,
     }
     start_time_session = time.time()
@@ -106,7 +105,6 @@ def incremental_train_adversarial(
             "demonstration_policy_path": demonstration_policy_path,
             "wdGibbsSamp": wdGibbsSamp,
             "threshold_stop_Gibbs_sampling": threshold_stop_Gibbs_sampling,
-            "sa_distr_read": True,
             "total_timesteps": total_timesteps_per_session,
         }
         start_time_session = time.time()
@@ -215,55 +213,6 @@ def run_trials_ai2rl(
     
     return 
 
-# def save_sa_distr_all_sessions(
-#     rootdir: str,
-#     demonstration_policy_path: str,
-#     named_configs_in: list,
-#     threshold_stop_Gibbs_sampling: float,
-#     total_timesteps_per_session: int
-#     ):
-
-#     # create arrays of rollout paths and names of rollout directories from rootdir 
-#     rollout_paths = []
-#     for subdir, dirs, files in os.walk(rootdir):
-#         if 'rollouts' in subdir:
-#             rollout_paths.append(subdir+"/final.pkl")
-
-#     config_updates = {
-#         "agent_path": None,
-#         "demonstrations": dict(rollout_path=rollout_paths[0]),
-#         "demonstration_policy_path": demonstration_policy_path,
-#         "wdGibbsSamp": True,
-#         "threshold_stop_Gibbs_sampling": threshold_stop_Gibbs_sampling,
-#         "sa_distr_read": False,
-#         "total_timesteps": total_timesteps_per_session,
-#     }
-
-#     # save sadistr without running training 
-#     run = train_adversarial.train_adversarial_ex.run(
-#         command_name='airl',
-#         named_configs=named_configs_in,
-#         config_updates=config_updates,
-#     )
-
-#     # as we are saving files without running training, we don't need to update agent_path
-#     for i in range (1,len(rollout_paths)):
-#         config_updates = {
-#             "agent_path": None,
-#             "demonstrations": dict(rollout_path=rollout_paths[i]),
-#             "demonstration_policy_path": demonstration_policy_path,
-#             "wdGibbsSamp": True,
-#             "threshold_stop_Gibbs_sampling": threshold_stop_Gibbs_sampling,
-#             "sa_distr_read": False,
-#         } 
-
-#         run = train_adversarial.train_adversarial_ex.run(
-#             command_name='airl',
-#             named_configs=named_configs_in,
-#             config_updates=config_updates,
-#         ) 
-
-#     return 
 
 if __name__ == '__main__':
 
@@ -287,23 +236,18 @@ if __name__ == '__main__':
     # discretized statespace mountain car env
     dmc_named_config_env = 'discretized_state_mountain_car' 
     dmc_demonstration_policy_path = parent_of_output_dir+'/output/train_rl/imitationNM_DiscretizedStateMountainCar-v0/set3_policy/20230217_160919_a9fee2/policies/final'
-    dmc_rootdir_noisefree_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/set3" 
-    # dmc_rootdir_noisy_input = 
+    dmc_rootdir_noisefree_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noisy_free/set3" 
+    dmc_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noisy/set9_400perChPos&Spd_&Action0.99Prb" 
     dmc_total_timesteps_per_session = int(2048)
     dmc_hard_lmt_sessioncount= None
-
-    # wdGibbsSamp = True
-    # needed to run this with wdGibbsSamp = True before running run_trials_ai2rl with wdGibbsSamp = True
-    # save_sa_distr_all_sessions(rootdir=patrol_rootdir_noisy_input,\
-    #         demonstration_policy_path=patrol_demonstration_policy_path,named_configs_in=[patrol_named_config_env],\
-    #         threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling, total_timesteps_per_session=patrol_total_timesteps_per_session)
-    # exit(0)
 
     named_config_env = dmc_named_config_env
     avg_lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
     # avg_lba_fileh = create_file(avg_lba_filename)        
     threshold_stop_Gibbs_sampling = 0.0375 
     wdGibbsSamp = False 
+    if not wdGibbsSamp:
+        threshold_stop_Gibbs_sampling = None
 
     # memory_limit() # Limits RAM usage 
     try:
@@ -312,7 +256,7 @@ if __name__ == '__main__':
         lists_config_method_names = [[]]
         for list_config_method_names in lists_config_method_names:  
             named_configs_in = [dmc_named_config_env] + list_config_method_names  
-            run_trials_ai2rl(num_trials=num_trials,rootdir=dmc_rootdir_noisefree_input,\
+            run_trials_ai2rl(num_trials=num_trials,rootdir=dmc_rootdir_noisy_input,\
                     demonstration_policy_path=dmc_demonstration_policy_path,named_configs_in=named_configs_in,\
                     wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
                     total_timesteps_per_session=dmc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\

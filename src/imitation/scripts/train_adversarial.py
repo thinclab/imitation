@@ -77,8 +77,7 @@ def train_adversarial(
     agent_path: Optional[str],
     demonstration_policy_path: Optional[str],
     wdGibbsSamp: bool,
-    threshold_stop_Gibbs_sampling: float, 
-    sa_distr_read: bool
+    threshold_stop_Gibbs_sampling: float
 ) -> Mapping[str, Mapping[str, float]]:
     """Train an adversarial-network-based imitation learning algorithm.
 
@@ -148,28 +147,8 @@ def train_adversarial(
     path_to_sadistr_files = str(git_home)
     # path_to_sadistr_files = '/content/drive/MyDrive/ColabNotebooks'
 
-    if wdGibbsSamp:
-        ### multiple Gibbs sample per traj ###
-
-        # rollout path
-        rollout_path = _run.config["demonstrations"]["rollout_path"]
-        # sa_distr_pickle_filename is same as 22 letters before /rollouts/final.pkl in rollout_path
-        sa_distr_pickle_filename = rollout_path[:-len("/rollouts/final.pkl")][-22:]
-        
-        if sa_distr_read:
-            # read distribution for running training
-            with open(path_to_sadistr_files+"/sa_distr_pickled_files/"+str(env_name)+"/"+sa_distr_pickle_filename+'.pickle', 'rb') as handle:
-                sadistr_per_transition = pickle.load(handle)
-        else:
-            # create flattened sa_distr per transition and save
-            sadistr_per_transition = rollout.create_flattened_gibbs_stepdistr(venv, gen_algo, expert_trajs)
-            # save distribution 
-            os.makedirs(path_to_sadistr_files+"/sa_distr_pickled_files/"+str(env_name), exist_ok=True)
-            with open(path_to_sadistr_files+"/sa_distr_pickled_files/"+str(env_name)+"/"+sa_distr_pickle_filename+'.pickle', 'wb') as handle:
-                pickle.dump(sadistr_per_transition, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-            # do not run training
-            return
+    if not wdGibbsSamp:
+        threshold_stop_Gibbs_sampling = None
 
     trainer = algo_cls(
         venv=venv,
@@ -178,7 +157,6 @@ def train_adversarial(
         log_dir=log_dir,
         reward_net=reward_net,
         custom_logger=custom_logger,
-        sadistr_per_transition = sadistr_per_transition, 
         threshold_stop_Gibbs_sampling = threshold_stop_Gibbs_sampling, 
         **algorithm_kwargs,
     )

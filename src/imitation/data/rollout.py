@@ -380,7 +380,7 @@ def generate_trajectories(
         if noise_insertion: 
             for i in range(len(obs)):
                 (noisy_ob,noisy_act) = venv.env_method(method_name='insertNoise',indices=0,s=obs[i],a=acts[i])[0]
-                if noisy_ob != obs[i] or noisy_act != acts[i]:
+                if np.any(noisy_ob != obs[i]) or noisy_act != acts[i]:
                     # print("noise inserted") 
                     obs[i], acts[i] = noisy_ob, noisy_act
                     if not isinstance(venv.observation_space, gym.spaces.Box): 

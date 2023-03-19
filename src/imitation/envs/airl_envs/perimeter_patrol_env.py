@@ -252,8 +252,11 @@ class PatrolModel(DiscreteEnv):
         return policy_acts_expert
 
     def step_sa(self, s, a):
+        current_s_backup = self.s
         self.s = s
-        return self.step(a) 
+        result = self.step(a)  
+        self.s = current_s_backup
+        return result
 
     def step(self, a):
         self._timestep += 1

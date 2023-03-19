@@ -122,7 +122,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         init_tensorboard_graph: bool = False,
         debug_use_ground_truth: bool = False,
         allow_variable_horizon: bool = False,
-        sadistr_per_transition: Union[Iterable[Mapping], types.SADistr] = None,
         threshold_stop_Gibbs_sampling: float,
     ):
         """Builds AdversarialTrainer.
@@ -171,9 +170,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 condition, and can seriously confound evaluation. Read
                 https://imitation.readthedocs.io/en/latest/guide/variable_horizon.html
                 before overriding this.
-            sadistr_per_transition: dictionary of timestep specific arrays containing
-                'Gibbs distribution probabilties for s-a pairs' at current timestep / obs 
-                and next timestep / nextobs. (can be created using transition dynamics)
         """
         self.demo_batch_size = demo_batch_size
         self._demo_data_loader = None
@@ -244,20 +240,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             self.venv,
         )
 
-        self.sa_distr_data_loader = None
-        self._endless_sa_distr_iterator = None 
         self.threshold_stop_Gibbs_sampling = threshold_stop_Gibbs_sampling
-        if sadistr_per_transition:
-            import torch.utils.data as th_data
-
-            # set loader of gibbs s-a distribution probability values 
-            self.sa_distr_data_loader = th_data.DataLoader(
-                sadistr_per_transition,
-                batch_size=self.demo_batch_size,
-                shuffle=False,
-                drop_last=True,
-            )
-            self._endless_sa_distr_iterator = util.endless_iter(self.sa_distr_data_loader)
 
     @property
     def policy(self) -> policies.BasePolicy:
@@ -312,9 +295,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
     def _next_expert_batch(self) -> Mapping:
         return next(self._endless_expert_iterator)
 
-    def _next_sa_distr_batch(self) -> Mapping:
-        return next(self._endless_sa_distr_iterator)
-
     def train_disc(
         self,
         *,
@@ -354,7 +334,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 gen_samples = self._gen_replay_buffer.sample(self.demo_batch_size)
                 gen_samples = types.dataclass_quick_asdict(gen_samples)
 
-            if not self.sa_distr_data_loader:
+            if not self.threshold_stop_Gibbs_sampling:
                 # code without Gibbs sampling 
 
                 # compute loss
@@ -370,6 +350,8 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     batch["log_policy_act_prob"],
                 )
             else:
+                # disc_logits to eb computed via Gibbs sampling 
+
                 import time 
                 from torch.distributions import Categorical 
                 import git 
@@ -379,7 +361,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
                 start_tm_disc_train = time.time()
 
-                # disc_logits via Gibbs sampling 
                 repo = git.Repo('.', search_parent_directories=True) 
                 git_home = repo.working_tree_dir 
 
@@ -395,8 +376,8 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     if isinstance(venv.observation_space, gym.spaces.Discrete):
                         return self.venv.observation_space.n
                     elif isinstance(venv.observation_space, gym.spaces.Box): 
-                        # TODO: return the total number of space partitions 
-                        return None
+                        num_parts = len(self.venv.env_method(method_name='state_space_partitions',indices=0)[0])
+                        return num_parts
                     else:
                         raise TypeError("Unsupported type of state space")
 
@@ -519,8 +500,8 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     if isinstance(venv.observation_space, gym.spaces.Discrete):
                         return s 
                     elif isinstance(venv.observation_space, gym.spaces.Box): 
-                        # TODO: get state from sampled index s of space partition
-                        return None
+                        cont_st = self.venv.env_method(method_name='sample_random_state_from_partition',indices=0,ind=s)[0] 
+                        return cont_st
                     else:
                         raise TypeError("Unsupported type of state space")
 
