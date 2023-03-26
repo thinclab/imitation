@@ -236,8 +236,8 @@ if __name__ == '__main__':
     # discretized statespace mountain car env
     dmc_named_config_env = 'discretized_state_mountain_car' 
     dmc_demonstration_policy_path = parent_of_output_dir+'/output/train_rl/imitationNM_DiscretizedStateMountainCar-v0/set3_policy/20230217_160919_a9fee2/policies/final'
-    dmc_rootdir_noisefree_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noisy_free/set3" 
-    dmc_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noisy/set9_400perChPos&Spd_&Action0.99Prb" 
+    dmc_rootdir_noisefree_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noise_free/set3_100sessions" 
+    dmc_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noisy/set8_200perChPos&Spd_&Action0.99Prb_100sessions" 
     dmc_total_timesteps_per_session = int(2048)
     dmc_hard_lmt_sessioncount= None
 
@@ -245,7 +245,7 @@ if __name__ == '__main__':
     avg_lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
     # avg_lba_fileh = create_file(avg_lba_filename)        
     threshold_stop_Gibbs_sampling = 0.0375 
-    wdGibbsSamp = False 
+    wdGibbsSamp = True 
     if not wdGibbsSamp:
         threshold_stop_Gibbs_sampling = None
 
@@ -265,4 +265,3 @@ if __name__ == '__main__':
     except MemoryError:
         sys.stderr.write('\n\nERROR: Memory Exception\n')
         sys.exit(1)
-

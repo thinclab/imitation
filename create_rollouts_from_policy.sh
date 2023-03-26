@@ -6,9 +6,10 @@
 
 # Discretized Mountain Car 
 policypath="/home/saurabh/Desktop/Phd_research_work/imitation/output/train_rl/imitationNM_DiscretizedStateMountainCar-v0/set3_policy/20230217_160919_a9fee2/policies/final"
-noiseinsertion=True
+# noiseinsertion=True
+noiseinsertion=False
 
-for i in {1..1} #50}
+for i in {1..100}
 do
     # PPO learned policy 
     # python -m imitation.scripts.eval_policy eval_policy with perimeter_patrol policy_path=$policypath noise_insertion=$noiseinsertion

@@ -3,6 +3,10 @@ from numpy import *
 from gym import Env, spaces
 import numpy as np
 import math 
+import collections
+import concurrent.futures
+import sys
+import time
 
 class DiscretizedStateMountainCarEnv(MountainCarEnv):
     '''
@@ -17,7 +21,7 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
         > observation or noise insertion model that moves cart position by 10% of positionSpan/D 
 
     '''
-    def __init__(self, D=10, n_smp_pr_dim=20):
+    def __init__(self, D=10, n_smp_pr_dim=5):
         '''
         D: number of partitions of each double bounded dimension of state
         n_smp_pr_dim: number of discrete samples per dimension to be used in estimating value of a continuous integral 
@@ -111,8 +115,9 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
                 position += i*(high_array[0]-low_array[0])/self._n_smp_pr_dim
         else:
             # uniformly sampled 
-            for i in range(self._n_smp_pr_dim**self.num_dims):
-                list_states.append(self.sample_random_state_from_partition(ind))
+            low_array = self._obs_sp_partitions[ind].low
+            high_array = self._obs_sp_partitions[ind].high
+            list_states = np.random.uniform(low_array,high_array,(self._n_smp_pr_dim**self.num_dims,self.num_dims))
 
         return list_states,np.prod(high_array-low_array)
 
@@ -122,10 +127,6 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
     def intended_next_state(self, state_in, action_in: int):
         # copy of step without actually moving to next state 
         
-        assert self.action_space.contains(
-            action_in
-        ), f"{action_in!r} ({type(action_in)}) invalid"
-
         position, velocity = state_in
         velocity += (action_in - 1) * self.force + math.cos(3 * position) * (-self.gravity)
         velocity = np.clip(velocity, -self.max_speed, self.max_speed)
@@ -134,23 +135,16 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
         if position == self.min_position and velocity < 0:
             velocity = 0
 
-        terminated = bool(
-            position >= self.goal_position and velocity >= self.goal_velocity
-        )
-        reward = -1.0
-
         next_state = (position, velocity)
-        if self.render_mode == "human":
-            self.render()
 
         return np.array(next_state, dtype=np.float32)
 
     def P_sasp(self,s,a,sp):
         '''
         input args: 
-        s: either current timestep partition index or state
+        s: current timestep state
         a: current discrete action
-        sp: either next timestep partition index or state
+        sp: next timestep partition index
 
         returns:
         transition probability
@@ -161,44 +155,146 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
         size_Sg = 0
         num_samples = 0
 
+        # P_s_prevs_preva term in Gibbs sampler product on overleaf, integrate over second input
+        samples_nxt_s,size_Sg = self.discrete_samples_to_estimate_integral(sp)
+        num_samples = len(samples_nxt_s)
+        # intended next state is same for all samples because current state and action are not changing 
+        intended_nxt_s = self.intended_next_state(s, a)
+        for nxt_st in samples_nxt_s:
+            # indicator function checking if the sampled next state is intended next state 
+            if all(nxt_st == intended_nxt_s):
+                sum_monte_carlo += 1
+
+        '''
         # check which input is an index and which one is the state
         # state will be two dimensional but index will be scalar 
-        if len(s) == 2 and len(sp)== 1:
-            # first term in Gibbs sampler product, integrate over second input
+
+        if isinstance(s, (collections.abc.Sequence, np.ndarray)) and not isinstance(sp, (collections.abc.Sequence, np.ndarray)):
+            # P_s_prevs_preva term in Gibbs sampler product, integrate over second input
             samples_nxt_s,size_Sg = self.discrete_samples_to_estimate_integral(sp)
             num_samples = len(samples_nxt_s)
             # intended next state is same for all samples because current state and action are not changing 
             intended_nxt_s = self.intended_next_state(s, a)
-            for st in samples_nxt_s:
+            for nxt_st in samples_nxt_s:
                 # indicator function checking if the sampled next state is intended next state 
-                if st == intended_nxt_s:
+                if all(nxt_st == intended_nxt_s):
                     sum_monte_carlo += 1
             
-        elif len(s) == 1 and len(sp)== 2:
-            # third term in Gibbs sampler product, integrate over first input
+        elif not isinstance(s, (collections.abc.Sequence, np.ndarray)) and isinstance(sp, (collections.abc.Sequence, np.ndarray)):
+            # P_nexts_s_a term in Gibbs sampler product, integrate over first input
             samples_currnt_s,size_Sg = self.discrete_samples_to_estimate_integral(s)
             num_samples = len(samples_currnt_s)
             for st in samples_currnt_s:
                 # intended next state varies because current state varies 
                 intended_nxt_s = self.intended_next_state(st, a)
                 # indicator function checking if the input next state is intended next state for (sampled current state, action) 
-                if sp == intended_nxt_s:
+                if all(sp == intended_nxt_s):
                     sum_monte_carlo += 1
 
         else:
             raise ValueError("invalid input to P_sasp in DiscretizedStateMountainCarEnv")
+        '''
 
         # return (size of state space) * sum/(number of samples) as monte carlo approximation
         return (size_Sg * sum_monte_carlo * 1/(num_samples))
+
+    def P_sasp2(self,s,a,sp):
+        '''
+        input args: 
+        s: current timestep partition index 
+        a: current discrete action
+        sp: next timestep state
+
+        returns:
+        transition probability
+
+        '''
+
+        sum_monte_carlo = 0
+        size_Sg = 0
+        num_samples = 0
+
+        # P_nexts_s_a term in Gibbs sampler product, integrate over first input
+        samples_currnt_s,size_Sg = self.discrete_samples_to_estimate_integral(s)
+        num_samples = len(samples_currnt_s)
+        for st in samples_currnt_s:
+            # intended next state varies because current state varies 
+            intended_nxt_s = self.intended_next_state(st, a)
+            # indicator function checking if the input next state is intended next state for (sampled current state, action) 
+            if all(sp == intended_nxt_s):
+                sum_monte_carlo += 1
+
+        return (size_Sg * sum_monte_carlo * 1/(num_samples))
+
+    ###########################################################
+    def supplementary_P_sasp2(self,tuple_in):
+        st,a,sp = tuple_in
+        intended_nxt_s = self.intended_next_state(st, a)
+        return 1 # if all(sp == intended_nxt_s) else 0
+
+    def P_sasp2_parallel(self,s,a,sp):
         
+        sum_monte_carlo = 0
+        # P_nexts_s_a term in Gibbs sampler product, integrate over first input
+        samples_currnt_s,size_Sg = self.discrete_samples_to_estimate_integral(s)
+        num_samples = len(samples_currnt_s)
+
+        pool = concurrent.futures.ThreadPoolExecutor() 
+        futures = [pool.submit(self.supplementary_P_sasp2, (st,a,sp)) for st in samples_currnt_s]
+        # We must explicitly wait for the calculation to finish for each call
+        sum_monte_carlo = sum([future.result() for future in futures])
+
+        return (size_Sg * sum_monte_carlo * 1/(num_samples))
+
+    ###########################################################
+
+    def P_sasp2_no_intgrl(self,s,a,sp):
+        '''
+        input args: 
+        s: current timestep partition index 
+        a: current discrete action
+        sp: next timestep state
+
+        For both ends of input partition s, we can compute intended next state with action a. 
+        If nexts state sp falls in between these two intended next states, then 
+        prob of sp being next state is same as the probability of picking 'corresponding prev 
+        timestep state' from partition s. 
+
+        returns:
+        transition probability
+
+        '''
+        start_P_sasp2_no_intgrl = time.time()
+
+        low_array = self._obs_sp_partitions[s].low
+        high_array = self._obs_sp_partitions[s].high
+        beg_partition = low_array
+        end_partition = high_array
+
+        beg_intended_nxt_s = self.intended_next_state(beg_partition, a)
+        end_intended_nxt_s = self.intended_next_state(end_partition, a)
+
+        return_v = 0
+        size_s = np.prod(high_array-low_array)
+        if all((sp >= beg_intended_nxt_s) & (sp <= end_intended_nxt_s)):
+            # next state is in between intended states of partition edges 
+            return_v = 1/size_s # chances of picking 'corresponding prev timestep state' from partition s. 
+        else:
+            return_v = 1-1/size_s
+
+        print("time taken in P_sasp2_no_intgrl method {} ".format((time.time()-start_P_sasp2_no_intgrl)/60))
+        return return_v
+
     def insertNoise(self, s, a):
         '''
         input args: 
         s: a continuous state
         a: a discrete action
 
-        this method increases position part of current state by 10% of (position span)/D in 
-        the direction of action (left for action 0, right for action 1), with prob self.insertNoiseprob
+        this method increases position+speed of current state by some percent of (position span)/D in 
+        the direction of action (left for action 0, right for action 1), 
+        and reverses action, 
+        and with prob self.insertNoiseprob
 
         returns:
         (noised continuous state, noised action)
@@ -223,35 +319,47 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
     def obs_model(self, sg, ag, so, ao): 
         '''
         input args: 
-        sg: index for ground truth state partition 
+        sg_ind: index for ground truth state partition 
         ag: ground truth action
         so: observed continuous state
         ao: observed action
+
+        does noise free version of observed state falls in state partition? 
+        if yes, then chances of observed state is same as 
+        (prob of inserting noise) x (chance of noise free version to be ground truth)
+        self.insertNoiseprob x 1/size_sg
 
         returns: 
         probability of observing the input
 
         '''
 
-        if ag == ao: 
-            # action do not have noise insertion, so only state should vary 
-            delta = (self.max_position -self.min_position)*0.1/self._D  
-            #  approximate integral over sg 
-            sum_monte_carlo = 0
-            samples_sg,size_Sg = self.discrete_samples_to_estimate_integral(sg)
-            num_samples = len(samples_sg)
-            for sg_cont in samples_sg:
-                if ((ag == 0 or ag == 1) and (so == sg_cont - delta)) or \
-                    ((ag == 2) and (so == sg_cont + delta)):
+        sg_ind = sg
+        delta = (self.max_position - self.min_position)*0.01*self.percChangeInPos/self._D 
+        delta_speed = (self.max_speed * 2)*0.01*self.percChangeInPos/self._D 
+        noise_free_so = [sys.maxsize, sys.maxsize]
+        low_sg = self._obs_sp_partitions[sg_ind].low
+        high_sg = self._obs_sp_partitions[sg_ind].high
+
+        size_sg = np.prod(high_sg-low_sg)
+        if (ag == 0 or ag == 1):
+            if (ao ==2): 
+                noise_free_so[0] = so[0] + delta 
+                noise_free_so[1] = so[0] + delta_speed 
+
+                if all((noise_free_so >= low_sg) & (noise_free_so <= high_sg)):
+                    return self.insertNoiseprob/size_sg
+        elif ag==2:
+            if (ao ==0): 
+                noise_free_so[0] = so[0] - delta 
+                noise_free_so[1] = so[0] - delta_speed 
+
+                if all((noise_free_so >= low_sg) & (noise_free_so <= high_sg)):
                     # state have noise
-                    sum_monte_carlo += self.insertNoiseprob
-                else: 
-                    # noise free 
-                    sum_monte_carlo += 1- self.insertNoiseprob
-
-            return (size_Sg * sum_monte_carlo * 1/(num_samples))
-
-        return 0.0
+                    return self.insertNoiseprob/size_sg
+        
+        # if no noise, then return remaining prob mass
+        return 1 - self.insertNoiseprob/size_sg
 
     def state_space_partitions(self):
         # returns the list of partition spaces 
