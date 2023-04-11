@@ -196,7 +196,9 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
         '''
 
         # return (size of state space) * sum/(number of samples) as monte carlo approximation
-        return (size_Sg * sum_monte_carlo * 1/(num_samples))
+        return_v = (size_Sg * sum_monte_carlo * 1/(num_samples))
+        assert (return_v >= 0 and return_v <= 1),"P_sasp returning invalid prob value {} ".format(return_v)
+        return return_v
 
     def P_sasp2(self,s,a,sp):
         '''
@@ -223,30 +225,10 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
             # indicator function checking if the input next state is intended next state for (sampled current state, action) 
             if all(sp == intended_nxt_s):
                 sum_monte_carlo += 1
-
-        return (size_Sg * sum_monte_carlo * 1/(num_samples))
-
-    ###########################################################
-    def supplementary_P_sasp2(self,tuple_in):
-        st,a,sp = tuple_in
-        intended_nxt_s = self.intended_next_state(st, a)
-        return 1 # if all(sp == intended_nxt_s) else 0
-
-    def P_sasp2_parallel(self,s,a,sp):
         
-        sum_monte_carlo = 0
-        # P_nexts_s_a term in Gibbs sampler product, integrate over first input
-        samples_currnt_s,size_Sg = self.discrete_samples_to_estimate_integral(s)
-        num_samples = len(samples_currnt_s)
-
-        pool = concurrent.futures.ThreadPoolExecutor() 
-        futures = [pool.submit(self.supplementary_P_sasp2, (st,a,sp)) for st in samples_currnt_s]
-        # We must explicitly wait for the calculation to finish for each call
-        sum_monte_carlo = sum([future.result() for future in futures])
-
-        return (size_Sg * sum_monte_carlo * 1/(num_samples))
-
-    ###########################################################
+        return_v = (size_Sg * sum_monte_carlo * 1/(num_samples))
+        assert (return_v >= 0 and return_v <= 1),"P_sasp2 returning invalid prob value {} ".format(return_v)
+        return return_v
 
     def P_sasp2_no_intgrl(self,s,a,sp):
         '''
@@ -257,8 +239,7 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
 
         For both ends of input partition s, we can compute intended next state with action a. 
         If nexts state sp falls in between these two intended next states, then 
-        prob of sp being next state is same as the probability of picking 'corresponding prev 
-        timestep state' from partition s. 
+        prob of sp being next state is 1 else 0. 
 
         returns:
         transition probability
@@ -275,14 +256,13 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
         end_intended_nxt_s = self.intended_next_state(end_partition, a)
 
         return_v = 0
-        size_s = np.prod(high_array-low_array)
         if all((sp >= beg_intended_nxt_s) & (sp <= end_intended_nxt_s)):
             # next state is in between intended states of partition edges 
-            return_v = 1/size_s # chances of picking 'corresponding prev timestep state' from partition s. 
+            return_v = 1
         else:
-            return_v = 1-1/size_s
+            return_v = 0
 
-        print("time taken in P_sasp2_no_intgrl method {} ".format((time.time()-start_P_sasp2_no_intgrl)/60))
+        # print("time taken in P_sasp2_no_intgrl method {} ".format((time.time()-start_P_sasp2_no_intgrl)/60))
         return return_v
 
     def insertNoise(self, s, a):
@@ -303,16 +283,25 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
         if random.uniform(0.0, 1.0) < self.insertNoiseprob:
             delta = (self.max_position -self.min_position)*0.01*self.percChangeInPos/self._D 
             delta_speed = (self.max_speed * 2)*0.01*self.percChangeInPos/self._D 
-            if a == 0 or a == 1: # current acceleration to left or no acceleration 
-                a = 2 
-                # pull car to left 
-                s[0] -= delta 
-                s[1] -= delta_speed
-            else: # current accelaration to right 
-                a = 0 
-                # pull car to right 
-                s[0] += delta 
-                s[1] += delta_speed
+            # if a == 0 or a == 1: # current acceleration to left or no acceleration 
+                # a = 2 # pull car to right 
+                # print('a == 0 inserted a = 1 # dont accelerate')
+                
+                # s[0] -= delta 
+                # s[1] -= delta_speed
+            # else: # current accelaration to right 
+            #     a = 0 # pull car to left
+                # print('a == 2 inserted a = 1 # dont accelerate')                 
+                # s[0] += delta 
+                # s[1] += delta_speed
+            if a == 0:
+                a = 1 # don't accelerate
+                s[0] = 0
+                s[1] = 0
+            elif a == 2: # current accelaration to right 
+                a = 1 # don't accelerate
+                s[0] = 0
+                s[1] = 0
 
         return (s,a) 
 
@@ -325,9 +314,8 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
         ao: observed action
 
         does noise free version of observed state falls in state partition? 
-        if yes, then chances of observed state is same as 
-        (prob of inserting noise) x (chance of noise free version to be ground truth)
-        self.insertNoiseprob x 1/size_sg
+        if yes, then chances of observed input state-action is same as (prob of inserting noise) 
+        else 1-(prob of inserting noise)  
 
         returns: 
         probability of observing the input
@@ -341,25 +329,24 @@ class DiscretizedStateMountainCarEnv(MountainCarEnv):
         low_sg = self._obs_sp_partitions[sg_ind].low
         high_sg = self._obs_sp_partitions[sg_ind].high
 
-        size_sg = np.prod(high_sg-low_sg)
-        if (ag == 0 or ag == 1):
-            if (ao ==2): 
+        if ag == 0: #(ag == 0 or ag == 1):
+            if ao == 1: #(ao ==2): 
                 noise_free_so[0] = so[0] + delta 
                 noise_free_so[1] = so[0] + delta_speed 
 
                 if all((noise_free_so >= low_sg) & (noise_free_so <= high_sg)):
-                    return self.insertNoiseprob/size_sg
-        elif ag==2:
-            if (ao ==0): 
+                    return self.insertNoiseprob
+        elif ag == 2:
+            if ao == 1: #(ao ==0): 
                 noise_free_so[0] = so[0] - delta 
                 noise_free_so[1] = so[0] - delta_speed 
 
                 if all((noise_free_so >= low_sg) & (noise_free_so <= high_sg)):
                     # state have noise
-                    return self.insertNoiseprob/size_sg
+                    return self.insertNoiseprob
         
         # if no noise, then return remaining prob mass
-        return 1 - self.insertNoiseprob/size_sg
+        return 1 - self.insertNoiseprob
 
     def state_space_partitions(self):
         # returns the list of partition spaces 

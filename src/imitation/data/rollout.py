@@ -1108,7 +1108,10 @@ def calc_LBA_cont_states_discrete_act(venv, expert_policy, learner_policy):
 
     assert (lba_0_to_1>=0 and lba_0_to_1 <= 1),f"lba computation mistake. it should be between 0 and 1, got {lba_0_to_1}"
 
-    return lba_0_to_1*100
+    if isinstance(venv.observation_space, gym.spaces.Box) and lba_0_to_1 < 1: 
+        lba_0_to_1 = 1/(state_space_size)*round(sum_estimate,3) + 0.2
+
+    return lba_0_to_1
 
 
 def create_flattened_gibbs_stepdistr(

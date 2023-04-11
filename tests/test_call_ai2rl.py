@@ -55,6 +55,7 @@ def incremental_train_adversarial(
             all other arguments needed for train_adversarial    
 
     '''
+    
     start_time_trial = time.time()
 
     # create arrays of rollout paths from rootdir 
@@ -83,6 +84,7 @@ def incremental_train_adversarial(
     )
     writer.write("{}, {}".format(i+1, round((time.time()-start_time_session)/60,3)))
     writer.write("\n")
+    writer.close()
 
     lba_all_sessions = [round(run.result["LBA"],3)]
     if named_configs_in[0] != 'discretized_state_mountain_car':
@@ -96,7 +98,7 @@ def incremental_train_adversarial(
     # second call onwards every call should pick next demonstration and gen_policy checkpoint from previous call
     for i in range (1,len(rollout_paths)):
         if hard_lmt_sessioncount is not None:
-            if i > hard_lmt_sessioncount: 
+            if i == hard_lmt_sessioncount: 
                 break
 
         config_updates = {
@@ -113,6 +115,7 @@ def incremental_train_adversarial(
             named_configs=named_configs_in,
             config_updates=config_updates,
         )
+        writer = open(time_tracking_filename, "a")
         writer.write("{}, {}".format(i+1, round((time.time()-start_time_session)/60,3)))
         writer.write("\n")
 
@@ -188,10 +191,11 @@ def run_trials_ai2rl(
         lba_fileh.write(str(list(lba_all_sessions))[1:-1]+"\n")
         retmean_fileh.write(str(list(return_mean_all_sessions))[1:-1]+"\n")
         retmax_fileh.write(str(list(return_max_all_sessions))[1:-1]+"\n")
-
         lba_fileh.close()
         retmean_fileh.close()
         retmax_fileh.close()
+        # print("check lba csv. exiting now!")
+        # exit()
 
     avg_lba_per_session = np.average(lba_values_over_AI2RL_trials[1:],0) 
     avg_return_mean_per_session = np.average(return_mean_over_AI2RL_trials[1:],0) 
@@ -217,7 +221,7 @@ def run_trials_ai2rl(
 if __name__ == '__main__':
 
     ## setting hyper parameters for training ##
-    num_trials = 7
+    num_trials = 2
 
     # perimeter patrol env
     patrol_named_config_env = 'perimeter_patrol' 
@@ -233,18 +237,23 @@ if __name__ == '__main__':
     # sorting_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/??" 
     # sorting_total_timesteps_per_session = int(1e4) 
 
-    # discretized statespace mountain car env
+    # discretized statespace mountain car env 
     dmc_named_config_env = 'discretized_state_mountain_car' 
-    dmc_demonstration_policy_path = parent_of_output_dir+'/output/train_rl/imitationNM_DiscretizedStateMountainCar-v0/set3_policy/20230217_160919_a9fee2/policies/final'
+    dmc_demonstration_policy_path = parent_of_output_dir+'/output/train_rl/imitationNM_DiscretizedStateMountainCar-v0/set3_policy/20230217_160919_a9fee2/policies/final' 
     dmc_rootdir_noisefree_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noise_free/set3_100sessions" 
-    dmc_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noisy/set8_200perChPos&Spd_&Action0.99Prb_100sessions" 
-    dmc_total_timesteps_per_session = int(2048)
-    dmc_hard_lmt_sessioncount= None
+    dmc_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noisy/set11_0Pos&0Spd&stpAct0.99prb" 
+    dmc_total_timesteps_per_session = int(2048) 
+    dmc_hard_lmt_sessioncount = 50 
 
-    named_config_env = dmc_named_config_env
+    named_config_env = dmc_named_config_env 
     avg_lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
-    # avg_lba_fileh = create_file(avg_lba_filename)        
+    # avg_lba_fileh = create_file(avg_lba_filename) 
+
+    # for perimeter patrol
     threshold_stop_Gibbs_sampling = 0.0375 
+    # for discretized mountain car
+    threshold_stop_Gibbs_sampling = 0.1
+
     wdGibbsSamp = True 
     if not wdGibbsSamp:
         threshold_stop_Gibbs_sampling = None
