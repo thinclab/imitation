@@ -40,22 +40,22 @@ class DiscreteEnv(Env):
         self.observation_space = spaces.Discrete(self.nS)
 
         self.seed()
-        self.s = categorical_sample(self.isd, self.np_random)
+        self.state = categorical_sample(self.isd, self.np_random)
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
     def reset(self):
-        self.s = categorical_sample(self.isd, self.np_random)
+        self.state = categorical_sample(self.isd, self.np_random)
         self.lastaction = None
-        return int(self.s)
+        return int(self.state)
 
     def step(self, a):
-        transitions = self.P[self.s][a]
+        transitions = self.P[self.state][a]
         i = categorical_sample([t[0] for t in transitions], self.np_random)
         p, s, r, d = transitions[i]
-        self.s = s
+        self.state = s
         self.lastaction = a
         return (int(s), r, d, {"prob": p})
 
@@ -199,12 +199,12 @@ class PatrolModel(DiscreteEnv):
         return self._actions
 
     def reset(self):
-        self.s = categorical_sample(self.isd, self.np_random)
-        # print("state sampled in reset ",self._stateList[self.s])
+        self.state = categorical_sample(self.isd, self.np_random)
+        # print("state sampled in reset ",self._stateList[self.state])
         self.lastaction = None
         self._timestep = 0
-        # print("self.s ",self.s)
-        return int(self.s)
+        # print("self.state ",self.state)
+        return int(self.state)
 
     def bestpolicy_action(self, s):
         # function to return best possible expert action in a state
@@ -252,23 +252,23 @@ class PatrolModel(DiscreteEnv):
         return policy_acts_expert
 
     def step_sa(self, s, a):
-        current_s_backup = self.s
-        self.s = s
+        current_s_backup = self.state
+        self.state = s
         result = self.step(a)  
-        self.s = current_s_backup
-        return result
+        self.state = current_s_backup
+        return result[0]
 
     def step(self, a):
         self._timestep += 1
-        transitions = self.P[self.s][a]
+        transitions = self.P[self.state][a]
         i = categorical_sample([t[0] for t in transitions], self.np_random)
         p, s, r, d = transitions[i]
         # print("\nstep  s {}, a {}, ns {}, options {}".format\
-        #     (self._stateList[self.s],self._actionList[a],self._stateList[s],transitions))
+        #     (self._stateList[self.state],self._actionList[a],self._stateList[s],transitions))
         # with open('/home/katy/imitation/rollout_from_policylist.txt', 'a') as writer:
         #     writer.write("\n step input {} self._timestep {} ".format(self._actions[a],self._timestep))
         
-        self.s = s
+        self.state = s
         self.lastaction = a
         if self._timestep == self._episode_length:
             d = True

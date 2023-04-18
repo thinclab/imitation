@@ -250,10 +250,10 @@ if __name__ == '__main__':
     avg_lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
     # avg_lba_fileh = create_file(avg_lba_filename) 
 
-    # for perimeter patrol
+    # perimeter patrol
     threshold_stop_Gibbs_sampling = 0.0375 
-    # for discretized mountain car
-    # threshold_stop_Gibbs_sampling = 0.1
+    # mountain car
+    threshold_stop_Gibbs_sampling = 0.1
 
     wdGibbsSamp = True 
     if not wdGibbsSamp:
@@ -265,13 +265,27 @@ if __name__ == '__main__':
         # lists_config_method_names = [["rl.sorting_onions_tuning_gae_lambda3"], ["rl.sorting_onions_tuning_LR1"], ["rl.sorting_onions_tuning_LR2"]]  
         lists_config_method_names = [[]]
         for list_config_method_names in lists_config_method_names:  
-            named_configs_in = [dmc_named_config_env] + list_config_method_names  
-            run_trials_ai2rl(num_trials=num_trials,rootdir=patrol_rootdir_noisy_input,\
-                    demonstration_policy_path=dmc_demonstration_policy_path,named_configs_in=named_configs_in,\
-                    wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
-                    total_timesteps_per_session=dmc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
-                    hard_lmt_sessioncount=patrol_hard_lmt_sessioncount) 
-        
+            # perimeter patrol
+            named_configs_in = [patrol_named_config_env] + list_config_method_names 
+            # mountain car
+            # named_configs_in = [dmc_named_config_env] + list_config_method_names  
+
+            if named_configs_in[0] == patrol_named_config_env: 
+                # perimeter patrol
+                run_trials_ai2rl(num_trials=num_trials,rootdir=patrol_rootdir_noisy_input,\
+                        demonstration_policy_path=patrol_demonstration_policy_path,named_configs_in=named_configs_in,\
+                        wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
+                        total_timesteps_per_session=patrol_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
+                        hard_lmt_sessioncount=patrol_hard_lmt_sessioncount) 
+
+            if named_configs_in[0] == dmc_named_config_env: 
+                # mountain car
+                run_trials_ai2rl(num_trials=num_trials,rootdir=dmc_rootdir_noisefree_input,\
+                        demonstration_policy_path=dmc_demonstration_policy_path,named_configs_in=named_configs_in,\
+                        wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
+                        total_timesteps_per_session=dmc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
+                        hard_lmt_sessioncount=dmc_hard_lmt_sessioncount) 
+
     except MemoryError:
         sys.stderr.write('\n\nERROR: Memory Exception\n')
         sys.exit(1)

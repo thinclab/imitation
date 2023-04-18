@@ -486,7 +486,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                         # Gibbs sampling distribution for time step j of ground truth trajectory 
                         sa_distr_trajs[j]=np.array(probs_sa_gt_sa_j)
 
-                    print("time taken to create sa_distr_trajs: {} minutes ".format((time.time()-start_tm)/60)) 
+                    # print("time taken to create sa_distr_trajs: {} minutes ".format((time.time()-start_tm)/60)) 
                     writer.write("time taken to create sa_distr_trajs: {} minutes \n".format((time.time()-start_tm)/60)) 
 
                     sa_distr_samples = {}
@@ -611,10 +611,10 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                         
                         # to compute logits, we only need sampled ground truth in same format as expert_samples 
                         if s:
-                            cont_st = get_state_from_sampled_index(s)
+                            st = get_state_from_sampled_index(s)
 
                             # if sampling valid, get samples ready for computing logits 
-                            gibbs_sampled_expert_samples['obs'][j] = th.from_numpy(cont_st)
+                            gibbs_sampled_expert_samples['obs'][j] = th.tensor(st) if isinstance(st, int) else th.from_numpy(st)
                             gibbs_sampled_expert_samples['acts'][j] = th.tensor(a)
 
                             # update next obs of prev step based on obs sampled for current step 
@@ -622,18 +622,18 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                                 gibbs_sampled_expert_samples['next_obs'][j-1] = gibbs_sampled_expert_samples['obs'][j]
 
                             # update ground truth trajectory GT_traj to get Gibbs sampler for next iteration of while loop 
-                            GT_traj[j][0] = cont_st
+                            GT_traj[j][0] = st
                             GT_traj[j][1] = a
 
                     # sampling last next obs 
                     probs_sa_gt_sa_j = sa_distr_samples['nxtobs_sa_distr'][-1].tolist() 
                     last_s,last_a = sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer) 
                     if last_s: 
-                        cont_st = get_state_from_sampled_index(last_s) 
-                        gibbs_sampled_expert_samples['next_obs'][-1] = th.from_numpy(cont_st) 
+                        st = get_state_from_sampled_index(last_s) 
+                        gibbs_sampled_expert_samples['next_obs'][-1] = th.tensor(st) if isinstance(st, int) else th.from_numpy(st)
 
                         # update ground truth trajectory GT_traj to get Gibbs sampler for next iteration of while loop 
-                        GT_traj[len(expert_samples['obs'])][0] = cont_st
+                        GT_traj[len(expert_samples['obs'])][0] = st
 
                     #################################################################################
 
@@ -658,7 +658,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     normed_delta_avg_disc_logits = th.linalg.norm(delta_avg_disc_logits, ord=1).cpu().data.numpy() 
 
                     if True: #ind_avg == 1 or ind_avg%100 == 0:
-                        print("iteration {} normed_delta_avg_disc_logits {}".format(ind_avg, normed_delta_avg_disc_logits))
+                        # print("iteration {} normed_delta_avg_disc_logits {}".format(ind_avg, normed_delta_avg_disc_logits))
                         wr_str = "iteration {} normed_delta_avg_disc_logits {}".format(ind_avg, normed_delta_avg_disc_logits) 
                         writer.write(str(wr_str)+"\n") 
 
@@ -670,6 +670,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 writer.close()
                 
                 print("Gibbs sampled averaged discimantor logits ",avg_disc_logits)
+                print(" normed_delta_avg_disc_logits converged in {}".format(round(( time.time()- start_tm_disc_train)/60,2)))
                 disc_logits = avg_disc_logits
             
             loss = F.binary_cross_entropy_with_logits(
