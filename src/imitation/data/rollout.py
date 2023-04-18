@@ -894,6 +894,56 @@ def flatten_trajectories(
     return types.Transitions(**cat_parts)
 
 
+def flatten_trajectories_and_pad(
+    trajectories: Sequence[types.Trajectory],
+    batch_size: int
+) -> types.Transitions:
+    """Flatten a series of trajectory dictionaries into arrays.
+
+    Args:
+        trajectories: list of trajectories.
+
+    Returns:
+        The trajectories flattened into a single batch of Transitions.
+    """
+    keys = ["obs", "next_obs", "acts", "dones", "infos"]
+    parts = {key: [] for key in keys}
+    for traj in trajectories:
+        parts["acts"].append(traj.acts)
+
+        obs = traj.obs
+        parts["obs"].append(obs[:-1])
+        parts["next_obs"].append(obs[1:])
+
+        dones = np.zeros(len(traj.acts), dtype=bool)
+        dones[-1] = traj.terminal
+        parts["dones"].append(dones)
+
+        if traj.infos is None:
+            infos = np.array([{}] * len(traj))
+        else:
+            infos = traj.infos
+        parts["infos"].append(infos)
+
+    cat_parts = {
+        key: np.concatenate(part_list, axis=0) for key, part_list in parts.items()
+    }
+
+    if len(cat_parts["acts"]) < batch_size:
+        padding_size = (batch_size - len(cat_parts["acts"]))
+        for key in ['obs','next_obs']:  
+            x = np.array([cat_parts[key][-1]])
+            padding = np.repeat(x,padding_size, axis=0)
+            cat_parts[key] = np.append(cat_parts[key],padding,axis=0)
+        for key in ['acts','dones','infos']:            
+            padding = [cat_parts[key][-1]]*padding_size
+            cat_parts[key] = np.append(cat_parts[key],padding)
+
+    lengths = set(map(len, cat_parts.values()))
+    assert len(lengths) == 1, f"expected one length, got {lengths}"
+    return types.Transitions(**cat_parts)
+
+
 def flatten_trajectories_with_rew(
     trajectories: Sequence[types.TrajectoryWithRew],
 ) -> types.TransitionsWithRew:

@@ -229,6 +229,7 @@ if __name__ == '__main__':
     patrol_rootdir_noisefree_input = parent_of_output_dir+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size_2048_epilen5" 
     patrol_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.115noise_0.05prob_rlxdifcondn" 
     patrol_total_timesteps_per_session = int(7.5e3) 
+    patrol_hard_lmt_sessioncount = None
 
     # onion sorting env
     # sorting_named_config_env = 'sorting_onions' 
@@ -252,7 +253,7 @@ if __name__ == '__main__':
     # for perimeter patrol
     threshold_stop_Gibbs_sampling = 0.0375 
     # for discretized mountain car
-    threshold_stop_Gibbs_sampling = 0.1
+    # threshold_stop_Gibbs_sampling = 0.1
 
     wdGibbsSamp = True 
     if not wdGibbsSamp:
@@ -265,11 +266,11 @@ if __name__ == '__main__':
         lists_config_method_names = [[]]
         for list_config_method_names in lists_config_method_names:  
             named_configs_in = [dmc_named_config_env] + list_config_method_names  
-            run_trials_ai2rl(num_trials=num_trials,rootdir=dmc_rootdir_noisy_input,\
+            run_trials_ai2rl(num_trials=num_trials,rootdir=patrol_rootdir_noisy_input,\
                     demonstration_policy_path=dmc_demonstration_policy_path,named_configs_in=named_configs_in,\
                     wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
                     total_timesteps_per_session=dmc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
-                    hard_lmt_sessioncount=dmc_hard_lmt_sessioncount) 
+                    hard_lmt_sessioncount=patrol_hard_lmt_sessioncount) 
         
     except MemoryError:
         sys.stderr.write('\n\nERROR: Memory Exception\n')

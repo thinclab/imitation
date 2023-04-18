@@ -248,7 +248,8 @@ def make_data_loader(
         except StopIteration:
             first_item = None
         if isinstance(first_item, types.Trajectory):
-            transitions = rollout.flatten_trajectories(list(transitions))
+            # transitions = rollout.flatten_trajectories(list(transitions))
+            transitions = rollout.flatten_trajectories_and_pad(list(transitions),batch_size)
 
     if isinstance(transitions, types.TransitionsMinimal):
         if len(transitions) < batch_size:
