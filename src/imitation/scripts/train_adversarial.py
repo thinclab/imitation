@@ -196,6 +196,7 @@ def train_adversarial(
         # appender = open(filename, "a")
         # appender.write(str(LBA)+"\n")
         # appender.close()
+
     elif env_name == "imitationNM/DiscretizedStateMountainCar-v0": 
         # LBA for continuous state discrete action domain 
         if demonstration_policy_path:
@@ -205,10 +206,20 @@ def train_adversarial(
             LBA = rollout.calc_LBA_cont_states_discrete_act(venv, expert_policy=policy, learner_policy=trainer.policy)
         else:
             raise ValueError("demonstration path is necessary to compute LBA for continuous state discrete action domain")
-        
-        
+                
         # following call will work only if multiple episodes are guaranteed to be done, that is not guaraneteed in mountain car policy 
         # stats = train.eval_policy(trainer.policy, trainer.venv_train) 
+
+    elif env_name == "imitationNM/AntWdNoise-v0": 
+        # LBA for continuous state discrete action domain 
+        if demonstration_policy_path: 
+            policy_type = "ppo" 
+            policy = serialize.load_policy(policy_type, demonstration_policy_path, venv) 
+
+            LBA = rollout.calc_LBA_cont_states_cont_act_no_partitions(venv, expert_policy=policy, learner_policy=trainer.policy) 
+        else:
+            raise ValueError("demonstration path is necessary to compute LBA for continuous state domain w/o partitions")
+        
     else:
         stats = train.eval_policy(trainer.policy, trainer.venv_train) 
 

@@ -48,6 +48,9 @@ def acrobot():
 def ant():
     common = dict(env_name="Ant-v2")
 
+@eval_policy_ex.named_config
+def ant_wd_noise():
+    common = dict(env_name="imitationNM/AntWdNoise-v0")
 
 @eval_policy_ex.named_config
 def cartpole():

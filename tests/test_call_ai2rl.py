@@ -230,13 +230,7 @@ if __name__ == '__main__':
     patrol_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/imitationNM_PatrolModel-v0/hardcoded_policy/size2048_epilen5_wd0.115noise_0.05prob_rlxdifcondn" 
     patrol_total_timesteps_per_session = int(7.5e3) 
     patrol_hard_lmt_sessioncount = None
-
-    # onion sorting env
-    # sorting_named_config_env = 'sorting_onions' 
-    # sorting_demonstration_policy_path = None
-    # sorting_rootdir_noisefree_input = parent_of_output_dir+"/output/eval_policy/imitationNM_SortingOnions-v0/size_2048_epilen6" 
-    # sorting_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/??" 
-    # sorting_total_timesteps_per_session = int(1e4) 
+    patrol_threshold_stop_Gibbs_sampling = 0.0375 
 
     # discretized statespace mountain car env 
     dmc_named_config_env = 'discretized_state_mountain_car' 
@@ -245,17 +239,20 @@ if __name__ == '__main__':
     dmc_rootdir_noisy_input = parent_of_output_dir+"/output/eval_policy/imitationNM_DiscretizedStateMountainCar-v0/noisy/set11_0Pos&0Spd&stpAct0.99prb" 
     dmc_total_timesteps_per_session = int(2048) 
     dmc_hard_lmt_sessioncount = 50 
+    dmc_threshold_stop_Gibbs_sampling = 0.1
+    
+    # ant wd noise
+    awn_named_config_env = 'ant_wd_noise'
+    awn_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/Ant-v2/20230505_153134_1ab855/policies/final"
+    awn_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_AntWdNoise-v0/noise_free/'
+    awn_total_timesteps_per_session = int(2048)
+    awn_hard_lmt_sessioncount = 50 
 
-    named_config_env = dmc_named_config_env 
+    named_config_env = awn_named_config_env 
     avg_lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
     # avg_lba_fileh = create_file(avg_lba_filename) 
 
-    # perimeter patrol
-    threshold_stop_Gibbs_sampling = 0.0375 
-    # mountain car
-    threshold_stop_Gibbs_sampling = 0.1
-
-    wdGibbsSamp = True 
+    wdGibbsSamp = False 
     if not wdGibbsSamp:
         threshold_stop_Gibbs_sampling = None
 
@@ -265,10 +262,7 @@ if __name__ == '__main__':
         # lists_config_method_names = [["rl.sorting_onions_tuning_gae_lambda3"], ["rl.sorting_onions_tuning_LR1"], ["rl.sorting_onions_tuning_LR2"]]  
         lists_config_method_names = [[]]
         for list_config_method_names in lists_config_method_names:  
-            # perimeter patrol
-            named_configs_in = [patrol_named_config_env] + list_config_method_names 
-            # mountain car
-            # named_configs_in = [dmc_named_config_env] + list_config_method_names  
+            named_configs_in = [named_config_env] + list_config_method_names 
 
             if named_configs_in[0] == patrol_named_config_env: 
                 # perimeter patrol
@@ -285,6 +279,15 @@ if __name__ == '__main__':
                         wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
                         total_timesteps_per_session=dmc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
                         hard_lmt_sessioncount=dmc_hard_lmt_sessioncount) 
+
+            if named_configs_in[0] == awn_named_config_env: 
+                # ant
+                run_trials_ai2rl(num_trials=num_trials,rootdir=awn_rootdir_noisefree_input,\
+                        demonstration_policy_path=awn_demonstration_policy_path,named_configs_in=named_configs_in,\
+                        wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
+                        total_timesteps_per_session=awn_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
+                        hard_lmt_sessioncount=awn_hard_lmt_sessioncount) 
+
 
     except MemoryError:
         sys.stderr.write('\n\nERROR: Memory Exception\n')

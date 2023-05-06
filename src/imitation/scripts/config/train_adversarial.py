@@ -195,6 +195,15 @@ def discretized_state_mountain_car():
     rl = dict(batch_size=2048)
     algo_cls = 'airl'
 
+@train_adversarial_ex.named_config
+def ant_wd_noise():
+    common = dict(env_name="imitationNM/AntWdNoise-v0")
+    algorithm_kwargs = dict(
+        allow_variable_horizon = True,
+    )
+    rl = dict(batch_size=2048)
+    algo_cls = 'airl'
+
 # Debug configs
 
 @train_adversarial_ex.named_config

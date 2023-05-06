@@ -24,3 +24,5 @@ _register("imitationNM/SortingOnions-v0", entry_point="sorting_onions_env:Sortin
 _register("imitationNM/PatrolModel-v0", entry_point="perimeter_patrol_env:PatrolModel") 
 
 _register("imitationNM/DiscretizedStateMountainCar-v0", entry_point="discrtzd_mountain_car:DiscretizedStateMountainCarEnv") 
+
+_register("imitationNM/AntWdNoise-v0", entry_point="ant_wd_noise:AntEnvWdNoise") 

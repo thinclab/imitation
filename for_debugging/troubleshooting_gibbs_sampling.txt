@@ -128,3 +128,2028 @@ time taken to create sa_distr_trajs: 0.658439842859904 minutes
 iteration 64 normed_delta_avg_disc_logits 0.18496686220169067
 time taken to create sa_distr_trajs: 0.6619410634040832 minutes 
 iteration 65 normed_delta_avg_disc_logits 0.18163549900054932
+time taken to create sa_distr_trajs: 0.6777218143145244 minutes 
+iteration 1 normed_delta_avg_disc_logits 2690.22216796875
+time taken to create sa_distr_trajs: 0.6650359431902567 minutes 
+iteration 2 normed_delta_avg_disc_logits 1.2517640590667725
+time taken to create sa_distr_trajs: 0.6769938309987386 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.5805838108062744
+time taken to create sa_distr_trajs: 0.6760639150937399 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.34283560514450073
+time taken to create sa_distr_trajs: 0.677531119187673 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.2290399670600891
+time taken to create sa_distr_trajs: 0.6782625714937845 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.16505932807922363
+time taken to create sa_distr_trajs: 0.6769661426544189 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.12523257732391357
+time taken to create sa_distr_trajs: 0.6739309032758077 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.09861379861831665
+ normed_delta_avg_disc_logits converged in 5.43
+time taken to create sa_distr_trajs: 0.6852254629135132 minutes 
+iteration 1 normed_delta_avg_disc_logits 2644.730712890625
+time taken to create sa_distr_trajs: 0.6828096628189086 minutes 
+iteration 2 normed_delta_avg_disc_logits 2.763530731201172
+time taken to create sa_distr_trajs: 0.6793421188990275 minutes 
+iteration 3 normed_delta_avg_disc_logits 2.3628220558166504
+time taken to create sa_distr_trajs: 0.6816401481628418 minutes 
+iteration 4 normed_delta_avg_disc_logits 2.0563204288482666
+time taken to create sa_distr_trajs: 0.6836219112078349 minutes 
+iteration 5 normed_delta_avg_disc_logits 1.8133608102798462
+time taken to create sa_distr_trajs: 0.6797120451927186 minutes 
+iteration 6 normed_delta_avg_disc_logits 1.6164114475250244
+time taken to create sa_distr_trajs: 0.6804760932922364 minutes 
+iteration 7 normed_delta_avg_disc_logits 1.4536484479904175
+time taken to create sa_distr_trajs: 0.6793519854545593 minutes 
+iteration 8 normed_delta_avg_disc_logits 1.3172340393066406
+time taken to create sa_distr_trajs: 0.6801637013753256 minutes 
+iteration 9 normed_delta_avg_disc_logits 1.201547384262085
+time taken to create sa_distr_trajs: 0.6758411526679993 minutes 
+iteration 10 normed_delta_avg_disc_logits 1.1021127700805664
+time taken to create sa_distr_trajs: 0.6801815748214721 minutes 
+iteration 11 normed_delta_avg_disc_logits 1.0158931016921997
+time taken to create sa_distr_trajs: 0.6786081393559774 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.9404885768890381
+time taken to create sa_distr_trajs: 0.6766481041908264 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.8741680979728699
+time taken to create sa_distr_trajs: 0.6796499768892924 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.815339207649231
+time taken to create sa_distr_trajs: 0.682062025864919 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.7628708481788635
+time taken to create sa_distr_trajs: 0.6755561391512553 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.7158732414245605
+time taken to create sa_distr_trajs: 0.6811383684476217 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.6735012531280518
+time taken to create sa_distr_trajs: 0.6839250008265177 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.6351670622825623
+time taken to create sa_distr_trajs: 0.6862380107243856 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.6002991199493408
+time taken to create sa_distr_trajs: 0.6765041907628377 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.5685402154922485
+time taken to create sa_distr_trajs: 0.6799012621243795 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.5394750833511353
+time taken to create sa_distr_trajs: 0.6768610596656799 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.5127712488174438
+time taken to create sa_distr_trajs: 0.679251229763031 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.488189697265625
+time taken to create sa_distr_trajs: 0.6842952529589336 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.46547412872314453
+time taken to create sa_distr_trajs: 0.6821865439414978 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.44444841146469116
+time taken to create sa_distr_trajs: 0.6747966051101685 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.42491787672042847
+time taken to create sa_distr_trajs: 0.6872766693433126 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.406777024269104
+time taken to create sa_distr_trajs: 0.687364669640859 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.3898724317550659
+time taken to create sa_distr_trajs: 0.6793164412180582 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.3740878105163574
+time taken to create sa_distr_trajs: 0.6788933753967286 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.35934966802597046
+time taken to create sa_distr_trajs: 0.6817231774330139 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.34550750255584717
+time taken to create sa_distr_trajs: 0.6822501619656881 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.33255356550216675
+time taken to create sa_distr_trajs: 0.6821397463480632 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.3203490972518921
+time taken to create sa_distr_trajs: 0.6787109057108561 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.3088637590408325
+time taken to create sa_distr_trajs: 0.6814530253410339 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.29804426431655884
+time taken to create sa_distr_trajs: 0.6845412015914917 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.28783512115478516
+time taken to create sa_distr_trajs: 0.6866009871164958 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.27818065881729126
+time taken to create sa_distr_trajs: 0.6799238165219624 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.26902198791503906
+time taken to create sa_distr_trajs: 0.6830567479133606 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.26036012172698975
+time taken to create sa_distr_trajs: 0.6899826486905416 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.2521318793296814
+time taken to create sa_distr_trajs: 0.6830019434293111 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.2443343997001648
+time taken to create sa_distr_trajs: 0.683949331442515 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.2369070053100586
+time taken to create sa_distr_trajs: 0.6801080187161763 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.2298339605331421
+time taken to create sa_distr_trajs: 0.6826024651527405 minutes 
+iteration 44 normed_delta_avg_disc_logits 0.22309696674346924
+time taken to create sa_distr_trajs: 0.6855993628501892 minutes 
+iteration 45 normed_delta_avg_disc_logits 0.21668022871017456
+time taken to create sa_distr_trajs: 0.6848667780558269 minutes 
+iteration 46 normed_delta_avg_disc_logits 0.21054917573928833
+time taken to create sa_distr_trajs: 0.6866301933924357 minutes 
+iteration 47 normed_delta_avg_disc_logits 0.20470106601715088
+time taken to create sa_distr_trajs: 0.6833462953567505 minutes 
+iteration 48 normed_delta_avg_disc_logits 0.19912636280059814
+time taken to create sa_distr_trajs: 0.6874940713246663 minutes 
+iteration 49 normed_delta_avg_disc_logits 0.1937505006790161
+time taken to create sa_distr_trajs: 0.6857890089352926 minutes 
+iteration 50 normed_delta_avg_disc_logits 0.1886378526687622
+time taken to create sa_distr_trajs: 0.6845256725947062 minutes 
+iteration 51 normed_delta_avg_disc_logits 0.18374037742614746
+time taken to create sa_distr_trajs: 0.6916209538777669 minutes 
+iteration 52 normed_delta_avg_disc_logits 0.17903131246566772
+time taken to create sa_distr_trajs: 0.6816240509351095 minutes 
+iteration 53 normed_delta_avg_disc_logits 0.17452073097229004
+time taken to create sa_distr_trajs: 0.6846391995747884 minutes 
+iteration 54 normed_delta_avg_disc_logits 0.17018407583236694
+time taken to create sa_distr_trajs: 0.684337031841278 minutes 
+iteration 55 normed_delta_avg_disc_logits 0.16603046655654907
+time taken to create sa_distr_trajs: 0.6817082643508912 minutes 
+iteration 56 normed_delta_avg_disc_logits 0.1620236039161682
+time taken to create sa_distr_trajs: 0.6832474152247111 minutes 
+iteration 57 normed_delta_avg_disc_logits 0.15818709135055542
+time taken to create sa_distr_trajs: 0.6827468872070312 minutes 
+iteration 58 normed_delta_avg_disc_logits 0.1544857621192932
+time taken to create sa_distr_trajs: 0.6847631017367045 minutes 
+iteration 59 normed_delta_avg_disc_logits 0.15091925859451294
+time taken to create sa_distr_trajs: 0.6801682353019715 minutes 
+iteration 60 normed_delta_avg_disc_logits 0.14749175310134888
+time taken to create sa_distr_trajs: 0.6791481177012125 minutes 
+iteration 61 normed_delta_avg_disc_logits 0.14417582750320435
+time taken to create sa_distr_trajs: 0.6738973021507263 minutes 
+iteration 62 normed_delta_avg_disc_logits 0.14100319147109985
+time taken to create sa_distr_trajs: 0.6784100413322449 minutes 
+iteration 63 normed_delta_avg_disc_logits 0.1379239559173584
+time taken to create sa_distr_trajs: 0.6803619941075643 minutes 
+iteration 64 normed_delta_avg_disc_logits 0.1349382996559143
+time taken to create sa_distr_trajs: 0.6866332769393921 minutes 
+iteration 65 normed_delta_avg_disc_logits 0.13207924365997314
+time taken to create sa_distr_trajs: 0.6809743364651998 minutes 
+iteration 66 normed_delta_avg_disc_logits 0.12929391860961914
+time taken to create sa_distr_trajs: 0.6796257734298706 minutes 
+iteration 67 normed_delta_avg_disc_logits 0.12662547826766968
+time taken to create sa_distr_trajs: 0.6797960996627808 minutes 
+iteration 68 normed_delta_avg_disc_logits 0.12402194738388062
+time taken to create sa_distr_trajs: 0.6777790307998657 minutes 
+iteration 69 normed_delta_avg_disc_logits 0.12151539325714111
+time taken to create sa_distr_trajs: 0.6799573024113973 minutes 
+iteration 70 normed_delta_avg_disc_logits 0.11910158395767212
+time taken to create sa_distr_trajs: 0.6765650471051534 minutes 
+iteration 71 normed_delta_avg_disc_logits 0.11673343181610107
+time taken to create sa_distr_trajs: 0.6830157995223999 minutes 
+iteration 72 normed_delta_avg_disc_logits 0.11446011066436768
+time taken to create sa_distr_trajs: 0.6795047005017598 minutes 
+iteration 73 normed_delta_avg_disc_logits 0.11225473880767822
+time taken to create sa_distr_trajs: 0.6768298904101054 minutes 
+iteration 74 normed_delta_avg_disc_logits 0.1101146936416626
+time taken to create sa_distr_trajs: 0.6791941006978353 minutes 
+iteration 75 normed_delta_avg_disc_logits 0.10803204774856567
+time taken to create sa_distr_trajs: 0.6834726572036743 minutes 
+iteration 76 normed_delta_avg_disc_logits 0.10602200031280518
+time taken to create sa_distr_trajs: 0.6841593543688457 minutes 
+iteration 77 normed_delta_avg_disc_logits 0.10406661033630371
+time taken to create sa_distr_trajs: 0.6799074729283651 minutes 
+iteration 78 normed_delta_avg_disc_logits 0.10216939449310303
+time taken to create sa_distr_trajs: 0.6790991584459941 minutes 
+iteration 79 normed_delta_avg_disc_logits 0.10034418106079102
+time taken to create sa_distr_trajs: 0.6799325068791707 minutes 
+iteration 80 normed_delta_avg_disc_logits 0.09853726625442505
+ normed_delta_avg_disc_logits converged in 54.61
+time taken to create sa_distr_trajs: 0.684932808081309 minutes 
+iteration 1 normed_delta_avg_disc_logits 2608.868896484375
+time taken to create sa_distr_trajs: 0.6744491259256998 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.3345336318016052
+time taken to create sa_distr_trajs: 0.6770421226819356 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.32754895091056824
+time taken to create sa_distr_trajs: 0.674203089872996 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.32086804509162903
+time taken to create sa_distr_trajs: 0.6824984272321065 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.31447136402130127
+time taken to create sa_distr_trajs: 0.6750631213188172 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.30831238627433777
+time taken to create sa_distr_trajs: 0.6730454365412394 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.3023599088191986
+time taken to create sa_distr_trajs: 0.6779531200726827 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.2966638207435608
+time taken to create sa_distr_trajs: 0.6764621218045552 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.29116344451904297
+time taken to create sa_distr_trajs: 0.676629630724589 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.28584060072898865
+time taken to create sa_distr_trajs: 0.6830639203389486 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.28070130944252014
+time taken to create sa_distr_trajs: 0.6820604602495829 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.2757546603679657
+time taken to create sa_distr_trajs: 0.6813964128494263 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.2709808945655823
+time taken to create sa_distr_trajs: 0.6824422121047974 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.26632794737815857
+time taken to create sa_distr_trajs: 0.6754373550415039 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.26183202862739563
+time taken to create sa_distr_trajs: 0.678684135278066 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.25746843218803406
+time taken to create sa_distr_trajs: 0.6781922380129496 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.2532510459423065
+time taken to create sa_distr_trajs: 0.6772657473882039 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.2491651475429535
+time taken to create sa_distr_trajs: 0.6773114204406738 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.24520361423492432
+time taken to create sa_distr_trajs: 0.6738519748051961 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.24135267734527588
+time taken to create sa_distr_trajs: 0.6721791823705038 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.2376241683959961
+time taken to create sa_distr_trajs: 0.6768895705540975 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.23400497436523438
+time taken to create sa_distr_trajs: 0.6814536015192668 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.23048275709152222
+time taken to create sa_distr_trajs: 0.6825877785682678 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.22703412175178528
+time taken to create sa_distr_trajs: 0.673182737827301 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.22366121411323547
+time taken to create sa_distr_trajs: 0.6804758707682291 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.22038334608078003
+time taken to create sa_distr_trajs: 0.6780911604563395 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.21716409921646118
+time taken to create sa_distr_trajs: 0.6730834007263183 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.2140587866306305
+time taken to create sa_distr_trajs: 0.6801226735115051 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.21100091934204102
+time taken to create sa_distr_trajs: 0.6766149401664734 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.2080661952495575
+time taken to create sa_distr_trajs: 0.6773380279541016 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.20520713925361633
+time taken to create sa_distr_trajs: 0.6737892786661784 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.2024334967136383
+time taken to create sa_distr_trajs: 0.6741976737976074 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.19970467686653137
+time taken to create sa_distr_trajs: 0.6781937162081401 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.19703733921051025
+time taken to create sa_distr_trajs: 0.6743305484453838 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.19444116950035095
+time taken to create sa_distr_trajs: 0.6784729480743408 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.1918928623199463
+time taken to create sa_distr_trajs: 0.679600203037262 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.18940961360931396
+time taken to create sa_distr_trajs: 0.6767038822174072 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.186987042427063
+time taken to create sa_distr_trajs: 0.6789800802866618 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.18460947275161743
+time taken to create sa_distr_trajs: 0.6753856261571248 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.18228930234909058
+time taken to create sa_distr_trajs: 0.6742861708005269 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.18003886938095093
+time taken to create sa_distr_trajs: 0.6765664458274842 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.1778145730495453
+time taken to create sa_distr_trajs: 0.6682506958643596 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.17565450072288513
+time taken to create sa_distr_trajs: 0.676742156346639 minutes 
+iteration 44 normed_delta_avg_disc_logits 0.17352744936943054
+time taken to create sa_distr_trajs: 0.6750642538070679 minutes 
+iteration 45 normed_delta_avg_disc_logits 0.17146018147468567
+time taken to create sa_distr_trajs: 0.6769335786501567 minutes 
+iteration 46 normed_delta_avg_disc_logits 0.16942504048347473
+time taken to create sa_distr_trajs: 0.6806254744529724 minutes 
+iteration 47 normed_delta_avg_disc_logits 0.16744989156723022
+time taken to create sa_distr_trajs: 0.6806975642840067 minutes 
+iteration 48 normed_delta_avg_disc_logits 0.16552501916885376
+time taken to create sa_distr_trajs: 0.6742992242177327 minutes 
+iteration 49 normed_delta_avg_disc_logits 0.16360709071159363
+time taken to create sa_distr_trajs: 0.6763802289962768 minutes 
+iteration 50 normed_delta_avg_disc_logits 0.16176104545593262
+time taken to create sa_distr_trajs: 0.6725592811902364 minutes 
+iteration 51 normed_delta_avg_disc_logits 0.15991804003715515
+time taken to create sa_distr_trajs: 0.6770997444788615 minutes 
+iteration 52 normed_delta_avg_disc_logits 0.1581142246723175
+time taken to create sa_distr_trajs: 0.6752539316813151 minutes 
+iteration 53 normed_delta_avg_disc_logits 0.15636950731277466
+time taken to create sa_distr_trajs: 0.6749228278795878 minutes 
+iteration 54 normed_delta_avg_disc_logits 0.15464168787002563
+time taken to create sa_distr_trajs: 0.676642119884491 minutes 
+iteration 55 normed_delta_avg_disc_logits 0.15296250581741333
+time taken to create sa_distr_trajs: 0.670999010403951 minutes 
+iteration 56 normed_delta_avg_disc_logits 0.15131112933158875
+time taken to create sa_distr_trajs: 0.6790494124094645 minutes 
+iteration 57 normed_delta_avg_disc_logits 0.1497001349925995
+time taken to create sa_distr_trajs: 0.6775550444920858 minutes 
+iteration 58 normed_delta_avg_disc_logits 0.14810863137245178
+time taken to create sa_distr_trajs: 0.6802167018254598 minutes 
+iteration 59 normed_delta_avg_disc_logits 0.14654496312141418
+time taken to create sa_distr_trajs: 0.678458841641744 minutes 
+iteration 60 normed_delta_avg_disc_logits 0.14502257108688354
+time taken to create sa_distr_trajs: 0.6764764706293742 minutes 
+iteration 61 normed_delta_avg_disc_logits 0.14351019263267517
+time taken to create sa_distr_trajs: 0.6780386130015056 minutes 
+iteration 62 normed_delta_avg_disc_logits 0.1420431137084961
+time taken to create sa_distr_trajs: 0.6814002752304077 minutes 
+iteration 63 normed_delta_avg_disc_logits 0.14058655500411987
+time taken to create sa_distr_trajs: 0.6738641460736593 minutes 
+iteration 64 normed_delta_avg_disc_logits 0.13916608691215515
+time taken to create sa_distr_trajs: 0.6808509588241577 minutes 
+iteration 65 normed_delta_avg_disc_logits 0.13776236772537231
+time taken to create sa_distr_trajs: 0.6744660298029582 minutes 
+iteration 66 normed_delta_avg_disc_logits 0.13639593124389648
+time taken to create sa_distr_trajs: 0.6769595185915629 minutes 
+iteration 67 normed_delta_avg_disc_logits 0.13504523038864136
+time taken to create sa_distr_trajs: 0.6829435030619303 minutes 
+iteration 68 normed_delta_avg_disc_logits 0.13372743129730225
+time taken to create sa_distr_trajs: 0.6771042148272196 minutes 
+iteration 69 normed_delta_avg_disc_logits 0.13241681456565857
+time taken to create sa_distr_trajs: 0.6775007883707682 minutes 
+iteration 70 normed_delta_avg_disc_logits 0.13114243745803833
+time taken to create sa_distr_trajs: 0.6704808950424195 minutes 
+iteration 71 normed_delta_avg_disc_logits 0.12988293170928955
+time taken to create sa_distr_trajs: 0.6683845241864522 minutes 
+iteration 72 normed_delta_avg_disc_logits 0.12863516807556152
+time taken to create sa_distr_trajs: 0.6767510612805684 minutes 
+iteration 73 normed_delta_avg_disc_logits 0.12741562724113464
+time taken to create sa_distr_trajs: 0.6754042108853658 minutes 
+iteration 74 normed_delta_avg_disc_logits 0.1262277364730835
+time taken to create sa_distr_trajs: 0.6755378564198812 minutes 
+iteration 75 normed_delta_avg_disc_logits 0.12503889203071594
+time taken to create sa_distr_trajs: 0.6779952963193258 minutes 
+iteration 76 normed_delta_avg_disc_logits 0.12386530637741089
+time taken to create sa_distr_trajs: 0.6786205450693766 minutes 
+iteration 77 normed_delta_avg_disc_logits 0.12272244691848755
+time taken to create sa_distr_trajs: 0.6825095216433207 minutes 
+iteration 78 normed_delta_avg_disc_logits 0.12161275744438171
+time taken to create sa_distr_trajs: 0.6789004484812419 minutes 
+iteration 79 normed_delta_avg_disc_logits 0.12049329280853271
+time taken to create sa_distr_trajs: 0.6799920399983724 minutes 
+iteration 80 normed_delta_avg_disc_logits 0.11939975619316101
+time taken to create sa_distr_trajs: 0.674925712744395 minutes 
+iteration 81 normed_delta_avg_disc_logits 0.11833348870277405
+time taken to create sa_distr_trajs: 0.6759211182594299 minutes 
+iteration 82 normed_delta_avg_disc_logits 0.11727458238601685
+time taken to create sa_distr_trajs: 0.6763844768206279 minutes 
+iteration 83 normed_delta_avg_disc_logits 0.11624208092689514
+time taken to create sa_distr_trajs: 0.6706278800964356 minutes 
+iteration 84 normed_delta_avg_disc_logits 0.11520719528198242
+time taken to create sa_distr_trajs: 0.6835963169733683 minutes 
+iteration 85 normed_delta_avg_disc_logits 0.11420878767967224
+time taken to create sa_distr_trajs: 0.6789587259292602 minutes 
+iteration 86 normed_delta_avg_disc_logits 0.11320865154266357
+time taken to create sa_distr_trajs: 0.6690492749214172 minutes 
+iteration 87 normed_delta_avg_disc_logits 0.11222246289253235
+time taken to create sa_distr_trajs: 0.6774300972620646 minutes 
+iteration 88 normed_delta_avg_disc_logits 0.11128091812133789
+time taken to create sa_distr_trajs: 0.683559528986613 minutes 
+iteration 89 normed_delta_avg_disc_logits 0.11031308770179749
+time taken to create sa_distr_trajs: 0.6755863547325134 minutes 
+iteration 90 normed_delta_avg_disc_logits 0.10939383506774902
+time taken to create sa_distr_trajs: 0.675388248761495 minutes 
+iteration 91 normed_delta_avg_disc_logits 0.10847243666648865
+time taken to create sa_distr_trajs: 0.6720799684524537 minutes 
+iteration 92 normed_delta_avg_disc_logits 0.10755553841590881
+time taken to create sa_distr_trajs: 0.6699050585428874 minutes 
+iteration 93 normed_delta_avg_disc_logits 0.10666397213935852
+time taken to create sa_distr_trajs: 0.6782006422678629 minutes 
+iteration 94 normed_delta_avg_disc_logits 0.10578015446662903
+time taken to create sa_distr_trajs: 0.6773634910583496 minutes 
+iteration 95 normed_delta_avg_disc_logits 0.10490328073501587
+time taken to create sa_distr_trajs: 0.6830978155136108 minutes 
+iteration 96 normed_delta_avg_disc_logits 0.1040601134300232
+time taken to create sa_distr_trajs: 0.6845895528793335 minutes 
+iteration 97 normed_delta_avg_disc_logits 0.10321304202079773
+time taken to create sa_distr_trajs: 0.6756434241930643 minutes 
+iteration 98 normed_delta_avg_disc_logits 0.10236665606498718
+time taken to create sa_distr_trajs: 0.6792790095011393 minutes 
+iteration 99 normed_delta_avg_disc_logits 0.10153895616531372
+time taken to create sa_distr_trajs: 0.6777184327443441 minutes 
+iteration 100 normed_delta_avg_disc_logits 0.1007387638092041
+time taken to create sa_distr_trajs: 0.6749571204185486 minutes 
+iteration 101 normed_delta_avg_disc_logits 0.09992572665214539
+ normed_delta_avg_disc_logits converged in 68.48
+time taken to create sa_distr_trajs: 0.6768436113993327 minutes 
+iteration 1 normed_delta_avg_disc_logits 2541.468994140625
+time taken to create sa_distr_trajs: 0.6756179134051005 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.0967208743095398
+ normed_delta_avg_disc_logits converged in 1.38
+time taken to create sa_distr_trajs: 0.6719590425491333 minutes 
+iteration 1 normed_delta_avg_disc_logits 2489.901123046875
+time taken to create sa_distr_trajs: 0.6796761592229207 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.14198565483093262
+time taken to create sa_distr_trajs: 0.6750138680140177 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.1405135691165924
+time taken to create sa_distr_trajs: 0.680522890885671 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.13905882835388184
+time taken to create sa_distr_trajs: 0.6718214551607767 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.1376192271709442
+time taken to create sa_distr_trajs: 0.6720099925994873 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.13619965314865112
+time taken to create sa_distr_trajs: 0.6730377395947774 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.13483062386512756
+time taken to create sa_distr_trajs: 0.6713583985964457 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.13348448276519775
+time taken to create sa_distr_trajs: 0.6755033493041992 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.1321793496608734
+time taken to create sa_distr_trajs: 0.6733827392260233 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.13090777397155762
+time taken to create sa_distr_trajs: 0.6791846632957459 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.1296471655368805
+time taken to create sa_distr_trajs: 0.6725384950637817 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.12841686606407166
+time taken to create sa_distr_trajs: 0.6700005253156026 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.127219557762146
+time taken to create sa_distr_trajs: 0.6733998974164327 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.12604716420173645
+time taken to create sa_distr_trajs: 0.671153994401296 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.12488606572151184
+time taken to create sa_distr_trajs: 0.6754751324653625 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.12376734614372253
+time taken to create sa_distr_trajs: 0.6698655803998311 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.12266340851783752
+time taken to create sa_distr_trajs: 0.6705962061882019 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.12156283855438232
+time taken to create sa_distr_trajs: 0.6704047282536825 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.12049391865730286
+time taken to create sa_distr_trajs: 0.667180581887563 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.11943963170051575
+time taken to create sa_distr_trajs: 0.6734693845113119 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.11838188767433167
+time taken to create sa_distr_trajs: 0.6727882146835327 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.11735093593597412
+time taken to create sa_distr_trajs: 0.672117801507314 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.1163446307182312
+time taken to create sa_distr_trajs: 0.674783182144165 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.11535051465034485
+time taken to create sa_distr_trajs: 0.6708197395006815 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.11437943577766418
+time taken to create sa_distr_trajs: 0.6654121041297912 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.11341550946235657
+time taken to create sa_distr_trajs: 0.6758713801701863 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.11246436834335327
+time taken to create sa_distr_trajs: 0.6713622291882833 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.11154842376708984
+time taken to create sa_distr_trajs: 0.6742108424504598 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.11063447594642639
+time taken to create sa_distr_trajs: 0.6689256509145101 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.10974407196044922
+time taken to create sa_distr_trajs: 0.6716759125391643 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.10885217785835266
+time taken to create sa_distr_trajs: 0.6749370416005452 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.10798907279968262
+time taken to create sa_distr_trajs: 0.6672474106152853 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.10713109374046326
+time taken to create sa_distr_trajs: 0.6710411190986634 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.10628402233123779
+time taken to create sa_distr_trajs: 0.6712141752243042 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.10546031594276428
+time taken to create sa_distr_trajs: 0.6773226261138916 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.10464274883270264
+time taken to create sa_distr_trajs: 0.6692784905433655 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.10385450720787048
+time taken to create sa_distr_trajs: 0.667771061261495 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.10306045413017273
+time taken to create sa_distr_trajs: 0.6728441715240479 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.1022876501083374
+time taken to create sa_distr_trajs: 0.6726711193720499 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.10153853893280029
+time taken to create sa_distr_trajs: 0.6803272485733032 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.10076886415481567
+time taken to create sa_distr_trajs: 0.6754589200019836 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.10004416108131409
+time taken to create sa_distr_trajs: 0.6730488061904907 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.0993119478225708
+ normed_delta_avg_disc_logits converged in 28.98
+time taken to create sa_distr_trajs: 0.673643966515859 minutes 
+iteration 1 normed_delta_avg_disc_logits 2426.20556640625
+time taken to create sa_distr_trajs: 0.6713887015978496 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.11263918876647949
+time taken to create sa_distr_trajs: 0.674740727742513 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.1118050068616867
+time taken to create sa_distr_trajs: 0.6743622104326884 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.11098779737949371
+time taken to create sa_distr_trajs: 0.6709060549736023 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.11019176244735718
+time taken to create sa_distr_trajs: 0.669485354423523 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.10946287214756012
+time taken to create sa_distr_trajs: 0.6710663517316182 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.1087956577539444
+time taken to create sa_distr_trajs: 0.6684772213300069 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.1081036627292633
+time taken to create sa_distr_trajs: 0.6743162433306377 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.10738156735897064
+time taken to create sa_distr_trajs: 0.6733824054400126 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.10666324198246002
+time taken to create sa_distr_trajs: 0.670266580581665 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.10592849552631378
+time taken to create sa_distr_trajs: 0.6721508383750916 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.10518649220466614
+time taken to create sa_distr_trajs: 0.673106050491333 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.1044718325138092
+time taken to create sa_distr_trajs: 0.6740531524022421 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.10375815629959106
+time taken to create sa_distr_trajs: 0.677905547618866 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.10304845869541168
+time taken to create sa_distr_trajs: 0.6693496028582255 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.10234782099723816
+time taken to create sa_distr_trajs: 0.6711745897928874 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.10165286064147949
+time taken to create sa_distr_trajs: 0.6706318457921346 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.10096210241317749
+time taken to create sa_distr_trajs: 0.6709173083305359 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.10029749572277069
+time taken to create sa_distr_trajs: 0.6677093982696534 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.09964717924594879
+ normed_delta_avg_disc_logits converged in 13.47
+time taken to create sa_distr_trajs: 0.672559666633606 minutes 
+iteration 1 normed_delta_avg_disc_logits 2395.808349609375
+time taken to create sa_distr_trajs: 0.6742728312810262 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.08797654509544373
+ normed_delta_avg_disc_logits converged in 1.37
+time taken to create sa_distr_trajs: 0.6766719698905945 minutes 
+iteration 1 normed_delta_avg_disc_logits 2323.87158203125
+time taken to create sa_distr_trajs: 0.6729199528694153 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.12183216214179993
+time taken to create sa_distr_trajs: 0.6736477971076965 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.12103645503520966
+time taken to create sa_distr_trajs: 0.6767455895741781 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.12027283012866974
+time taken to create sa_distr_trajs: 0.6688055992126465 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.11949625611305237
+time taken to create sa_distr_trajs: 0.6719787995020549 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.11869033426046371
+time taken to create sa_distr_trajs: 0.6702171564102173 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.11790552735328674
+time taken to create sa_distr_trajs: 0.6695351004600525 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.11714709550142288
+time taken to create sa_distr_trajs: 0.6744884093602498 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.11639884114265442
+time taken to create sa_distr_trajs: 0.6687475164731344 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.11569958925247192
+time taken to create sa_distr_trajs: 0.6694003502527873 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.11497776955366135
+time taken to create sa_distr_trajs: 0.6720023433367411 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.11429452896118164
+time taken to create sa_distr_trajs: 0.6678244590759277 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.11359652876853943
+time taken to create sa_distr_trajs: 0.6692986408869426 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.11293524503707886
+time taken to create sa_distr_trajs: 0.6729767243067424 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.11226409673690796
+time taken to create sa_distr_trajs: 0.6657171686490376 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.11163508147001266
+time taken to create sa_distr_trajs: 0.6678740223248799 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.11097393929958344
+time taken to create sa_distr_trajs: 0.6730481584866842 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.11031752079725266
+time taken to create sa_distr_trajs: 0.6635139187177023 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.10968508571386337
+time taken to create sa_distr_trajs: 0.6717609802881876 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.10903798043727875
+time taken to create sa_distr_trajs: 0.6758081316947937 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.10840912163257599
+time taken to create sa_distr_trajs: 0.6731619715690613 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.10777924209833145
+time taken to create sa_distr_trajs: 0.6728544155756633 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.10716168582439423
+time taken to create sa_distr_trajs: 0.6727184335390727 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.10653773695230484
+time taken to create sa_distr_trajs: 0.6694537003835043 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.10594647377729416
+time taken to create sa_distr_trajs: 0.6708608905474345 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.10532619059085846
+time taken to create sa_distr_trajs: 0.6750446160634359 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.10474376380443573
+time taken to create sa_distr_trajs: 0.6749712506930033 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.10414779186248779
+time taken to create sa_distr_trajs: 0.6703312993049622 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.10357340425252914
+time taken to create sa_distr_trajs: 0.6688988844553629 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.10301432758569717
+time taken to create sa_distr_trajs: 0.6718825896581014 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.1024385541677475
+time taken to create sa_distr_trajs: 0.669684620698293 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.10188395529985428
+time taken to create sa_distr_trajs: 0.6712836583455404 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.10133044421672821
+time taken to create sa_distr_trajs: 0.6749510129292806 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.10079201310873032
+time taken to create sa_distr_trajs: 0.6698937535285949 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.1002313420176506
+time taken to create sa_distr_trajs: 0.6732686559359232 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.0996941402554512
+ normed_delta_avg_disc_logits converged in 24.22
+time taken to create sa_distr_trajs: 0.6728556911150615 minutes 
+iteration 1 normed_delta_avg_disc_logits 2339.18359375
+time taken to create sa_distr_trajs: 0.6649765729904175 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.11314371228218079
+time taken to create sa_distr_trajs: 0.6655418117841084 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.1124735027551651
+time taken to create sa_distr_trajs: 0.6704660534858704 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.11180588603019714
+time taken to create sa_distr_trajs: 0.6681411584218343 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.11114587634801865
+time taken to create sa_distr_trajs: 0.670462409655253 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.1104900985956192
+time taken to create sa_distr_trajs: 0.6714392979939778 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.10986015945672989
+time taken to create sa_distr_trajs: 0.6751971284548441 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.10922261327505112
+time taken to create sa_distr_trajs: 0.6668449838956197 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.1085963249206543
+time taken to create sa_distr_trajs: 0.6701476176579794 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.1079738512635231
+time taken to create sa_distr_trajs: 0.6733445803324382 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.10736687481403351
+time taken to create sa_distr_trajs: 0.6684407273928324 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.10676749050617218
+time taken to create sa_distr_trajs: 0.6657499432563782 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.10616330802440643
+time taken to create sa_distr_trajs: 0.6755960861841838 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.10558263212442398
+time taken to create sa_distr_trajs: 0.6680809775988261 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.1050087958574295
+time taken to create sa_distr_trajs: 0.6720232645670573 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.10442794859409332
+time taken to create sa_distr_trajs: 0.6719117204348246 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.10385706275701523
+time taken to create sa_distr_trajs: 0.674794868628184 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.10329903662204742
+time taken to create sa_distr_trajs: 0.6707943558692933 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.10274849086999893
+time taken to create sa_distr_trajs: 0.6715386350949605 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.10218758136034012
+time taken to create sa_distr_trajs: 0.6740552107493083 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.10165702551603317
+time taken to create sa_distr_trajs: 0.6709344069163005 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.10110035538673401
+time taken to create sa_distr_trajs: 0.672052268187205 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.100577212870121
+time taken to create sa_distr_trajs: 0.6704979141553243 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.10003522783517838
+time taken to create sa_distr_trajs: 0.6753939270973206 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.09952017664909363
+ normed_delta_avg_disc_logits converged in 16.81
+time taken to create sa_distr_trajs: 0.6784349083900452 minutes 
+iteration 1 normed_delta_avg_disc_logits 2281.929931640625
+time taken to create sa_distr_trajs: 0.6757128437360128 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.15143433213233948
+time taken to create sa_distr_trajs: 0.6749542117118835 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.15045548975467682
+time taken to create sa_distr_trajs: 0.6746435602506001 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.14950695633888245
+time taken to create sa_distr_trajs: 0.6760039250055949 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.14857152104377747
+time taken to create sa_distr_trajs: 0.6812262733777364 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.1476554572582245
+time taken to create sa_distr_trajs: 0.6752420941988627 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.14673922955989838
+time taken to create sa_distr_trajs: 0.672794226805369 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.14587131142616272
+time taken to create sa_distr_trajs: 0.6807357470194498 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.1450159102678299
+time taken to create sa_distr_trajs: 0.6759922464688619 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.14417977631092072
+time taken to create sa_distr_trajs: 0.6732126394907634 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.14336572587490082
+time taken to create sa_distr_trajs: 0.6809145371119182 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.1425444334745407
+time taken to create sa_distr_trajs: 0.6728994329770406 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.14174145460128784
+time taken to create sa_distr_trajs: 0.6690525492032369 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.14091452956199646
+time taken to create sa_distr_trajs: 0.6758970141410827 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.14011219143867493
+time taken to create sa_distr_trajs: 0.6720503171284994 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.13929855823516846
+time taken to create sa_distr_trajs: 0.6709169824918111 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.1385088562965393
+time taken to create sa_distr_trajs: 0.6825574556986491 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.1377226859331131
+time taken to create sa_distr_trajs: 0.6729097882906596 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.136935755610466
+time taken to create sa_distr_trajs: 0.6763085126876831 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.13615602254867554
+time taken to create sa_distr_trajs: 0.6765943169593811 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.13539087772369385
+time taken to create sa_distr_trajs: 0.6750086744626363 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.1346217691898346
+time taken to create sa_distr_trajs: 0.6721471071243286 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.13386718928813934
+time taken to create sa_distr_trajs: 0.6729678551355998 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.13312800228595734
+time taken to create sa_distr_trajs: 0.6692769010861714 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.13238278031349182
+time taken to create sa_distr_trajs: 0.6790501991907756 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.13165390491485596
+time taken to create sa_distr_trajs: 0.676505998770396 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.13092243671417236
+time taken to create sa_distr_trajs: 0.6741225520769755 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.13021551072597504
+time taken to create sa_distr_trajs: 0.6728955705960592 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.12950469553470612
+time taken to create sa_distr_trajs: 0.6775237878163656 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.12879568338394165
+time taken to create sa_distr_trajs: 0.6739122986793518 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.1280992329120636
+time taken to create sa_distr_trajs: 0.6813517570495605 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.12741181254386902
+time taken to create sa_distr_trajs: 0.6731123606363932 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.126724973320961
+time taken to create sa_distr_trajs: 0.6745482126871745 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.1260433793067932
+time taken to create sa_distr_trajs: 0.6714850544929505 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.12537410855293274
+time taken to create sa_distr_trajs: 0.6749897599220276 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.12469324469566345
+time taken to create sa_distr_trajs: 0.6717887083689372 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.12404617667198181
+time taken to create sa_distr_trajs: 0.6698183059692383 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.1233927309513092
+time taken to create sa_distr_trajs: 0.6717946171760559 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.12274476885795593
+time taken to create sa_distr_trajs: 0.6745886484781901 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.12210384011268616
+time taken to create sa_distr_trajs: 0.6746058543523152 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.1214732974767685
+time taken to create sa_distr_trajs: 0.6732607841491699 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.12085525691509247
+time taken to create sa_distr_trajs: 0.6715139468510946 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.12023746967315674
+time taken to create sa_distr_trajs: 0.6688523133595784 minutes 
+iteration 44 normed_delta_avg_disc_logits 0.11963622272014618
+time taken to create sa_distr_trajs: 0.6669684847195944 minutes 
+iteration 45 normed_delta_avg_disc_logits 0.11903288960456848
+time taken to create sa_distr_trajs: 0.6769095500310262 minutes 
+iteration 46 normed_delta_avg_disc_logits 0.11844885349273682
+time taken to create sa_distr_trajs: 0.6745459198951721 minutes 
+iteration 47 normed_delta_avg_disc_logits 0.11784757673740387
+time taken to create sa_distr_trajs: 0.6681993722915649 minutes 
+iteration 48 normed_delta_avg_disc_logits 0.11727389693260193
+time taken to create sa_distr_trajs: 0.667871646086375 minutes 
+iteration 49 normed_delta_avg_disc_logits 0.11669203639030457
+time taken to create sa_distr_trajs: 0.6730594396591186 minutes 
+iteration 50 normed_delta_avg_disc_logits 0.11610855162143707
+time taken to create sa_distr_trajs: 0.6740333755811055 minutes 
+iteration 51 normed_delta_avg_disc_logits 0.11554770171642303
+time taken to create sa_distr_trajs: 0.6746618787447611 minutes 
+iteration 52 normed_delta_avg_disc_logits 0.11497737467288971
+time taken to create sa_distr_trajs: 0.6700348456700643 minutes 
+iteration 53 normed_delta_avg_disc_logits 0.11441901326179504
+time taken to create sa_distr_trajs: 0.6739817221959432 minutes 
+iteration 54 normed_delta_avg_disc_logits 0.11387333273887634
+time taken to create sa_distr_trajs: 0.673605223496755 minutes 
+iteration 55 normed_delta_avg_disc_logits 0.11331301927566528
+time taken to create sa_distr_trajs: 0.674980080127716 minutes 
+iteration 56 normed_delta_avg_disc_logits 0.11276257038116455
+time taken to create sa_distr_trajs: 0.6722740213076274 minutes 
+iteration 57 normed_delta_avg_disc_logits 0.11222511529922485
+time taken to create sa_distr_trajs: 0.6756993889808655 minutes 
+iteration 58 normed_delta_avg_disc_logits 0.11168742179870605
+time taken to create sa_distr_trajs: 0.6724629282951355 minutes 
+iteration 59 normed_delta_avg_disc_logits 0.11116303503513336
+time taken to create sa_distr_trajs: 0.6774266640345256 minutes 
+iteration 60 normed_delta_avg_disc_logits 0.11063338816165924
+time taken to create sa_distr_trajs: 0.6733794371287029 minutes 
+iteration 61 normed_delta_avg_disc_logits 0.11012081801891327
+time taken to create sa_distr_trajs: 0.6734940807024637 minutes 
+iteration 62 normed_delta_avg_disc_logits 0.10960009694099426
+time taken to create sa_distr_trajs: 0.6757685343424479 minutes 
+iteration 63 normed_delta_avg_disc_logits 0.10908567905426025
+time taken to create sa_distr_trajs: 0.6693117539087932 minutes 
+iteration 64 normed_delta_avg_disc_logits 0.10858643054962158
+time taken to create sa_distr_trajs: 0.6734395345052083 minutes 
+iteration 65 normed_delta_avg_disc_logits 0.1080835610628128
+time taken to create sa_distr_trajs: 0.6699812332789103 minutes 
+iteration 66 normed_delta_avg_disc_logits 0.10757960379123688
+time taken to create sa_distr_trajs: 0.6713831305503846 minutes 
+iteration 67 normed_delta_avg_disc_logits 0.107087641954422
+time taken to create sa_distr_trajs: 0.6737048506736756 minutes 
+iteration 68 normed_delta_avg_disc_logits 0.10660560429096222
+time taken to create sa_distr_trajs: 0.6714957078297933 minutes 
+iteration 69 normed_delta_avg_disc_logits 0.10611468553543091
+time taken to create sa_distr_trajs: 0.6770955681800842 minutes 
+iteration 70 normed_delta_avg_disc_logits 0.10563619434833527
+time taken to create sa_distr_trajs: 0.6720502257347107 minutes 
+iteration 71 normed_delta_avg_disc_logits 0.10515426099300385
+time taken to create sa_distr_trajs: 0.671294116973877 minutes 
+iteration 72 normed_delta_avg_disc_logits 0.10468682646751404
+time taken to create sa_distr_trajs: 0.6761206229527791 minutes 
+iteration 73 normed_delta_avg_disc_logits 0.10420909523963928
+time taken to create sa_distr_trajs: 0.6683834592501322 minutes 
+iteration 74 normed_delta_avg_disc_logits 0.10375846922397614
+time taken to create sa_distr_trajs: 0.6695998589197795 minutes 
+iteration 75 normed_delta_avg_disc_logits 0.10328967869281769
+time taken to create sa_distr_trajs: 0.6685300668080648 minutes 
+iteration 76 normed_delta_avg_disc_logits 0.10283327102661133
+time taken to create sa_distr_trajs: 0.67012939453125 minutes 
+iteration 77 normed_delta_avg_disc_logits 0.10237875580787659
+time taken to create sa_distr_trajs: 0.6766688307126363 minutes 
+iteration 78 normed_delta_avg_disc_logits 0.10192574560642242
+time taken to create sa_distr_trajs: 0.6698226809501648 minutes 
+iteration 79 normed_delta_avg_disc_logits 0.10148374736309052
+time taken to create sa_distr_trajs: 0.6728562672932943 minutes 
+iteration 80 normed_delta_avg_disc_logits 0.10103677213191986
+time taken to create sa_distr_trajs: 0.6735071937243143 minutes 
+iteration 81 normed_delta_avg_disc_logits 0.10060478746891022
+time taken to create sa_distr_trajs: 0.6717556476593017 minutes 
+iteration 82 normed_delta_avg_disc_logits 0.10016828775405884
+time taken to create sa_distr_trajs: 0.6717112978299459 minutes 
+iteration 83 normed_delta_avg_disc_logits 0.09973412752151489
+ normed_delta_avg_disc_logits converged in 56.0
+time taken to create sa_distr_trajs: 0.6734557946523031 minutes 
+iteration 1 normed_delta_avg_disc_logits 2229.82177734375
+time taken to create sa_distr_trajs: 0.6722013394037882 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.07948929071426392
+ normed_delta_avg_disc_logits converged in 1.37
+time taken to create sa_distr_trajs: 0.6687912940979004 minutes 
+iteration 1 normed_delta_avg_disc_logits 2190.93798828125
+time taken to create sa_distr_trajs: 0.6765089670817057 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.08551079034805298
+ normed_delta_avg_disc_logits converged in 1.37
+time taken to create sa_distr_trajs: 0.6786090493202209 minutes 
+iteration 1 normed_delta_avg_disc_logits 2832.087890625
+time taken to create sa_distr_trajs: 0.6766763091087341 minutes 
+iteration 2 normed_delta_avg_disc_logits 2.0727736949920654
+time taken to create sa_distr_trajs: 0.6687677462895711 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.9717051386833191
+time taken to create sa_distr_trajs: 0.6747992952664693 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.576510488986969
+time taken to create sa_distr_trajs: 0.6718903263409932 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.3862890303134918
+time taken to create sa_distr_trajs: 0.6728312571843466 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.27897682785987854
+time taken to create sa_distr_trajs: 0.6773478190104166 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.2120114117860794
+time taken to create sa_distr_trajs: 0.6703211108843485 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.1671910583972931
+time taken to create sa_distr_trajs: 0.6763938665390015 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.1356026828289032
+time taken to create sa_distr_trajs: 0.6774585088094075 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.11243154108524323
+time taken to create sa_distr_trajs: 0.6705175320307414 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.09491372108459473
+ normed_delta_avg_disc_logits converged in 7.44
+time taken to create sa_distr_trajs: 0.6805900573730469 minutes 
+iteration 1 normed_delta_avg_disc_logits 2803.577880859375
+time taken to create sa_distr_trajs: 0.6743848999341329 minutes 
+iteration 2 normed_delta_avg_disc_logits 2.7674484252929688
+time taken to create sa_distr_trajs: 0.6709442019462586 minutes 
+iteration 3 normed_delta_avg_disc_logits 2.403160572052002
+time taken to create sa_distr_trajs: 0.6768372257550558 minutes 
+iteration 4 normed_delta_avg_disc_logits 2.1235928535461426
+time taken to create sa_distr_trajs: 0.6729331771532695 minutes 
+iteration 5 normed_delta_avg_disc_logits 1.899471402168274
+time taken to create sa_distr_trajs: 0.6777211268742879 minutes 
+iteration 6 normed_delta_avg_disc_logits 1.7147736549377441
+time taken to create sa_distr_trajs: 0.6752102454503377 minutes 
+iteration 7 normed_delta_avg_disc_logits 1.559037685394287
+time taken to create sa_distr_trajs: 0.675894006093343 minutes 
+iteration 8 normed_delta_avg_disc_logits 1.4267168045043945
+time taken to create sa_distr_trajs: 0.6720365246136983 minutes 
+iteration 9 normed_delta_avg_disc_logits 1.3127200603485107
+time taken to create sa_distr_trajs: 0.6772358616193136 minutes 
+iteration 10 normed_delta_avg_disc_logits 1.213751196861267
+time taken to create sa_distr_trajs: 0.6717875440915425 minutes 
+iteration 11 normed_delta_avg_disc_logits 1.1271107196807861
+time taken to create sa_distr_trajs: 0.6771228392918904 minutes 
+iteration 12 normed_delta_avg_disc_logits 1.0505988597869873
+time taken to create sa_distr_trajs: 0.67226109902064 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.9825130105018616
+time taken to create sa_distr_trajs: 0.6726237456003825 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.9217079877853394
+time taken to create sa_distr_trajs: 0.6741750518480937 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.8671514391899109
+time taken to create sa_distr_trajs: 0.674109943707784 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.817850649356842
+time taken to create sa_distr_trajs: 0.6727365692456563 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.7730689644813538
+time taken to create sa_distr_trajs: 0.6748918414115905 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.7322713136672974
+time taken to create sa_distr_trajs: 0.6726783474286397 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.6949784159660339
+time taken to create sa_distr_trajs: 0.6768688003222147 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.6607566475868225
+time taken to create sa_distr_trajs: 0.6745633403460185 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.6292650699615479
+time taken to create sa_distr_trajs: 0.6725603858629863 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.6001904010772705
+time taken to create sa_distr_trajs: 0.6739502747853597 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.5732411742210388
+time taken to create sa_distr_trajs: 0.6715972065925598 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.5482349991798401
+time taken to create sa_distr_trajs: 0.6750984191894531 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.5250304341316223
+time taken to create sa_distr_trajs: 0.6756636699040731 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.5033707022666931
+time taken to create sa_distr_trajs: 0.6742854674657186 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.48314693570137024
+time taken to create sa_distr_trajs: 0.676045827070872 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.46426722407341003
+time taken to create sa_distr_trajs: 0.6719068090120951 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.44656723737716675
+time taken to create sa_distr_trajs: 0.6748070438702901 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.429940789937973
+time taken to create sa_distr_trajs: 0.67679336865743 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.41434675455093384
+time taken to create sa_distr_trajs: 0.6702809373537699 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.3996630012989044
+time taken to create sa_distr_trajs: 0.6745194951693217 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.38582828640937805
+time taken to create sa_distr_trajs: 0.6702471852302552 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.37275049090385437
+time taken to create sa_distr_trajs: 0.6745406667391459 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.3604140877723694
+time taken to create sa_distr_trajs: 0.6742501974105835 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.34871912002563477
+time taken to create sa_distr_trajs: 0.6757902344067891 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.33765682578086853
+time taken to create sa_distr_trajs: 0.6749194939931233 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.3271365463733673
+time taken to create sa_distr_trajs: 0.6776553908983867 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.31716662645339966
+time taken to create sa_distr_trajs: 0.6707795898119608 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.3076799511909485
+time taken to create sa_distr_trajs: 0.6739733020464579 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.2986350953578949
+time taken to create sa_distr_trajs: 0.6695662220319112 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.2900397777557373
+time taken to create sa_distr_trajs: 0.6771215637524922 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.28182756900787354
+time taken to create sa_distr_trajs: 0.6721945683161418 minutes 
+iteration 44 normed_delta_avg_disc_logits 0.2740058898925781
+time taken to create sa_distr_trajs: 0.6729632298151652 minutes 
+iteration 45 normed_delta_avg_disc_logits 0.2665061354637146
+time taken to create sa_distr_trajs: 0.6730016589164733 minutes 
+iteration 46 normed_delta_avg_disc_logits 0.259372353553772
+time taken to create sa_distr_trajs: 0.6712188680966695 minutes 
+iteration 47 normed_delta_avg_disc_logits 0.25250840187072754
+time taken to create sa_distr_trajs: 0.6721163590749105 minutes 
+iteration 48 normed_delta_avg_disc_logits 0.24594926834106445
+time taken to create sa_distr_trajs: 0.6774399439493816 minutes 
+iteration 49 normed_delta_avg_disc_logits 0.23966580629348755
+time taken to create sa_distr_trajs: 0.673017156124115 minutes 
+iteration 50 normed_delta_avg_disc_logits 0.23362275958061218
+time taken to create sa_distr_trajs: 0.6753635247548421 minutes 
+iteration 51 normed_delta_avg_disc_logits 0.22784903645515442
+time taken to create sa_distr_trajs: 0.6692684292793274 minutes 
+iteration 52 normed_delta_avg_disc_logits 0.222284734249115
+time taken to create sa_distr_trajs: 0.6766878048578898 minutes 
+iteration 53 normed_delta_avg_disc_logits 0.2169417142868042
+time taken to create sa_distr_trajs: 0.6761460940043131 minutes 
+iteration 54 normed_delta_avg_disc_logits 0.21180716156959534
+time taken to create sa_distr_trajs: 0.6720455765724183 minutes 
+iteration 55 normed_delta_avg_disc_logits 0.20686808228492737
+time taken to create sa_distr_trajs: 0.6765338063240052 minutes 
+iteration 56 normed_delta_avg_disc_logits 0.20212137699127197
+time taken to create sa_distr_trajs: 0.6745956222216288 minutes 
+iteration 57 normed_delta_avg_disc_logits 0.1975289285182953
+time taken to create sa_distr_trajs: 0.6768838961919149 minutes 
+iteration 58 normed_delta_avg_disc_logits 0.19314029812812805
+time taken to create sa_distr_trajs: 0.6634816447893779 minutes 
+iteration 59 normed_delta_avg_disc_logits 0.18886661529541016
+time taken to create sa_distr_trajs: 0.6747799475987752 minutes 
+iteration 60 normed_delta_avg_disc_logits 0.18476685881614685
+time taken to create sa_distr_trajs: 0.6718098203341166 minutes 
+iteration 61 normed_delta_avg_disc_logits 0.18079981207847595
+time taken to create sa_distr_trajs: 0.6690717657407125 minutes 
+iteration 62 normed_delta_avg_disc_logits 0.17697492241859436
+time taken to create sa_distr_trajs: 0.6674413641293844 minutes 
+iteration 63 normed_delta_avg_disc_logits 0.17328715324401855
+time taken to create sa_distr_trajs: 0.6684933582941691 minutes 
+iteration 64 normed_delta_avg_disc_logits 0.16970735788345337
+time taken to create sa_distr_trajs: 0.6748451153437297 minutes 
+iteration 65 normed_delta_avg_disc_logits 0.16624873876571655
+time taken to create sa_distr_trajs: 0.6691534757614136 minutes 
+iteration 66 normed_delta_avg_disc_logits 0.1629050076007843
+time taken to create sa_distr_trajs: 0.6695278684298197 minutes 
+iteration 67 normed_delta_avg_disc_logits 0.15967515110969543
+time taken to create sa_distr_trajs: 0.6764227032661438 minutes 
+iteration 68 normed_delta_avg_disc_logits 0.15652400255203247
+time taken to create sa_distr_trajs: 0.6762767195701599 minutes 
+iteration 69 normed_delta_avg_disc_logits 0.15349432826042175
+time taken to create sa_distr_trajs: 0.6706301808357239 minutes 
+iteration 70 normed_delta_avg_disc_logits 0.15056195855140686
+time taken to create sa_distr_trajs: 0.6780311425526937 minutes 
+iteration 71 normed_delta_avg_disc_logits 0.14770516753196716
+time taken to create sa_distr_trajs: 0.6751132011413574 minutes 
+iteration 72 normed_delta_avg_disc_logits 0.14494025707244873
+time taken to create sa_distr_trajs: 0.6730167627334595 minutes 
+iteration 73 normed_delta_avg_disc_logits 0.14226272702217102
+time taken to create sa_distr_trajs: 0.6751140634218852 minutes 
+iteration 74 normed_delta_avg_disc_logits 0.1396554708480835
+time taken to create sa_distr_trajs: 0.6757565021514893 minutes 
+iteration 75 normed_delta_avg_disc_logits 0.13712969422340393
+time taken to create sa_distr_trajs: 0.673773189385732 minutes 
+iteration 76 normed_delta_avg_disc_logits 0.13467350602149963
+time taken to create sa_distr_trajs: 0.6754427313804626 minutes 
+iteration 77 normed_delta_avg_disc_logits 0.13229414820671082
+time taken to create sa_distr_trajs: 0.6786764740943909 minutes 
+iteration 78 normed_delta_avg_disc_logits 0.12996837496757507
+time taken to create sa_distr_trajs: 0.6741199533144633 minutes 
+iteration 79 normed_delta_avg_disc_logits 0.12772399187088013
+time taken to create sa_distr_trajs: 0.6723116795221965 minutes 
+iteration 80 normed_delta_avg_disc_logits 0.12552836537361145
+time taken to create sa_distr_trajs: 0.6754631280899048 minutes 
+iteration 81 normed_delta_avg_disc_logits 0.12339624762535095
+time taken to create sa_distr_trajs: 0.6711368242899577 minutes 
+iteration 82 normed_delta_avg_disc_logits 0.12132394313812256
+time taken to create sa_distr_trajs: 0.6706737518310547 minutes 
+iteration 83 normed_delta_avg_disc_logits 0.11929431557655334
+time taken to create sa_distr_trajs: 0.6712939222653707 minutes 
+iteration 84 normed_delta_avg_disc_logits 0.11734539270401001
+time taken to create sa_distr_trajs: 0.6723787546157837 minutes 
+iteration 85 normed_delta_avg_disc_logits 0.11542001366615295
+time taken to create sa_distr_trajs: 0.6745895107587179 minutes 
+iteration 86 normed_delta_avg_disc_logits 0.1135568916797638
+time taken to create sa_distr_trajs: 0.6741365472475688 minutes 
+iteration 87 normed_delta_avg_disc_logits 0.11175364255905151
+time taken to create sa_distr_trajs: 0.6777096072832743 minutes 
+iteration 88 normed_delta_avg_disc_logits 0.10998058319091797
+time taken to create sa_distr_trajs: 0.6723697384198507 minutes 
+iteration 89 normed_delta_avg_disc_logits 0.10824716091156006
+time taken to create sa_distr_trajs: 0.6685866077740987 minutes 
+iteration 90 normed_delta_avg_disc_logits 0.10655930638313293
+time taken to create sa_distr_trajs: 0.6711462616920472 minutes 
+iteration 91 normed_delta_avg_disc_logits 0.10492825508117676
+time taken to create sa_distr_trajs: 0.6751270294189453 minutes 
+iteration 92 normed_delta_avg_disc_logits 0.10333460569381714
+time taken to create sa_distr_trajs: 0.6793203790982564 minutes 
+iteration 93 normed_delta_avg_disc_logits 0.10177066922187805
+time taken to create sa_distr_trajs: 0.6796427249908448 minutes 
+iteration 94 normed_delta_avg_disc_logits 0.10023877024650574
+time taken to create sa_distr_trajs: 0.6748689015706381 minutes 
+iteration 95 normed_delta_avg_disc_logits 0.0987463891506195
+ normed_delta_avg_disc_logits converged in 64.11
+time taken to create sa_distr_trajs: 0.6756722807884217 minutes 
+iteration 1 normed_delta_avg_disc_logits 2748.575439453125
+time taken to create sa_distr_trajs: 0.6730621616045634 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.2809900641441345
+time taken to create sa_distr_trajs: 0.6727519949277242 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.2761407792568207
+time taken to create sa_distr_trajs: 0.6731103857358297 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.2715570032596588
+time taken to create sa_distr_trajs: 0.6739091078440348 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.26704373955726624
+time taken to create sa_distr_trajs: 0.6772078514099121 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.2626416087150574
+time taken to create sa_distr_trajs: 0.6740428249041239 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.2583580017089844
+time taken to create sa_distr_trajs: 0.6765367865562439 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.25422513484954834
+time taken to create sa_distr_trajs: 0.6691539088884989 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.25020429491996765
+time taken to create sa_distr_trajs: 0.6723051389058431 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.24632656574249268
+time taken to create sa_distr_trajs: 0.6745754520098368 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.24256488680839539
+time taken to create sa_distr_trajs: 0.6723437786102295 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.2389378845691681
+time taken to create sa_distr_trajs: 0.6751609921455384 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.2353830337524414
+time taken to create sa_distr_trajs: 0.6777432203292847 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.23192748427391052
+time taken to create sa_distr_trajs: 0.6729484478632609 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.22856366634368896
+time taken to create sa_distr_trajs: 0.6747342069943746 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.22526293992996216
+time taken to create sa_distr_trajs: 0.6710462252298991 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.22206613421440125
+time taken to create sa_distr_trajs: 0.6717489202817281 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.2189548909664154
+time taken to create sa_distr_trajs: 0.670231028397878 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.21592608094215393
+time taken to create sa_distr_trajs: 0.6765267332394918 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.2129693329334259
+time taken to create sa_distr_trajs: 0.6744527538617452 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.21008801460266113
+time taken to create sa_distr_trajs: 0.673139198621114 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.20729553699493408
+time taken to create sa_distr_trajs: 0.6723789572715759 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.20456451177597046
+time taken to create sa_distr_trajs: 0.675182596842448 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.2019065022468567
+time taken to create sa_distr_trajs: 0.6771152933438619 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.19930309057235718
+time taken to create sa_distr_trajs: 0.6725438475608826 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.1967756450176239
+time taken to create sa_distr_trajs: 0.6737121740976969 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.1942882239818573
+time taken to create sa_distr_trajs: 0.6714522361755371 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.19184637069702148
+time taken to create sa_distr_trajs: 0.6745529174804688 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.189469575881958
+time taken to create sa_distr_trajs: 0.6774368246396383 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.18715515732765198
+time taken to create sa_distr_trajs: 0.6746512174606323 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.1849040389060974
+time taken to create sa_distr_trajs: 0.6740935683250427 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.18267309665679932
+time taken to create sa_distr_trajs: 0.6749527335166932 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.18050765991210938
+time taken to create sa_distr_trajs: 0.6739126165707906 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.17839208245277405
+time taken to create sa_distr_trajs: 0.6697673757870992 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.17631325125694275
+time taken to create sa_distr_trajs: 0.666435178120931 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.17430272698402405
+time taken to create sa_distr_trajs: 0.6731944402058919 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.1723099946975708
+time taken to create sa_distr_trajs: 0.6718607703844707 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.17035725712776184
+time taken to create sa_distr_trajs: 0.6747259537378947 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.16845685243606567
+time taken to create sa_distr_trajs: 0.6744046250979105 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.16659361124038696
+time taken to create sa_distr_trajs: 0.6723868687947591 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.16476401686668396
+time taken to create sa_distr_trajs: 0.6706046104431153 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.16296911239624023
+time taken to create sa_distr_trajs: 0.6726804176966349 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.16119414567947388
+time taken to create sa_distr_trajs: 0.6738267779350281 minutes 
+iteration 44 normed_delta_avg_disc_logits 0.15948766469955444
+time taken to create sa_distr_trajs: 0.6682886759440104 minutes 
+iteration 45 normed_delta_avg_disc_logits 0.15778759121894836
+time taken to create sa_distr_trajs: 0.6678635597229003 minutes 
+iteration 46 normed_delta_avg_disc_logits 0.15612632036209106
+time taken to create sa_distr_trajs: 0.6712603569030762 minutes 
+iteration 47 normed_delta_avg_disc_logits 0.15449318289756775
+time taken to create sa_distr_trajs: 0.6694438974062602 minutes 
+iteration 48 normed_delta_avg_disc_logits 0.15289509296417236
+time taken to create sa_distr_trajs: 0.6708968202273051 minutes 
+iteration 49 normed_delta_avg_disc_logits 0.15132346749305725
+time taken to create sa_distr_trajs: 0.6738542278607687 minutes 
+iteration 50 normed_delta_avg_disc_logits 0.14978823065757751
+time taken to create sa_distr_trajs: 0.6730199495951334 minutes 
+iteration 51 normed_delta_avg_disc_logits 0.14828786253929138
+time taken to create sa_distr_trajs: 0.6807297905286153 minutes 
+iteration 52 normed_delta_avg_disc_logits 0.14679965376853943
+time taken to create sa_distr_trajs: 0.6724730769793192 minutes 
+iteration 53 normed_delta_avg_disc_logits 0.1453317403793335
+time taken to create sa_distr_trajs: 0.6734110911687216 minutes 
+iteration 54 normed_delta_avg_disc_logits 0.14390385150909424
+time taken to create sa_distr_trajs: 0.6717154343922933 minutes 
+iteration 55 normed_delta_avg_disc_logits 0.14248475432395935
+time taken to create sa_distr_trajs: 0.6716494560241699 minutes 
+iteration 56 normed_delta_avg_disc_logits 0.14110293984413147
+time taken to create sa_distr_trajs: 0.6721440235773722 minutes 
+iteration 57 normed_delta_avg_disc_logits 0.13973170518875122
+time taken to create sa_distr_trajs: 0.6699678301811218 minutes 
+iteration 58 normed_delta_avg_disc_logits 0.13839957118034363
+time taken to create sa_distr_trajs: 0.6715691526730855 minutes 
+iteration 59 normed_delta_avg_disc_logits 0.13709402084350586
+time taken to create sa_distr_trajs: 0.6743437488873799 minutes 
+iteration 60 normed_delta_avg_disc_logits 0.1357938051223755
+time taken to create sa_distr_trajs: 0.6708409468332927 minutes 
+iteration 61 normed_delta_avg_disc_logits 0.13451778888702393
+time taken to create sa_distr_trajs: 0.6742533842722574 minutes 
+iteration 62 normed_delta_avg_disc_logits 0.13327118754386902
+time taken to create sa_distr_trajs: 0.6723600069681803 minutes 
+iteration 63 normed_delta_avg_disc_logits 0.1320478320121765
+time taken to create sa_distr_trajs: 0.6720022638638814 minutes 
+iteration 64 normed_delta_avg_disc_logits 0.13083648681640625
+time taken to create sa_distr_trajs: 0.67185351451238 minutes 
+iteration 65 normed_delta_avg_disc_logits 0.12965354323387146
+time taken to create sa_distr_trajs: 0.6723678549130757 minutes 
+iteration 66 normed_delta_avg_disc_logits 0.1284823715686798
+time taken to create sa_distr_trajs: 0.6732257088025411 minutes 
+iteration 67 normed_delta_avg_disc_logits 0.12732720375061035
+time taken to create sa_distr_trajs: 0.6732016801834106 minutes 
+iteration 68 normed_delta_avg_disc_logits 0.12620759010314941
+time taken to create sa_distr_trajs: 0.6711655775705974 minutes 
+iteration 69 normed_delta_avg_disc_logits 0.1250794231891632
+time taken to create sa_distr_trajs: 0.6727945764859518 minutes 
+iteration 70 normed_delta_avg_disc_logits 0.12398317456245422
+time taken to create sa_distr_trajs: 0.6752657532691956 minutes 
+iteration 71 normed_delta_avg_disc_logits 0.12291556596755981
+time taken to create sa_distr_trajs: 0.6719373106956482 minutes 
+iteration 72 normed_delta_avg_disc_logits 0.12184897065162659
+time taken to create sa_distr_trajs: 0.6741454243659973 minutes 
+iteration 73 normed_delta_avg_disc_logits 0.12080317735671997
+time taken to create sa_distr_trajs: 0.679010287920634 minutes 
+iteration 74 normed_delta_avg_disc_logits 0.11976167559623718
+time taken to create sa_distr_trajs: 0.6694189707438151 minutes 
+iteration 75 normed_delta_avg_disc_logits 0.11875531077384949
+time taken to create sa_distr_trajs: 0.6702180504798889 minutes 
+iteration 76 normed_delta_avg_disc_logits 0.11775144934654236
+time taken to create sa_distr_trajs: 0.6697243173917135 minutes 
+iteration 77 normed_delta_avg_disc_logits 0.11677414178848267
+time taken to create sa_distr_trajs: 0.6745594660441081 minutes 
+iteration 78 normed_delta_avg_disc_logits 0.11579900979995728
+time taken to create sa_distr_trajs: 0.6728917241096497 minutes 
+iteration 79 normed_delta_avg_disc_logits 0.11484789848327637
+time taken to create sa_distr_trajs: 0.6756930192311604 minutes 
+iteration 80 normed_delta_avg_disc_logits 0.11391153931617737
+time taken to create sa_distr_trajs: 0.6758087436358134 minutes 
+iteration 81 normed_delta_avg_disc_logits 0.11297106742858887
+time taken to create sa_distr_trajs: 0.6748917539914449 minutes 
+iteration 82 normed_delta_avg_disc_logits 0.11205685138702393
+time taken to create sa_distr_trajs: 0.672263765335083 minutes 
+iteration 83 normed_delta_avg_disc_logits 0.11116209626197815
+time taken to create sa_distr_trajs: 0.6734953244527181 minutes 
+iteration 84 normed_delta_avg_disc_logits 0.1102629005908966
+time taken to create sa_distr_trajs: 0.6750831445058186 minutes 
+iteration 85 normed_delta_avg_disc_logits 0.10939794778823853
+time taken to create sa_distr_trajs: 0.6784944891929626 minutes 
+iteration 86 normed_delta_avg_disc_logits 0.10852637887001038
+time taken to create sa_distr_trajs: 0.6680536905924479 minutes 
+iteration 87 normed_delta_avg_disc_logits 0.10768434405326843
+time taken to create sa_distr_trajs: 0.6725876371065775 minutes 
+iteration 88 normed_delta_avg_disc_logits 0.10683503746986389
+time taken to create sa_distr_trajs: 0.6750245094299316 minutes 
+iteration 89 normed_delta_avg_disc_logits 0.10600617527961731
+time taken to create sa_distr_trajs: 0.6745251655578614 minutes 
+iteration 90 normed_delta_avg_disc_logits 0.10519185662269592
+time taken to create sa_distr_trajs: 0.6715700189272563 minutes 
+iteration 91 normed_delta_avg_disc_logits 0.10438081622123718
+time taken to create sa_distr_trajs: 0.6761021653811137 minutes 
+iteration 92 normed_delta_avg_disc_logits 0.10357996821403503
+time taken to create sa_distr_trajs: 0.6755405386288961 minutes 
+iteration 93 normed_delta_avg_disc_logits 0.10279953479766846
+time taken to create sa_distr_trajs: 0.673540719350179 minutes 
+iteration 94 normed_delta_avg_disc_logits 0.10202088952064514
+time taken to create sa_distr_trajs: 0.6760297735532125 minutes 
+iteration 95 normed_delta_avg_disc_logits 0.10125091671943665
+time taken to create sa_distr_trajs: 0.6729133645693461 minutes 
+iteration 96 normed_delta_avg_disc_logits 0.10050201416015625
+time taken to create sa_distr_trajs: 0.6713189601898193 minutes 
+iteration 97 normed_delta_avg_disc_logits 0.09975537657737732
+ normed_delta_avg_disc_logits converged in 65.39
+time taken to create sa_distr_trajs: 0.6730722864468892 minutes 
+iteration 1 normed_delta_avg_disc_logits 2717.10498046875
+time taken to create sa_distr_trajs: 0.6712191621462504 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.14796000719070435
+time taken to create sa_distr_trajs: 0.6706432064374288 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.14661337435245514
+time taken to create sa_distr_trajs: 0.6697296778361003 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.14528657495975494
+time taken to create sa_distr_trajs: 0.6710429271062215 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.14396199584007263
+time taken to create sa_distr_trajs: 0.6790385365486145 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.1426544487476349
+time taken to create sa_distr_trajs: 0.6745851834615072 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.14138071238994598
+time taken to create sa_distr_trajs: 0.6744928956031799 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.1401190459728241
+time taken to create sa_distr_trajs: 0.6745802283287048 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.1388767808675766
+time taken to create sa_distr_trajs: 0.6727447311083475 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.1376512050628662
+time taken to create sa_distr_trajs: 0.6699017365773519 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.13644784688949585
+time taken to create sa_distr_trajs: 0.6708473046620687 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.13528528809547424
+time taken to create sa_distr_trajs: 0.6688921928405762 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.13411884009838104
+time taken to create sa_distr_trajs: 0.6697013338406881 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.13297978043556213
+time taken to create sa_distr_trajs: 0.6660848538080851 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.13185729086399078
+time taken to create sa_distr_trajs: 0.6702047228813172 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.1307557225227356
+time taken to create sa_distr_trajs: 0.6716273387273153 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.12967833876609802
+time taken to create sa_distr_trajs: 0.6694892764091491 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.12861937284469604
+time taken to create sa_distr_trajs: 0.6692029476165772 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.12758108973503113
+time taken to create sa_distr_trajs: 0.6714574495951334 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.12655246257781982
+time taken to create sa_distr_trajs: 0.6732846379280091 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.12554295361042023
+time taken to create sa_distr_trajs: 0.6714227199554443 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.12455475330352783
+time taken to create sa_distr_trajs: 0.6697803179423014 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.12356437742710114
+time taken to create sa_distr_trajs: 0.67538476785024 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.12260650098323822
+time taken to create sa_distr_trajs: 0.6739204247792562 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.12167052924633026
+time taken to create sa_distr_trajs: 0.6717421968777975 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.12072709202766418
+time taken to create sa_distr_trajs: 0.6709974527359008 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.11980575323104858
+time taken to create sa_distr_trajs: 0.6682566603024801 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.11891341209411621
+time taken to create sa_distr_trajs: 0.6726686835289002 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.11800163984298706
+time taken to create sa_distr_trajs: 0.6774393002192179 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.11712369322776794
+time taken to create sa_distr_trajs: 0.6716143329938252 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.11624705791473389
+time taken to create sa_distr_trajs: 0.6693777084350586 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.11540627479553223
+time taken to create sa_distr_trajs: 0.6687699357668558 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.11455518007278442
+time taken to create sa_distr_trajs: 0.6704124689102173 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.11373868584632874
+time taken to create sa_distr_trajs: 0.6698270201683044 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.11291825771331787
+time taken to create sa_distr_trajs: 0.6742761731147766 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.11210301518440247
+time taken to create sa_distr_trajs: 0.6741905490557353 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.11130964756011963
+time taken to create sa_distr_trajs: 0.6677729487419128 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.11053654551506042
+time taken to create sa_distr_trajs: 0.6675107876459757 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.10975393652915955
+time taken to create sa_distr_trajs: 0.670522145430247 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.10898861289024353
+time taken to create sa_distr_trajs: 0.6714711904525756 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.10823678970336914
+time taken to create sa_distr_trajs: 0.6696701288223267 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.10749545693397522
+time taken to create sa_distr_trajs: 0.6742016355196635 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.10674899816513062
+time taken to create sa_distr_trajs: 0.6709596912066141 minutes 
+iteration 44 normed_delta_avg_disc_logits 0.10603645443916321
+time taken to create sa_distr_trajs: 0.6722854097684224 minutes 
+iteration 45 normed_delta_avg_disc_logits 0.10531973838806152
+time taken to create sa_distr_trajs: 0.6729126731554668 minutes 
+iteration 46 normed_delta_avg_disc_logits 0.10460108518600464
+time taken to create sa_distr_trajs: 0.6745407581329346 minutes 
+iteration 47 normed_delta_avg_disc_logits 0.10390526056289673
+time taken to create sa_distr_trajs: 0.6679294387499491 minutes 
+iteration 48 normed_delta_avg_disc_logits 0.10321870446205139
+time taken to create sa_distr_trajs: 0.6687008023262024 minutes 
+iteration 49 normed_delta_avg_disc_logits 0.1025327742099762
+time taken to create sa_distr_trajs: 0.6660061200459798 minutes 
+iteration 50 normed_delta_avg_disc_logits 0.1018570065498352
+time taken to create sa_distr_trajs: 0.6675451477368672 minutes 
+iteration 51 normed_delta_avg_disc_logits 0.10119923949241638
+time taken to create sa_distr_trajs: 0.6745306213696798 minutes 
+iteration 52 normed_delta_avg_disc_logits 0.10054093599319458
+time taken to create sa_distr_trajs: 0.6666234691937765 minutes 
+iteration 53 normed_delta_avg_disc_logits 0.0998789370059967
+ normed_delta_avg_disc_logits converged in 35.64
+time taken to create sa_distr_trajs: 0.6752163767814636 minutes 
+iteration 1 normed_delta_avg_disc_logits 2681.8310546875
+time taken to create sa_distr_trajs: 0.6699036796887715 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.20095032453536987
+time taken to create sa_distr_trajs: 0.6669506708780925 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.19854161143302917
+time taken to create sa_distr_trajs: 0.6684391657511394 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.1962336301803589
+time taken to create sa_distr_trajs: 0.6709032773971557 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.1939762383699417
+time taken to create sa_distr_trajs: 0.6694944024085998 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.1918066143989563
+time taken to create sa_distr_trajs: 0.6685284852981568 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.18968498706817627
+time taken to create sa_distr_trajs: 0.6702393730481465 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.1876298487186432
+time taken to create sa_distr_trajs: 0.6691320101420085 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.18563565611839294
+time taken to create sa_distr_trajs: 0.6682811975479126 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.18368875980377197
+time taken to create sa_distr_trajs: 0.6677800019582113 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.18179917335510254
+time taken to create sa_distr_trajs: 0.6716812928517659 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.17995578050613403
+time taken to create sa_distr_trajs: 0.6742921590805053 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.17815260589122772
+time taken to create sa_distr_trajs: 0.6707290132840474 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.17641475796699524
+time taken to create sa_distr_trajs: 0.6776441772778828 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.17470157146453857
+time taken to create sa_distr_trajs: 0.6707751512527466 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.17304113507270813
+time taken to create sa_distr_trajs: 0.6705795208613078 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.1714065819978714
+time taken to create sa_distr_trajs: 0.6758049647013347 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.1698121875524521
+time taken to create sa_distr_trajs: 0.6749367276827495 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.1682559698820114
+time taken to create sa_distr_trajs: 0.6682548443476359 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.16673710942268372
+time taken to create sa_distr_trajs: 0.668658955891927 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.16522906720638275
+time taken to create sa_distr_trajs: 0.6637507438659668 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.16378378868103027
+time taken to create sa_distr_trajs: 0.6664801637331644 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.16234946250915527
+time taken to create sa_distr_trajs: 0.6697999397913615 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.1609630584716797
+time taken to create sa_distr_trajs: 0.6649214029312134 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.15965203940868378
+time taken to create sa_distr_trajs: 0.6735676129659017 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.1583191454410553
+time taken to create sa_distr_trajs: 0.6713188807169597 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.15703362226486206
+time taken to create sa_distr_trajs: 0.6701038479804993 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.15576234459877014
+time taken to create sa_distr_trajs: 0.6718131025632222 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.1545090228319168
+time taken to create sa_distr_trajs: 0.6711755235989888 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.1532885730266571
+time taken to create sa_distr_trajs: 0.6648001233736675 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.15208253264427185
+time taken to create sa_distr_trajs: 0.6660736401875814 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.15090417861938477
+time taken to create sa_distr_trajs: 0.6637419660886129 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.14974291622638702
+time taken to create sa_distr_trajs: 0.6656072934468588 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.14861516654491425
+time taken to create sa_distr_trajs: 0.6675342480341594 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.147474467754364
+time taken to create sa_distr_trajs: 0.6710369189580282 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.14638672769069672
+time taken to create sa_distr_trajs: 0.6702539245287578 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.14529013633728027
+time taken to create sa_distr_trajs: 0.669649314880371 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.1442151963710785
+time taken to create sa_distr_trajs: 0.6679878393809001 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.14316117763519287
+time taken to create sa_distr_trajs: 0.6691394726435343 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.14212435483932495
+time taken to create sa_distr_trajs: 0.6642178297042847 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.14111173152923584
+time taken to create sa_distr_trajs: 0.66559210618337 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.1401059776544571
+time taken to create sa_distr_trajs: 0.6679887175559998 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.1391177773475647
+time taken to create sa_distr_trajs: 0.6631283521652221 minutes 
+iteration 44 normed_delta_avg_disc_logits 0.13815031945705414
+time taken to create sa_distr_trajs: 0.6667904059092203 minutes 
+iteration 45 normed_delta_avg_disc_logits 0.1371888369321823
+time taken to create sa_distr_trajs: 0.6688019394874573 minutes 
+iteration 46 normed_delta_avg_disc_logits 0.1362445205450058
+time taken to create sa_distr_trajs: 0.6733559687932332 minutes 
+iteration 47 normed_delta_avg_disc_logits 0.13531170785427094
+time taken to create sa_distr_trajs: 0.6715748945871989 minutes 
+iteration 48 normed_delta_avg_disc_logits 0.1343872845172882
+time taken to create sa_distr_trajs: 0.6772673765818278 minutes 
+iteration 49 normed_delta_avg_disc_logits 0.13350000977516174
+time taken to create sa_distr_trajs: 0.6662577629089356 minutes 
+iteration 50 normed_delta_avg_disc_logits 0.1326082944869995
+time taken to create sa_distr_trajs: 0.6671359181404114 minutes 
+iteration 51 normed_delta_avg_disc_logits 0.13172557950019836
+time taken to create sa_distr_trajs: 0.671350101629893 minutes 
+iteration 52 normed_delta_avg_disc_logits 0.1308569610118866
+time taken to create sa_distr_trajs: 0.6684956351915995 minutes 
+iteration 53 normed_delta_avg_disc_logits 0.1300153285264969
+time taken to create sa_distr_trajs: 0.668685774008433 minutes 
+iteration 54 normed_delta_avg_disc_logits 0.12917208671569824
+time taken to create sa_distr_trajs: 0.6758394718170166 minutes 
+iteration 55 normed_delta_avg_disc_logits 0.1283273547887802
+time taken to create sa_distr_trajs: 0.6748844186464945 minutes 
+iteration 56 normed_delta_avg_disc_logits 0.12751160562038422
+time taken to create sa_distr_trajs: 0.6630160609881083 minutes 
+iteration 57 normed_delta_avg_disc_logits 0.12670490145683289
+time taken to create sa_distr_trajs: 0.6666682839393616 minutes 
+iteration 58 normed_delta_avg_disc_logits 0.1258937418460846
+time taken to create sa_distr_trajs: 0.6699376503626505 minutes 
+iteration 59 normed_delta_avg_disc_logits 0.12509989738464355
+time taken to create sa_distr_trajs: 0.670771320660909 minutes 
+iteration 60 normed_delta_avg_disc_logits 0.12433105707168579
+time taken to create sa_distr_trajs: 0.6669433156649271 minutes 
+iteration 61 normed_delta_avg_disc_logits 0.12354551255702972
+time taken to create sa_distr_trajs: 0.6686279773712158 minutes 
+iteration 62 normed_delta_avg_disc_logits 0.12278738617897034
+time taken to create sa_distr_trajs: 0.67113170226415 minutes 
+iteration 63 normed_delta_avg_disc_logits 0.12203654646873474
+time taken to create sa_distr_trajs: 0.6710872848828634 minutes 
+iteration 64 normed_delta_avg_disc_logits 0.12129323184490204
+time taken to create sa_distr_trajs: 0.6696750164031983 minutes 
+iteration 65 normed_delta_avg_disc_logits 0.12054836004972458
+time taken to create sa_distr_trajs: 0.6704448739687602 minutes 
+iteration 66 normed_delta_avg_disc_logits 0.11983666568994522
+time taken to create sa_distr_trajs: 0.6718006332715353 minutes 
+iteration 67 normed_delta_avg_disc_logits 0.11911451071500778
+time taken to create sa_distr_trajs: 0.6732180277506511 minutes 
+iteration 68 normed_delta_avg_disc_logits 0.1184053048491478
+time taken to create sa_distr_trajs: 0.673917845884959 minutes 
+iteration 69 normed_delta_avg_disc_logits 0.11770361661911011
+time taken to create sa_distr_trajs: 0.6682828466097513 minutes 
+iteration 70 normed_delta_avg_disc_logits 0.11701218783855438
+time taken to create sa_distr_trajs: 0.6718814730644226 minutes 
+iteration 71 normed_delta_avg_disc_logits 0.11632338166236877
+time taken to create sa_distr_trajs: 0.668585455417633 minutes 
+iteration 72 normed_delta_avg_disc_logits 0.11565034091472626
+time taken to create sa_distr_trajs: 0.6723090370496114 minutes 
+iteration 73 normed_delta_avg_disc_logits 0.1149827316403389
+time taken to create sa_distr_trajs: 0.6743440628051758 minutes 
+iteration 74 normed_delta_avg_disc_logits 0.11433032155036926
+time taken to create sa_distr_trajs: 0.6674937009811401 minutes 
+iteration 75 normed_delta_avg_disc_logits 0.11366770416498184
+time taken to create sa_distr_trajs: 0.6726677457491557 minutes 
+iteration 76 normed_delta_avg_disc_logits 0.11302274465560913
+time taken to create sa_distr_trajs: 0.6696650981903076 minutes 
+iteration 77 normed_delta_avg_disc_logits 0.11238919198513031
+time taken to create sa_distr_trajs: 0.67040061155955 minutes 
+iteration 78 normed_delta_avg_disc_logits 0.1117560863494873
+time taken to create sa_distr_trajs: 0.6689725081125896 minutes 
+iteration 79 normed_delta_avg_disc_logits 0.11113356053829193
+time taken to create sa_distr_trajs: 0.6711610317230224 minutes 
+iteration 80 normed_delta_avg_disc_logits 0.11051114648580551
+time taken to create sa_distr_trajs: 0.6690202713012695 minutes 
+iteration 81 normed_delta_avg_disc_logits 0.10990218818187714
+time taken to create sa_distr_trajs: 0.6688912153244019 minutes 
+iteration 82 normed_delta_avg_disc_logits 0.10929752886295319
+time taken to create sa_distr_trajs: 0.6733949303627014 minutes 
+iteration 83 normed_delta_avg_disc_logits 0.10869733989238739
+time taken to create sa_distr_trajs: 0.6666927695274353 minutes 
+iteration 84 normed_delta_avg_disc_logits 0.10811583697795868
+time taken to create sa_distr_trajs: 0.667363182703654 minutes 
+iteration 85 normed_delta_avg_disc_logits 0.10752169787883759
+time taken to create sa_distr_trajs: 0.6698189854621888 minutes 
+iteration 86 normed_delta_avg_disc_logits 0.10694009065628052
+time taken to create sa_distr_trajs: 0.6733725150426229 minutes 
+iteration 87 normed_delta_avg_disc_logits 0.10637755692005157
+time taken to create sa_distr_trajs: 0.6721023281415304 minutes 
+iteration 88 normed_delta_avg_disc_logits 0.1057984009385109
+time taken to create sa_distr_trajs: 0.6688471794128418 minutes 
+iteration 89 normed_delta_avg_disc_logits 0.10523584485054016
+time taken to create sa_distr_trajs: 0.6705759803454081 minutes 
+iteration 90 normed_delta_avg_disc_logits 0.10469323396682739
+time taken to create sa_distr_trajs: 0.6741470416386922 minutes 
+iteration 91 normed_delta_avg_disc_logits 0.10412432253360748
+time taken to create sa_distr_trajs: 0.6768813014030457 minutes 
+iteration 92 normed_delta_avg_disc_logits 0.1036078929901123
+time taken to create sa_distr_trajs: 0.6753355781237285 minutes 
+iteration 93 normed_delta_avg_disc_logits 0.10304856300354004
+time taken to create sa_distr_trajs: 0.670829447110494 minutes 
+iteration 94 normed_delta_avg_disc_logits 0.10252854228019714
+time taken to create sa_distr_trajs: 0.6726797064145406 minutes 
+iteration 95 normed_delta_avg_disc_logits 0.10200038552284241
+time taken to create sa_distr_trajs: 0.671122960249583 minutes 
+iteration 96 normed_delta_avg_disc_logits 0.10149124264717102
+time taken to create sa_distr_trajs: 0.6706392447153727 minutes 
+iteration 97 normed_delta_avg_disc_logits 0.10096436738967896
+time taken to create sa_distr_trajs: 0.6729735294977824 minutes 
+iteration 98 normed_delta_avg_disc_logits 0.10046527534723282
+time taken to create sa_distr_trajs: 0.6746541062990824 minutes 
+iteration 99 normed_delta_avg_disc_logits 0.09995028376579285
+ normed_delta_avg_disc_logits converged in 66.44
+time taken to create sa_distr_trajs: 0.6735397060712178 minutes 
+iteration 1 normed_delta_avg_disc_logits 2648.1513671875
+time taken to create sa_distr_trajs: 0.6684864322344463 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.09229534864425659
+ normed_delta_avg_disc_logits converged in 1.36
+time taken to create sa_distr_trajs: 0.6754755695660909 minutes 
+iteration 1 normed_delta_avg_disc_logits 2606.131591796875
+time taken to create sa_distr_trajs: 0.6733255704243978 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.09930777549743652
+ normed_delta_avg_disc_logits converged in 1.37
+time taken to create sa_distr_trajs: 0.6673409819602967 minutes 
+iteration 1 normed_delta_avg_disc_logits 2570.90087890625
+time taken to create sa_distr_trajs: 0.6700278878211975 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.10569420456886292
+time taken to create sa_distr_trajs: 0.6689876397450765 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.10519837588071823
+time taken to create sa_distr_trajs: 0.6714357455571492 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.10473174601793289
+time taken to create sa_distr_trajs: 0.6700806021690369 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.10425035655498505
+time taken to create sa_distr_trajs: 0.6726698120435078 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.103783518075943
+time taken to create sa_distr_trajs: 0.6743099967638652 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.10332953184843063
+time taken to create sa_distr_trajs: 0.6741561174392701 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.10286939144134521
+time taken to create sa_distr_trajs: 0.6737458149592082 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.10240405797958374
+time taken to create sa_distr_trajs: 0.6706464052200317 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.1019502654671669
+time taken to create sa_distr_trajs: 0.6785505811373392 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.10149332880973816
+time taken to create sa_distr_trajs: 0.6680884838104248 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.10105489194393158
+time taken to create sa_distr_trajs: 0.6712284247080486 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.10059048235416412
+time taken to create sa_distr_trajs: 0.6698428114255269 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.10017111897468567
+time taken to create sa_distr_trajs: 0.6666682918866476 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.09971864521503448
+ normed_delta_avg_disc_logits converged in 10.1
+time taken to create sa_distr_trajs: 0.672052264213562 minutes 
+iteration 1 normed_delta_avg_disc_logits 2447.54248046875
+time taken to create sa_distr_trajs: 0.6733659744262696 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.10518103837966919
+time taken to create sa_distr_trajs: 0.6723113814989726 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.10471894592046738
+time taken to create sa_distr_trajs: 0.6763978719711303 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.10426836460828781
+time taken to create sa_distr_trajs: 0.6774620691935221 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.10381432622671127
+time taken to create sa_distr_trajs: 0.676388128598531 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.10335586965084076
+time taken to create sa_distr_trajs: 0.6709960261980693 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.10290142893791199
+time taken to create sa_distr_trajs: 0.6693316102027893 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.10245917737483978
+time taken to create sa_distr_trajs: 0.6778501192728679 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.10201797634363174
+time taken to create sa_distr_trajs: 0.6761684815088908 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.10157453268766403
+time taken to create sa_distr_trajs: 0.6723484635353089 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.10113787651062012
+time taken to create sa_distr_trajs: 0.6722805579503377 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.1006980687379837
+time taken to create sa_distr_trajs: 0.6713435530662537 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.10024533420801163
+time taken to create sa_distr_trajs: 0.6686078468958537 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.09980461001396179
+ normed_delta_avg_disc_logits converged in 9.46
+time taken to create sa_distr_trajs: 0.6692512631416321 minutes 
+iteration 1 normed_delta_avg_disc_logits 2424.72607421875
+time taken to create sa_distr_trajs: 0.6767824570337931 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.13993683457374573
+time taken to create sa_distr_trajs: 0.676525084177653 minutes 
+iteration 3 normed_delta_avg_disc_logits 0.1393188089132309
+time taken to create sa_distr_trajs: 0.6710936307907105 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.1387065052986145
+time taken to create sa_distr_trajs: 0.6722354769706727 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.1380954384803772
+time taken to create sa_distr_trajs: 0.6745851516723633 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.13749177753925323
+time taken to create sa_distr_trajs: 0.66951508919398 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.13690757751464844
+time taken to create sa_distr_trajs: 0.6749598304430644 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.1363002061843872
+time taken to create sa_distr_trajs: 0.6753345171610514 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.1357230395078659
+time taken to create sa_distr_trajs: 0.6762716213862101 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.13513216376304626
+time taken to create sa_distr_trajs: 0.670450754960378 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.13454470038414001
+time taken to create sa_distr_trajs: 0.6771396199862162 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.1339675635099411
+time taken to create sa_distr_trajs: 0.6731611609458923 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.13339467346668243
+time taken to create sa_distr_trajs: 0.6745032866795858 minutes 
+iteration 14 normed_delta_avg_disc_logits 0.13280898332595825
+time taken to create sa_distr_trajs: 0.6714646259943644 minutes 
+iteration 15 normed_delta_avg_disc_logits 0.13225248456001282
+time taken to create sa_distr_trajs: 0.6739666223526001 minutes 
+iteration 16 normed_delta_avg_disc_logits 0.131678968667984
+time taken to create sa_distr_trajs: 0.6714551051457723 minutes 
+iteration 17 normed_delta_avg_disc_logits 0.1311243772506714
+time taken to create sa_distr_trajs: 0.6707102497418721 minutes 
+iteration 18 normed_delta_avg_disc_logits 0.13056212663650513
+time taken to create sa_distr_trajs: 0.6800856788953146 minutes 
+iteration 19 normed_delta_avg_disc_logits 0.13001996278762817
+time taken to create sa_distr_trajs: 0.6766325632731119 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.12947246432304382
+time taken to create sa_distr_trajs: 0.6734774669011434 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.1289357841014862
+time taken to create sa_distr_trajs: 0.6758522311846415 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.12840081751346588
+time taken to create sa_distr_trajs: 0.6767878293991089 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.12785297632217407
+time taken to create sa_distr_trajs: 0.6742274085680644 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.1273166835308075
+time taken to create sa_distr_trajs: 0.674208386739095 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.12678742408752441
+time taken to create sa_distr_trajs: 0.6752392292022705 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.12626484036445618
+time taken to create sa_distr_trajs: 0.6712045868237814 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.12574030458927155
+time taken to create sa_distr_trajs: 0.6752105911572774 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.125221848487854
+time taken to create sa_distr_trajs: 0.6746223330497741 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.12471234798431396
+time taken to create sa_distr_trajs: 0.6731613516807556 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.12421178072690964
+time taken to create sa_distr_trajs: 0.6707567890485128 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.12370502203702927
+time taken to create sa_distr_trajs: 0.6724485238393147 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.12321292608976364
+time taken to create sa_distr_trajs: 0.6748571077982585 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.12271538376808167
+time taken to create sa_distr_trajs: 0.6734712719917297 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.12223160266876221
+time taken to create sa_distr_trajs: 0.675765852133433 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.12174482643604279
+time taken to create sa_distr_trajs: 0.6732371687889099 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.12126953899860382
+time taken to create sa_distr_trajs: 0.6805327256520589 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.12078966200351715
+time taken to create sa_distr_trajs: 0.6761719703674316 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.12031681090593338
+time taken to create sa_distr_trajs: 0.6767327745755514 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.11983933299779892
+time taken to create sa_distr_trajs: 0.6721302072207133 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.11937381327152252
+time taken to create sa_distr_trajs: 0.6758556485176086 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.1189156323671341
+time taken to create sa_distr_trajs: 0.6733429590861003 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.11846492439508438
+time taken to create sa_distr_trajs: 0.673047399520874 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.11798886954784393
+time taken to create sa_distr_trajs: 0.6687285780906678 minutes 
+iteration 44 normed_delta_avg_disc_logits 0.11754665523767471
+time taken to create sa_distr_trajs: 0.6729507962862651 minutes 
+iteration 45 normed_delta_avg_disc_logits 0.11709334701299667
+time taken to create sa_distr_trajs: 0.6716833194096883 minutes 
+iteration 46 normed_delta_avg_disc_logits 0.1166473776102066
+time taken to create sa_distr_trajs: 0.6721606850624084 minutes 
+iteration 47 normed_delta_avg_disc_logits 0.11620546132326126
+time taken to create sa_distr_trajs: 0.6739282806714376 minutes 
+iteration 48 normed_delta_avg_disc_logits 0.11576660722494125
+time taken to create sa_distr_trajs: 0.6718238592147827 minutes 
+iteration 49 normed_delta_avg_disc_logits 0.11532766371965408
+time taken to create sa_distr_trajs: 0.6734428604443868 minutes 
+iteration 50 normed_delta_avg_disc_logits 0.11490491777658463
+time taken to create sa_distr_trajs: 0.6718372941017151 minutes 
+iteration 51 normed_delta_avg_disc_logits 0.11446984857320786
+time taken to create sa_distr_trajs: 0.6745901068051656 minutes 
+iteration 52 normed_delta_avg_disc_logits 0.114043690264225
+time taken to create sa_distr_trajs: 0.6736152609189351 minutes 
+iteration 53 normed_delta_avg_disc_logits 0.11361358314752579
+time taken to create sa_distr_trajs: 0.6759122371673584 minutes 
+iteration 54 normed_delta_avg_disc_logits 0.1132059395313263
+time taken to create sa_distr_trajs: 0.6718366185824076 minutes 
+iteration 55 normed_delta_avg_disc_logits 0.11277630180120468
+time taken to create sa_distr_trajs: 0.6700187087059021 minutes 
+iteration 56 normed_delta_avg_disc_logits 0.11237679421901703
+time taken to create sa_distr_trajs: 0.6746142903963724 minutes 
+iteration 57 normed_delta_avg_disc_logits 0.11194854974746704
+time taken to create sa_distr_trajs: 0.670987582206726 minutes 
+iteration 58 normed_delta_avg_disc_logits 0.11154046654701233
+time taken to create sa_distr_trajs: 0.6809672355651856 minutes 
+iteration 59 normed_delta_avg_disc_logits 0.11115066707134247
+time taken to create sa_distr_trajs: 0.6742215911547343 minutes 
+iteration 60 normed_delta_avg_disc_logits 0.1107398271560669
+time taken to create sa_distr_trajs: 0.6725221554438273 minutes 
+iteration 61 normed_delta_avg_disc_logits 0.11034293472766876
+time taken to create sa_distr_trajs: 0.6696595271428426 minutes 
+iteration 62 normed_delta_avg_disc_logits 0.10993840545415878
+time taken to create sa_distr_trajs: 0.6753281553586324 minutes 
+iteration 63 normed_delta_avg_disc_logits 0.10954438894987106
+time taken to create sa_distr_trajs: 0.6738550504048665 minutes 
+iteration 64 normed_delta_avg_disc_logits 0.10914841294288635
+time taken to create sa_distr_trajs: 0.671550452709198 minutes 
+iteration 65 normed_delta_avg_disc_logits 0.10876036435365677
+time taken to create sa_distr_trajs: 0.6753489017486572 minutes 
+iteration 66 normed_delta_avg_disc_logits 0.10836490243673325
+time taken to create sa_distr_trajs: 0.6718521992365519 minutes 
+iteration 67 normed_delta_avg_disc_logits 0.10797961056232452
+time taken to create sa_distr_trajs: 0.6729296207427978 minutes 
+iteration 68 normed_delta_avg_disc_logits 0.1075998991727829
+time taken to create sa_distr_trajs: 0.6726476867993673 minutes 
+iteration 69 normed_delta_avg_disc_logits 0.1072244644165039
+time taken to create sa_distr_trajs: 0.6744033853212993 minutes 
+iteration 70 normed_delta_avg_disc_logits 0.10684245824813843
+time taken to create sa_distr_trajs: 0.6722444375356038 minutes 
+iteration 71 normed_delta_avg_disc_logits 0.1064658835530281
+time taken to create sa_distr_trajs: 0.6748244643211365 minutes 
+iteration 72 normed_delta_avg_disc_logits 0.10609399527311325
+time taken to create sa_distr_trajs: 0.6756131847699484 minutes 
+iteration 73 normed_delta_avg_disc_logits 0.105728879570961
+time taken to create sa_distr_trajs: 0.6764639218648275 minutes 
+iteration 74 normed_delta_avg_disc_logits 0.10535699129104614
+time taken to create sa_distr_trajs: 0.6755714615186056 minutes 
+iteration 75 normed_delta_avg_disc_logits 0.10499841719865799
+time taken to create sa_distr_trajs: 0.6744434277216593 minutes 
+iteration 76 normed_delta_avg_disc_logits 0.10463308542966843
+time taken to create sa_distr_trajs: 0.6756235917409261 minutes 
+iteration 77 normed_delta_avg_disc_logits 0.10427497327327728
+time taken to create sa_distr_trajs: 0.6743075251579285 minutes 
+iteration 78 normed_delta_avg_disc_logits 0.1039201095700264
+time taken to create sa_distr_trajs: 0.674746286869049 minutes 
+iteration 79 normed_delta_avg_disc_logits 0.10355718433856964
+time taken to create sa_distr_trajs: 0.6795021176338196 minutes 
+iteration 80 normed_delta_avg_disc_logits 0.10321218520402908
+time taken to create sa_distr_trajs: 0.6769452015558879 minutes 
+iteration 81 normed_delta_avg_disc_logits 0.10286050289869308
+time taken to create sa_distr_trajs: 0.6777832627296447 minutes 
+iteration 82 normed_delta_avg_disc_logits 0.10251235216856003
+time taken to create sa_distr_trajs: 0.6726226727167766 minutes 
+iteration 83 normed_delta_avg_disc_logits 0.10217451304197311
+time taken to create sa_distr_trajs: 0.677176276842753 minutes 
+iteration 84 normed_delta_avg_disc_logits 0.10182034969329834
+time taken to create sa_distr_trajs: 0.6745452801386516 minutes 
+iteration 85 normed_delta_avg_disc_logits 0.10148391872644424
+time taken to create sa_distr_trajs: 0.6712036689122518 minutes 
+iteration 86 normed_delta_avg_disc_logits 0.10114879906177521
+time taken to create sa_distr_trajs: 0.6715831319491069 minutes 
+iteration 87 normed_delta_avg_disc_logits 0.10081136226654053
+time taken to create sa_distr_trajs: 0.675815200805664 minutes 
+iteration 88 normed_delta_avg_disc_logits 0.1004767194390297
+time taken to create sa_distr_trajs: 0.6761820634206136 minutes 
+iteration 89 normed_delta_avg_disc_logits 0.10013308376073837
+time taken to create sa_distr_trajs: 0.6733001112937927 minutes 
+iteration 90 normed_delta_avg_disc_logits 0.09980642050504684
+ normed_delta_avg_disc_logits converged in 60.75
+time taken to create sa_distr_trajs: 0.6852971990903218 minutes 
+iteration 1 normed_delta_avg_disc_logits 2342.138671875
+time taken to create sa_distr_trajs: 0.6754524191220601 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.08157685399055481
+ normed_delta_avg_disc_logits converged in 1.38
+time taken to create sa_distr_trajs: 0.6761295835177104 minutes 
+iteration 1 normed_delta_avg_disc_logits 2294.691162109375
+time taken to create sa_distr_trajs: 0.6750427603721618 minutes 
+iteration 2 normed_delta_avg_disc_logits 0.08755677938461304
+ normed_delta_avg_disc_logits converged in 1.37
+time taken to create sa_distr_trajs: 0.6829465667406718 minutes 
+iteration 1 normed_delta_avg_disc_logits 2827.37890625
+time taken to create sa_distr_trajs: 0.6839781403541565 minutes 
+iteration 2 normed_delta_avg_disc_logits 2.760341167449951
+time taken to create sa_distr_trajs: 0.6831905126571656 minutes 
+iteration 3 normed_delta_avg_disc_logits 1.2885199785232544
+time taken to create sa_distr_trajs: 0.6812130689620972 minutes 
+iteration 4 normed_delta_avg_disc_logits 0.762872576713562
+time taken to create sa_distr_trajs: 0.6828710794448852 minutes 
+iteration 5 normed_delta_avg_disc_logits 0.5105239152908325
+time taken to create sa_distr_trajs: 0.6810752232869466 minutes 
+iteration 6 normed_delta_avg_disc_logits 0.3683953881263733
+time taken to create sa_distr_trajs: 0.6826546510060628 minutes 
+iteration 7 normed_delta_avg_disc_logits 0.27978187799453735
+time taken to create sa_distr_trajs: 0.6812275052070618 minutes 
+iteration 8 normed_delta_avg_disc_logits 0.22052854299545288
+time taken to create sa_distr_trajs: 0.677784780661265 minutes 
+iteration 9 normed_delta_avg_disc_logits 0.17879900336265564
+time taken to create sa_distr_trajs: 0.6822102268536886 minutes 
+iteration 10 normed_delta_avg_disc_logits 0.1482098251581192
+time taken to create sa_distr_trajs: 0.6787537097930908 minutes 
+iteration 11 normed_delta_avg_disc_logits 0.12507516145706177
+time taken to create sa_distr_trajs: 0.6808362762133281 minutes 
+iteration 12 normed_delta_avg_disc_logits 0.10710381716489792
+time taken to create sa_distr_trajs: 0.6844632983207702 minutes 
+iteration 13 normed_delta_avg_disc_logits 0.09286727756261826
+ normed_delta_avg_disc_logits converged in 8.9
+time taken to create sa_distr_trajs: 0.6798512816429139 minutes 
+iteration 1 normed_delta_avg_disc_logits 2775.12353515625
+time taken to create sa_distr_trajs: 0.6698897997538249 minutes 
+iteration 2 normed_delta_avg_disc_logits 3.8526315689086914
+time taken to create sa_distr_trajs: 0.6703701535860698 minutes 
+iteration 3 normed_delta_avg_disc_logits 3.348140239715576
+time taken to create sa_distr_trajs: 0.6726174235343934 minutes 
+iteration 4 normed_delta_avg_disc_logits 2.963590145111084
+time taken to create sa_distr_trajs: 0.6711766680081686 minutes 
+iteration 5 normed_delta_avg_disc_logits 2.6582436561584473
+time taken to create sa_distr_trajs: 0.6761882503827413 minutes 
+iteration 6 normed_delta_avg_disc_logits 2.4073495864868164
+time taken to create sa_distr_trajs: 0.6729421973228454 minutes 
+iteration 7 normed_delta_avg_disc_logits 2.1963768005371094
+time taken to create sa_distr_trajs: 0.6759508927663167 minutes 
+iteration 8 normed_delta_avg_disc_logits 2.0170342922210693
+time taken to create sa_distr_trajs: 0.6764553825060526 minutes 
+iteration 9 normed_delta_avg_disc_logits 1.862798810005188
+time taken to create sa_distr_trajs: 0.6756670673688253 minutes 
+iteration 10 normed_delta_avg_disc_logits 1.7285196781158447
+time taken to create sa_distr_trajs: 0.6723697503407796 minutes 
+iteration 11 normed_delta_avg_disc_logits 1.6104984283447266
+time taken to create sa_distr_trajs: 0.6726271510124207 minutes 
+iteration 12 normed_delta_avg_disc_logits 1.5060994625091553
+time taken to create sa_distr_trajs: 0.673879063129425 minutes 
+iteration 13 normed_delta_avg_disc_logits 1.4129977226257324
+time taken to create sa_distr_trajs: 0.6766392032305399 minutes 
+iteration 14 normed_delta_avg_disc_logits 1.3295128345489502
+time taken to create sa_distr_trajs: 0.6730650981267293 minutes 
+iteration 15 normed_delta_avg_disc_logits 1.2542916536331177
+time taken to create sa_distr_trajs: 0.6748449802398682 minutes 
+iteration 16 normed_delta_avg_disc_logits 1.186164140701294
+time taken to create sa_distr_trajs: 0.6754316608111064 minutes 
+iteration 17 normed_delta_avg_disc_logits 1.1241883039474487
+time taken to create sa_distr_trajs: 0.6769179622332255 minutes 
+iteration 18 normed_delta_avg_disc_logits 1.067604422569275
+time taken to create sa_distr_trajs: 0.6762224872907002 minutes 
+iteration 19 normed_delta_avg_disc_logits 1.0157129764556885
+time taken to create sa_distr_trajs: 0.6730376521746317 minutes 
+iteration 20 normed_delta_avg_disc_logits 0.9680274128913879
+time taken to create sa_distr_trajs: 0.6739815751711528 minutes 
+iteration 21 normed_delta_avg_disc_logits 0.9240261316299438
+time taken to create sa_distr_trajs: 0.6753443996111552 minutes 
+iteration 22 normed_delta_avg_disc_logits 0.8833346366882324
+time taken to create sa_distr_trajs: 0.6769193609555563 minutes 
+iteration 23 normed_delta_avg_disc_logits 0.8455961346626282
+time taken to create sa_distr_trajs: 0.6716092626253763 minutes 
+iteration 24 normed_delta_avg_disc_logits 0.8104832768440247
+time taken to create sa_distr_trajs: 0.6721552451451619 minutes 
+iteration 25 normed_delta_avg_disc_logits 0.7777649164199829
+time taken to create sa_distr_trajs: 0.674208935101827 minutes 
+iteration 26 normed_delta_avg_disc_logits 0.7472044825553894
+time taken to create sa_distr_trajs: 0.674600350856781 minutes 
+iteration 27 normed_delta_avg_disc_logits 0.7186012864112854
+time taken to create sa_distr_trajs: 0.6745993733406067 minutes 
+iteration 28 normed_delta_avg_disc_logits 0.6917962431907654
+time taken to create sa_distr_trajs: 0.673317797978719 minutes 
+iteration 29 normed_delta_avg_disc_logits 0.6666090488433838
+time taken to create sa_distr_trajs: 0.6715303858121237 minutes 
+iteration 30 normed_delta_avg_disc_logits 0.6429283618927002
+time taken to create sa_distr_trajs: 0.6789945761362711 minutes 
+iteration 31 normed_delta_avg_disc_logits 0.6206235885620117
+time taken to create sa_distr_trajs: 0.6770761926968892 minutes 
+iteration 32 normed_delta_avg_disc_logits 0.5995741486549377
+time taken to create sa_distr_trajs: 0.672548508644104 minutes 
+iteration 33 normed_delta_avg_disc_logits 0.5796873569488525
+time taken to create sa_distr_trajs: 0.6757563312848409 minutes 
+iteration 34 normed_delta_avg_disc_logits 0.5608880519866943
+time taken to create sa_distr_trajs: 0.6731446941693624 minutes 
+iteration 35 normed_delta_avg_disc_logits 0.5430691242218018
+time taken to create sa_distr_trajs: 0.6677382667859395 minutes 
+iteration 36 normed_delta_avg_disc_logits 0.5261829495429993
+time taken to create sa_distr_trajs: 0.67454993724823 minutes 
+iteration 37 normed_delta_avg_disc_logits 0.5101479887962341
+time taken to create sa_distr_trajs: 0.6765299359957377 minutes 
+iteration 38 normed_delta_avg_disc_logits 0.49490755796432495
+time taken to create sa_distr_trajs: 0.6716425498326619 minutes 
+iteration 39 normed_delta_avg_disc_logits 0.48041096329689026
+time taken to create sa_distr_trajs: 0.6740155935287475 minutes 
+iteration 40 normed_delta_avg_disc_logits 0.4665870666503906
+time taken to create sa_distr_trajs: 0.6778096079826355 minutes 
+iteration 41 normed_delta_avg_disc_logits 0.4534294307231903
+time taken to create sa_distr_trajs: 0.6782998164494832 minutes 
+iteration 42 normed_delta_avg_disc_logits 0.4408561587333679
+time taken to create sa_distr_trajs: 0.6745405475298564 minutes 
+iteration 43 normed_delta_avg_disc_logits 0.4288589358329773
+time taken to create sa_distr_trajs: 0.6814468065897624 minutes 
+iteration 44 normed_delta_avg_disc_logits 0.4173802137374878
+time taken to create sa_distr_trajs: 0.676796269416809 minutes 
+iteration 45 normed_delta_avg_disc_logits 0.40643101930618286
+time taken to create sa_distr_trajs: 0.6731735348701477 minutes 
+iteration 46 normed_delta_avg_disc_logits 0.395927369594574
+time taken to create sa_distr_trajs: 0.6727038025856018 minutes 
+iteration 47 normed_delta_avg_disc_logits 0.3858555853366852
+time taken to create sa_distr_trajs: 0.6738301316897074 minutes 
+iteration 48 normed_delta_avg_disc_logits 0.37620973587036133
+time taken to create sa_distr_trajs: 0.6768781622250875 minutes 
+iteration 49 normed_delta_avg_disc_logits 0.3669511377811432
+time taken to create sa_distr_trajs: 0.6753190716107687 minutes 
+iteration 50 normed_delta_avg_disc_logits 0.3580497205257416
+time taken to create sa_distr_trajs: 0.6746231555938721 minutes 
+iteration 51 normed_delta_avg_disc_logits 0.34952089190483093
+time taken to create sa_distr_trajs: 0.6746500333150228 minutes 
+iteration 52 normed_delta_avg_disc_logits 0.3412941098213196
+time taken to create sa_distr_trajs: 0.6762519598007202 minutes 
+iteration 53 normed_delta_avg_disc_logits 0.3334106504917145
+time taken to create sa_distr_trajs: 0.6737684528032939 minutes 
+iteration 54 normed_delta_avg_disc_logits 0.32578176259994507
+time taken to create sa_distr_trajs: 0.6736723423004151 minutes 
+iteration 55 normed_delta_avg_disc_logits 0.31846070289611816
+time taken to create sa_distr_trajs: 0.6735588312149048 minutes 
+iteration 56 normed_delta_avg_disc_logits 0.311393678188324
+time taken to create sa_distr_trajs: 0.6749807794888815 minutes 
+iteration 57 normed_delta_avg_disc_logits 0.30457398295402527
+time taken to create sa_distr_trajs: 0.6793408473332723 minutes 
+iteration 58 normed_delta_avg_disc_logits 0.2980107367038727
+time taken to create sa_distr_trajs: 0.6714311639467875 minutes 
+iteration 59 normed_delta_avg_disc_logits 0.2916644811630249
+time taken to create sa_distr_trajs: 0.6745968182881673 minutes 
+iteration 60 normed_delta_avg_disc_logits 0.28552737832069397
+time taken to create sa_distr_trajs: 0.6748001337051391 minutes 
+iteration 61 normed_delta_avg_disc_logits 0.2796160578727722
+time taken to create sa_distr_trajs: 0.6776553630828858 minutes 
+iteration 62 normed_delta_avg_disc_logits 0.2738903760910034
+time taken to create sa_distr_trajs: 0.6730397899945577 minutes 
+iteration 63 normed_delta_avg_disc_logits 0.2683504521846771
+time taken to create sa_distr_trajs: 0.6771323283513387 minutes 
+iteration 64 normed_delta_avg_disc_logits 0.2630023956298828
+time taken to create sa_distr_trajs: 0.6772375663121541 minutes 
+iteration 65 normed_delta_avg_disc_logits 0.25780805945396423
+time taken to create sa_distr_trajs: 0.682069985071818 minutes 
+iteration 66 normed_delta_avg_disc_logits 0.2528047561645508
+time taken to create sa_distr_trajs: 0.6793558756510417 minutes 
+iteration 67 normed_delta_avg_disc_logits 0.24792569875717163
+time taken to create sa_distr_trajs: 0.6804604689280193 minutes 
+iteration 68 normed_delta_avg_disc_logits 0.24322569370269775
+time taken to create sa_distr_trajs: 0.6728911240895589 minutes 
+iteration 69 normed_delta_avg_disc_logits 0.23865337669849396
+time taken to create sa_distr_trajs: 0.678422478834788 minutes 
+iteration 70 normed_delta_avg_disc_logits 0.2342173308134079
+time taken to create sa_distr_trajs: 0.6756571213404338 minutes 
+iteration 71 normed_delta_avg_disc_logits 0.22992730140686035
+time taken to create sa_distr_trajs: 0.6732908765474955 minutes 
+iteration 72 normed_delta_avg_disc_logits 0.22575977444648743
+time taken to create sa_distr_trajs: 0.6769006212552389 minutes 
+iteration 73 normed_delta_avg_disc_logits 0.2217084765434265
+time taken to create sa_distr_trajs: 0.6748641093571981 minutes 
+iteration 74 normed_delta_avg_disc_logits 0.21776393055915833
+time taken to create sa_distr_trajs: 0.6946583072344462 minutes 
+iteration 75 normed_delta_avg_disc_logits 0.21396246552467346
+time taken to create sa_distr_trajs: 0.687157142162323 minutes 
+iteration 76 normed_delta_avg_disc_logits 0.2102404534816742
+time taken to create sa_distr_trajs: 0.6788944602012634 minutes 
+iteration 77 normed_delta_avg_disc_logits 0.20663106441497803
+time taken to create sa_distr_trajs: 0.677274759610494 minutes 
+iteration 78 normed_delta_avg_disc_logits 0.20312485098838806
+time taken to create sa_distr_trajs: 0.6781158089637757 minutes 
+iteration 79 normed_delta_avg_disc_logits 0.19970263540744781
+time taken to create sa_distr_trajs: 0.6762265086174011 minutes 
+iteration 80 normed_delta_avg_disc_logits 0.1963946521282196
+time taken to create sa_distr_trajs: 0.681666374206543 minutes 
+iteration 81 normed_delta_avg_disc_logits 0.19315814971923828
+time taken to create sa_distr_trajs: 0.6745487650235494 minutes 
+iteration 82 normed_delta_avg_disc_logits 0.1900007128715515
+time taken to create sa_distr_trajs: 0.6735115845998129 minutes 
+iteration 83 normed_delta_avg_disc_logits 0.18693748116493225
+time taken to create sa_distr_trajs: 0.6759704391161601 minutes 
+iteration 84 normed_delta_avg_disc_logits 0.18396028876304626
+time taken to create sa_distr_trajs: 0.6710851669311524 minutes 
+iteration 85 normed_delta_avg_disc_logits 0.18103080987930298
+time taken to create sa_distr_trajs: 0.6750668128331502 minutes 
+iteration 86 normed_delta_avg_disc_logits 0.17820152640342712
+time taken to create sa_distr_trajs: 0.6785909334818522 minutes 
+iteration 87 normed_delta_avg_disc_logits 0.175447016954422
+time taken to create sa_distr_trajs: 0.6769838770230611 minutes 
+iteration 88 normed_delta_avg_disc_logits 0.17274180054664612
+time taken to create sa_distr_trajs: 0.6804361542065939 minutes 
+iteration 89 normed_delta_avg_disc_logits 0.17010456323623657
+time taken to create sa_distr_trajs: 0.6784547487894694 minutes 
+iteration 90 normed_delta_avg_disc_logits 0.16754284501075745
+time taken to create sa_distr_trajs: 0.676670245329539 minutes 
+iteration 91 normed_delta_avg_disc_logits 0.1650501787662506
+time taken to create sa_distr_trajs: 0.6734370549519857 minutes 
+iteration 92 normed_delta_avg_disc_logits 0.162593811750412
+time taken to create sa_distr_trajs: 0.6710689465204874 minutes 
+iteration 93 normed_delta_avg_disc_logits 0.16021206974983215
+time taken to create sa_distr_trajs: 0.6723830580711365 minutes 
+iteration 94 normed_delta_avg_disc_logits 0.15787376463413239
+time taken to create sa_distr_trajs: 0.673462963104248 minutes 
+iteration 95 normed_delta_avg_disc_logits 0.15559953451156616
+time taken to create sa_distr_trajs: 0.674980099995931 minutes 
+iteration 96 normed_delta_avg_disc_logits 0.15336725115776062
+time taken to create sa_distr_trajs: 0.6756680369377136 minutes 
+iteration 97 normed_delta_avg_disc_logits 0.1512005627155304
+time taken to create sa_distr_trajs: 0.6764248728752136 minutes 
+iteration 98 normed_delta_avg_disc_logits 0.14908158779144287
+time taken to create sa_distr_trajs: 0.6936440428098043 minutes 
+iteration 99 normed_delta_avg_disc_logits 0.1470014750957489
+time taken to create sa_distr_trajs: 0.6895185430844625 minutes 
+iteration 100 normed_delta_avg_disc_logits 0.14496901631355286
+time taken to create sa_distr_trajs: 0.6790298104286194 minutes 
+iteration 101 normed_delta_avg_disc_logits 0.14299115538597107

@@ -1163,6 +1163,29 @@ def calc_LBA_cont_states_discrete_act(venv, expert_policy, learner_policy):
 
     return lba_0_to_1
 
+def calc_LBA_cont_states_cont_act_no_partitions(venv, expert_policy, learner_policy):
+    '''
+    Calculate monte carlo integration estimate for LBA in continuous state domain wo partitions
+    LBA = 1/(size of state space)*integral_over_statespace
+    where integral_over_partition = 
+    (size of state space) * 1/(number of state samples)*
+    sum_over_samples(normalized distance between learner_action and expert_action for sampled state)
+
+    '''
+    get_actions_expert = _policy_to_callable(expert_policy, venv)
+    get_actions_learner = _policy_to_callable(learner_policy, venv)
+    sampled_states = venv.env_method(method_name='state_samples_to_estimate_LBA',indices=[0]*venv.num_envs)[0]
+
+    sum_estimate = 0
+    for sampled_state in sampled_states:
+        a_exp = get_actions_expert(sampled_state).item()
+        a_lrn = get_actions_learner(sampled_state).item()
+        sum_estimate += 1 - np.linalg.norm(a_exp-a_lrn)/np.linalg.norm(a_exp)
+    
+    lba_0_to_1 = 1/len(sampled_states)*round(sum_estimate,3)
+    assert (lba_0_to_1>=0 and lba_0_to_1 <= 1),f"lba computation mistake. it should be between 0 and 1, got {lba_0_to_1}"
+
+    return lba_0_to_1
 
 def create_flattened_gibbs_stepdistr(
     venv: VecEnv,
