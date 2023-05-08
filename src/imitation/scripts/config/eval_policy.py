@@ -3,6 +3,7 @@
 import sacred
 
 from imitation.scripts.common import common
+import numpy as np
 
 eval_policy_ex = sacred.Experiment(
     "eval_policy",
@@ -31,6 +32,8 @@ def replay_defaults():
 
     rollout_save_path = None  # where to save rollouts to -- if None, do not save
     noise_insertion = False
+    max_time_steps = np.iinfo('uint64').max
+
 
 
 @eval_policy_ex.named_config
@@ -51,11 +54,12 @@ def ant():
 @eval_policy_ex.named_config
 def ant_wd_noise():
     common = dict(env_name="imitationNM/AntWdNoise-v0")
+    max_time_steps = 8192  # Max timesteps to evaluate
+    eval_n_timesteps = max_time_steps+3  # redundant if large than max_time_steps 
 
 @eval_policy_ex.named_config
 def cartpole():
     common = dict(env_name="CartPole-v1")
-    eval_n_timesteps = int(5e2)  # Min timesteps to evaluate, optional.
 
 
 @eval_policy_ex.named_config

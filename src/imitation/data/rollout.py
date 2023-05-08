@@ -13,6 +13,13 @@ from stable_baselines3.common.vec_env import VecEnv
 
 from imitation.data import types
 import gym
+import time
+import os, git
+
+repo = git.Repo(os.getcwd(), search_parent_directories=True)
+git_home = repo.working_tree_dir
+imitation_dir = str(git_home)
+
 
 def unwrap_traj(traj: types.TrajectoryWithRew) -> types.TrajectoryWithRew:
     """Uses `RolloutInfoWrapper`-captured `obs` and `rews` to replace fields.
@@ -313,6 +320,7 @@ def generate_trajectories(
     deterministic_policy: bool = False,
     rng: np.random.RandomState = np.random,
     noise_insertion: bool = False,
+    max_time_steps: Optional[int] = np.iinfo('uint64').max,
 ) -> Sequence[types.TrajectoryWithRew]:
     """Generate trajectory dictionaries from a policy and an environment.
 
@@ -363,10 +371,31 @@ def generate_trajectories(
     distinct_sa_pairs_list = []
     dones_counter = 0
     
-    active = np.ones(venv.num_envs, dtype=bool)
-    while np.any(active):
+    active = np.ones(venv.num_envs, dtype=bool) 
+    n_timesteps = 0 
+    while np.any(active): 
+        if n_timesteps > max_time_steps:
+            # ending all partial trajectories that are not done 
+            new_trajs = []
+            for env_idx in range(len(obs)): 
+                new_traj = trajectories_accum.finish_trajectory(env_idx, terminal=False) 
+                new_trajs.append(new_traj)
+            trajectories.extend(new_trajs)
+            # removing all trajectories with size smaller than max_time_steps 
+            trajectories = [traj for traj in trajectories if len(traj.obs)>=max_time_steps]
+
+            assert len(trajectories)!=0,ValueError("couldn't get rollouts of expected max_time_steps size")
+
+            num_traj_demo_filename = imitation_dir + "/for_debugging/num_traj_demo.txt" 
+            num_traj_demo_fileh = open(num_traj_demo_filename, "a")
+            num_traj_demo_fileh.write("\nnum trajs {} max_time_steps {}".format(len(trajectories),max_time_steps))
+            num_traj_demo_fileh.close() 
+
+            break
+
         acts = get_actions(obs)
         next_obs, rews, dones, infos = venv.step(acts)
+        n_timesteps += 1
         if not isinstance(venv.observation_space, gym.spaces.Box): # it doesn't make sense to count distinct values in a continuous /Box space  
             for i in range(len(obs)):
                 s,a = obs[i],acts[i]
@@ -826,6 +855,13 @@ def rollout_stats(
         "return": np.asarray([sum(t.rews) for t in trajectories]),
         "len": np.asarray([len(t.rews) for t in trajectories]),
     }
+    lst_tmp = []
+    for t in trajectories:
+        if (len(t.rews)!=0):
+            lst_tmp.append((sum(t.rews)/len(t.rews)))
+        else:
+            lst_tmp.append(np.inf)
+    traj_descriptors["returnbylen"] = np.asarray(lst_tmp)
 
     monitor_ep_returns = []
     for t in trajectories:
@@ -1172,20 +1208,35 @@ def calc_LBA_cont_states_cont_act_no_partitions(venv, expert_policy, learner_pol
     sum_over_samples(normalized distance between learner_action and expert_action for sampled state)
 
     '''
+
+    st_tm = time.time()
     get_actions_expert = _policy_to_callable(expert_policy, venv)
     get_actions_learner = _policy_to_callable(learner_policy, venv)
-    sampled_states = venv.env_method(method_name='state_samples_to_estimate_LBA',indices=[0]*venv.num_envs)[0]
+    sampled_states,max_diff_acts = venv.env_method(method_name='state_samples_to_estimate_LBA',indices=[0]*venv.num_envs)[0]
 
-    sum_estimate = 0
+    sum_estimate1, sum_estimate2, sum_estimate3 = 0, 0, 0
     for sampled_state in sampled_states:
-        a_exp = get_actions_expert(sampled_state).item()
-        a_lrn = get_actions_learner(sampled_state).item()
-        sum_estimate += 1 - np.linalg.norm(a_exp-a_lrn)/np.linalg.norm(a_exp)
+        a_exp = get_actions_expert(sampled_state)
+        a_lrn = get_actions_learner(sampled_state)
+        # L2 norm
+        sum_estimate1 += 1 - np.linalg.norm(a_exp-a_lrn)/np.linalg.norm(max_diff_acts)
+        # manhattan distance
+        sum_estimate2 += 1 - np.sum(np.abs(a_exp-a_lrn))/np.sum(np.abs(max_diff_acts))
+        # max (abs (x) )
+        sum_estimate3 += 1 - np.linalg.norm(a_exp-a_lrn, np.inf)/np.linalg.norm(max_diff_acts, np.inf)
     
-    lba_0_to_1 = 1/len(sampled_states)*round(sum_estimate,3)
-    assert (lba_0_to_1>=0 and lba_0_to_1 <= 1),f"lba computation mistake. it should be between 0 and 1, got {lba_0_to_1}"
+    lba_0_to_1_1 = 1/len(sampled_states)*round(sum_estimate1,3)
+    lba_0_to_1_2 = 1/len(sampled_states)*round(sum_estimate2,3)
+    lba_0_to_1_3 = 1/len(sampled_states)*round(sum_estimate3,3)
 
-    return lba_0_to_1
+    # assert (lba_0_to_1>=0 and lba_0_to_1 <= 1),f"lba computation mistake. it should be between 0 and 1, got {lba_0_to_1}"
+    
+    # lba_times_filename = imitation_dir + "/for_debugging/lba_times.txt" 
+    # lba_times_fileh = open(lba_times_filename, "a")
+    # lba_times_fileh.write("\ntime taken for compute lba {} min".format((time.time()-st_tm)/60))
+    # lba_times_fileh.close() 
+    
+    return (lba_0_to_1_1, lba_0_to_1_2, lba_0_to_1_3)
 
 def create_flattened_gibbs_stepdistr(
     venv: VecEnv,

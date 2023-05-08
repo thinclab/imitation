@@ -48,4 +48,5 @@ if __name__ == '__main__':
     env_name_config_reacher = 'reacher' 
     save_videos = False
     render = False
+
     test_eval_policy(policypath_ant, noiseinsertion, env_name_antwdnoise, save_videos, render) 

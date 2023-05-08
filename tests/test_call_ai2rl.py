@@ -86,13 +86,14 @@ def incremental_train_adversarial(
     writer.write("\n")
     writer.close()
 
-    lba_all_sessions = [round(run.result["LBA"],3)]
+    # lba_all_sessions = [round(run.result["LBA"],3)]
+    lba_all_sessions = [run.result["LBA"]]
     if named_configs_in[0] != 'discretized_state_mountain_car':
         return_mean_all_sessions = [round(run.result['imit_stats']["return_mean"],3)]
-        return_max_all_sessions = [round(run.result['imit_stats']["return_max"],3)]
+        returnbylen_mean_all_sessions = [round(run.result['imit_stats']["returnbylen_mean"],3)]
     else:
         return_mean_all_sessions = [0.0]
-        return_max_all_sessions = [0.0]
+        returnbylen_mean_all_sessions = [0.0]
     agent_path = run.config["common"]["log_dir"]+ "/checkpoints/final/gen_policy"
 
     # second call onwards every call should pick next demonstration and gen_policy checkpoint from previous call
@@ -119,13 +120,14 @@ def incremental_train_adversarial(
         writer.write("{}, {}".format(i+1, round((time.time()-start_time_session)/60,3)))
         writer.write("\n")
 
-        lba_all_sessions.append(round(run.result["LBA"],3))
+        # lba_all_sessions.append(round(run.result["LBA"],3))
+        lba_all_sessions.append(run.result["LBA"])
         if named_configs_in[0] != 'discretized_state_mountain_car':
             return_mean_all_sessions.append(round(run.result['imit_stats']["return_mean"],3))
-            return_max_all_sessions.append(round(run.result['imit_stats']["return_max"],3))
+            returnbylen_mean_all_sessions.append(round(run.result['imit_stats']["returnbylen_mean"],3))
         else:
             return_mean_all_sessions.append(0.0)
-            return_max_all_sessions.append(0.0)
+            returnbylen_mean_all_sessions.append(0.0)
 
         agent_path = run.config["common"]["log_dir"]+ "/checkpoints/final/gen_policy"
 
@@ -134,7 +136,7 @@ def incremental_train_adversarial(
     writer.write("\n")
     writer.close()
 
-    return lba_all_sessions,return_mean_all_sessions,return_max_all_sessions
+    return lba_all_sessions,return_mean_all_sessions,returnbylen_mean_all_sessions
 
 def create_file(filename):
     file_handle = open(filename, "w")
@@ -160,21 +162,25 @@ def run_trials_ai2rl(
 
     lba_values_over_AI2RL_trials = []
     return_mean_over_AI2RL_trials = []
-    return_max_over_AI2RL_trials = []
+    returnbylen_mean_over_AI2RL_trials = []
 
     # make one file per result array
     lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/lba_arrays.csv"
     lba_fileh = create_file(lba_filename)
     retmean_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/ret_mean_arrays.csv"
     retmean_fileh = create_file(retmean_filename)
-    retmax_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/ret_max_arrays.csv"
-    retmax_fileh = create_file(retmax_filename)
+    returnbylen_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/returnbylen_arrays.csv"
+    returnbylen_fileh = create_file(returnbylen_filename)
     session_times_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/session_times.csv"
     session_times_fileh = create_file(session_times_filename)
+    lba_times_filename = parent_of_output_dir+"/for_debugging/lba_times.txt"
+    lba_times_fileh = create_file(lba_times_filename)
+    stats_times_filename = parent_of_output_dir+"/for_debugging/stats_times.txt"
+    stats_times_fileh = create_file(stats_times_filename)
 
     for i in range(0,num_trials):
        
-        lba_all_sessions,return_mean_all_sessions,return_max_all_sessions = incremental_train_adversarial(rootdir=rootdir,\
+        lba_all_sessions,return_mean_all_sessions,returnbylen_mean_all_sessions = incremental_train_adversarial(rootdir=rootdir,\
             demonstration_policy_path=demonstration_policy_path,named_configs_in=named_configs_in,\
             wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
             total_timesteps_per_session=total_timesteps_per_session, time_tracking_filename=session_times_filename,
@@ -182,34 +188,34 @@ def run_trials_ai2rl(
 
         lba_values_over_AI2RL_trials.append(lba_all_sessions) 
         return_mean_over_AI2RL_trials.append(return_mean_all_sessions) 
-        return_max_over_AI2RL_trials.append(return_max_all_sessions) 
+        returnbylen_mean_over_AI2RL_trials.append(returnbylen_mean_all_sessions) 
 
         lba_fileh = open(lba_filename, "a")
         retmean_fileh = open(retmean_filename, "a")
-        retmax_fileh = open(retmax_filename, "a")
+        returnbylen_fileh = open(returnbylen_filename, "a")
 
         lba_fileh.write(str(list(lba_all_sessions))[1:-1]+"\n")
         retmean_fileh.write(str(list(return_mean_all_sessions))[1:-1]+"\n")
-        retmax_fileh.write(str(list(return_max_all_sessions))[1:-1]+"\n")
+        returnbylen_fileh.write(str(list(returnbylen_mean_all_sessions))[1:-1]+"\n")
         lba_fileh.close()
         retmean_fileh.close()
-        retmax_fileh.close()
+        returnbylen_fileh.close()
         # print("check lba csv. exiting now!")
         # exit()
 
     avg_lba_per_session = np.average(lba_values_over_AI2RL_trials[1:],0) 
     avg_return_mean_per_session = np.average(return_mean_over_AI2RL_trials[1:],0) 
-    avg_return_max_per_session = np.average(return_max_over_AI2RL_trials[1:],0)
+    avg_returnbylen_mean_per_session = np.average(returnbylen_mean_over_AI2RL_trials[1:],0)
     stddev_lba_per_session = np.std(lba_values_over_AI2RL_trials[1:],0) 
     stddev_return_mean_per_session = np.std(return_mean_over_AI2RL_trials[1:],0) 
-    stddev_return_max_per_session = np.std(return_max_over_AI2RL_trials[1:],0)
+    stddev_returnbylen_mean_per_session = np.std(returnbylen_mean_over_AI2RL_trials[1:],0)
 
     print("avg of lba values over sessions  \n ",list(avg_lba_per_session)) 
     print("avg of return_mean values over sessions  \n ",list(avg_return_mean_per_session)) 
-    print("avg of return_max values over sessions  \n ",list(avg_return_max_per_session)) 
+    print("avg of returnbylen_mean values over sessions  \n ",list(avg_returnbylen_mean_per_session)) 
     print("stddev of lba values over sessions  \n ",list(stddev_lba_per_session)) 
     print("stddev of return_mean values over sessions  \n ",list(stddev_return_mean_per_session)) 
-    print("stddev of return_max values over sessions  \n ",list(stddev_return_max_per_session)) 
+    print("stddev of returnbylen_mean values over sessions  \n ",list(stddev_returnbylen_mean_per_session)) 
 
     avg_lba_fileh = open(avg_lba_filename, "a")
     avg_lba_fileh.write(str(named_configs_in)+","+str(list(avg_lba_per_session))[1:-1]+"\n")
@@ -221,7 +227,7 @@ def run_trials_ai2rl(
 if __name__ == '__main__':
 
     ## setting hyper parameters for training ##
-    num_trials = 2
+    num_trials = 1
 
     # perimeter patrol env
     patrol_named_config_env = 'perimeter_patrol' 
@@ -244,9 +250,9 @@ if __name__ == '__main__':
     # ant wd noise
     awn_named_config_env = 'ant_wd_noise'
     awn_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/Ant-v2/20230505_153134_1ab855/policies/final"
-    awn_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_AntWdNoise-v0/noise_free/'
-    awn_total_timesteps_per_session = int(2048)
-    awn_hard_lmt_sessioncount = 50 
+    awn_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_AntWdNoise-v0/noise_free/demo_size_min_max_8192'
+    awn_total_timesteps_per_session = 8192
+    awn_hard_lmt_sessioncount = 100
 
     named_config_env = awn_named_config_env 
     avg_lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  

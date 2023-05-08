@@ -18,7 +18,11 @@ from imitation.scripts.common import common as common_config
 from imitation.scripts.common import demonstrations, reward, rl, train
 from imitation.scripts.config.train_adversarial import train_adversarial_ex
 import pickle
-import git
+import os, git, time
+
+repo = git.Repo(os.getcwd(), search_parent_directories=True)
+git_home = repo.working_tree_dir
+imitation_dir = str(git_home)
 
 logger = logging.getLogger("imitation.scripts.train_adversarial")
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
@@ -125,6 +129,8 @@ def train_adversarial(
 
     venv = common_config.make_venv()
     
+    
+
     if agent_path is None:
         gen_algo = rl.make_rl_algo(venv)
     else:
@@ -210,18 +216,32 @@ def train_adversarial(
         # following call will work only if multiple episodes are guaranteed to be done, that is not guaraneteed in mountain car policy 
         # stats = train.eval_policy(trainer.policy, trainer.venv_train) 
 
-    elif env_name == "imitationNM/AntWdNoise-v0": 
-        # LBA for continuous state discrete action domain 
-        if demonstration_policy_path: 
-            policy_type = "ppo" 
-            policy = serialize.load_policy(policy_type, demonstration_policy_path, venv) 
-
-            LBA = rollout.calc_LBA_cont_states_cont_act_no_partitions(venv, expert_policy=policy, learner_policy=trainer.policy) 
-        else:
-            raise ValueError("demonstration path is necessary to compute LBA for continuous state domain w/o partitions")
-        
     else:
-        stats = train.eval_policy(trainer.policy, trainer.venv_train) 
+        if env_name == "imitationNM/AntWdNoise-v0": 
+            # LBA for continuous state cont action domain w/o discretization 
+            if demonstration_policy_path: 
+                policy_type = "ppo" 
+                policy = serialize.load_policy(policy_type, demonstration_policy_path, venv) 
+
+                LBA = rollout.calc_LBA_cont_states_cont_act_no_partitions(venv, expert_policy=policy, learner_policy=trainer.policy) 
+            else:
+                raise ValueError("demonstration path is necessary to compute LBA for continuous state domain w/o partitions")
+
+            # keeping stats none because time stats compute increases with more sesssions. and we aren't using reward info yet.             
+            st_tm = time.time() 
+            stats = train.eval_policy(trainer.policy, trainer.venv_train) 
+            stats_times_filename = imitation_dir + "/for_debugging/stats_times.txt" 
+            stats_times_fileh = open(stats_times_filename, "a")
+            stats_times_fileh.write("\ntime taken for compute stats {} min".format((time.time()-st_tm)/60))
+            stats_times_fileh.close() 
+            
+        else:        
+            st_tm = time.time() 
+            stats = train.eval_policy(trainer.policy, trainer.venv_train) 
+            stats_times_filename = imitation_dir + "/for_debugging/stats_times.txt" 
+            stats_times_fileh = open(stats_times_filename, "a")
+            stats_times_fileh.write("\ntime taken for compute stats {} min".format((time.time()-st_tm)/60))
+            stats_times_fileh.close() 
 
     return {
         "LBA": LBA,

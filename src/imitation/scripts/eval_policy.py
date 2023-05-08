@@ -69,6 +69,7 @@ def eval_policy(
     reward_path: Optional[str] = None,
     rollout_save_path: Optional[str] = None,
     noise_insertion: bool = False,
+    max_time_steps: Optional[int] = np.iinfo('uint64').max
 ):
     """Rolls a policy out in an environment, collecting statistics.
 
@@ -144,7 +145,10 @@ def eval_policy(
                         sample_until=sample_until,
                         env_name=env_name)
         else:
-            trajs = rollout.generate_trajectories(policy, venv, sample_until, noise_insertion=noise_insertion)
+            if env_name == "imitationNM/AntWdNoise-v0":
+                trajs = rollout.generate_trajectories(policy, venv, sample_until, noise_insertion=noise_insertion, max_time_steps=max_time_steps)
+            else:
+                trajs = rollout.generate_trajectories(policy, venv, sample_until, noise_insertion=noise_insertion)
 
         if rollout_save_path:
             types.save(rollout_save_path.replace("{log_dir}", log_dir), trajs)

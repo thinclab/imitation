@@ -22,19 +22,23 @@ class AntEnvWdNoise(AntEnv):
         # it's better to get samples from that window
         low = self.observation_space.low
         low[0] = 0.2
-        high = self.observation_space.low
+        low[1:] = -np.iinfo('uint16').max
+        high = self.observation_space.high
         high[0] = 1.0
+        high[1:] = np.iinfo('uint16').max
         action = self.action_space.sample()
         observation, _reward, done, _info = self.step(action)
         obspace = spaces.Box(low, high, dtype=observation.dtype)
 
-        st_tm = time.time()
+        # st_tm = time.time()
         sampled_states = []
         for i in range(self.num_samples):
             sampled_states.append(obspace.sample())
 
-        print("time taken to sample {} states: {} min".format(self.num_samples,(time.time()-st_tm)/60)) 
-        return sampled_states
+        # print("time taken to sample {} states: {} min".format(self.num_samples,(time.time()-st_tm)/60)) 
+
+        max_diff_acts = self.action_space.high - self.action_space.low
+        return sampled_states, max_diff_acts
     
     def intended_next_state(self, state, action):
         # make input state current state. 

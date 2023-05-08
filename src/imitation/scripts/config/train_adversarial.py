@@ -190,18 +190,18 @@ def discretized_state_mountain_car():
     common = dict(env_name="imitationNM/DiscretizedStateMountainCar-v0",num_vec = 4)
     algorithm_kwargs = dict(
         allow_variable_horizon = True,
-        # demo_batch_size=4096 # just to test with batch size bigger than demo size 
     )
     rl = dict(batch_size=2048)
     algo_cls = 'airl'
 
 @train_adversarial_ex.named_config
 def ant_wd_noise():
-    common = dict(env_name="imitationNM/AntWdNoise-v0")
+    common = dict(env_name="imitationNM/AntWdNoise-v0",num_vec=8)
     algorithm_kwargs = dict(
         allow_variable_horizon = True,
+        demo_batch_size = 8192 
     )
-    rl = dict(batch_size=2048)
+    rl = dict(batch_size = 8192)
     algo_cls = 'airl'
 
 # Debug configs
