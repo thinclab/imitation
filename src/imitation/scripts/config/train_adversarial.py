@@ -199,10 +199,11 @@ def ant_wd_noise():
     common = dict(env_name="imitationNM/AntWdNoise-v0",num_vec=8)
     algorithm_kwargs = dict(
         allow_variable_horizon = True,
-        demo_batch_size = 8192 
+        demo_batch_size = 512 
     )
-    rl = dict(batch_size = 8192)
+    rl = dict(batch_size = 512)
     algo_cls = 'airl'
+    max_time_steps = 512 # for rollout part
 
 # Debug configs
 

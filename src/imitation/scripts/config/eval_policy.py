@@ -33,7 +33,7 @@ def replay_defaults():
     rollout_save_path = None  # where to save rollouts to -- if None, do not save
     noise_insertion = False
     max_time_steps = np.iinfo('uint64').max
-
+    hard_limit_max_time_steps = True # hard limit True means no trajectory smaller than this size allowed
 
 
 @eval_policy_ex.named_config
@@ -54,7 +54,8 @@ def ant():
 @eval_policy_ex.named_config
 def ant_wd_noise():
     common = dict(env_name="imitationNM/AntWdNoise-v0")
-    max_time_steps = 8192  # Max timesteps to evaluate
+    max_time_steps = 512  # Max timesteps to evaluate
+    hard_limit_max_time_steps = True # hard limit True means no trajectory smaller than this size allowed
     eval_n_timesteps = max_time_steps+3  # redundant if large than max_time_steps 
 
 @eval_policy_ex.named_config

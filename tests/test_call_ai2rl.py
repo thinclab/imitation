@@ -128,7 +128,10 @@ def incremental_train_adversarial(
         else:
             return_mean_all_sessions.append(0.0)
             returnbylen_mean_all_sessions.append(0.0)
-
+        
+        if i%10==0:
+            print("10 more sessions done")
+        
         agent_path = run.config["common"]["log_dir"]+ "/checkpoints/final/gen_policy"
 
     writer.write("{}".format(round((time.time()-start_time_trial)/60,3)))
@@ -250,7 +253,7 @@ if __name__ == '__main__':
     # ant wd noise
     awn_named_config_env = 'ant_wd_noise'
     awn_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/Ant-v2/20230505_153134_1ab855/policies/final"
-    awn_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_AntWdNoise-v0/noise_free/demo_size_min_max_8192'
+    awn_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_AntWdNoise-v0/noise_free/demo_size_min_max_512'
     awn_total_timesteps_per_session = 8192
     awn_hard_lmt_sessioncount = 100
 

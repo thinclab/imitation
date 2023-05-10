@@ -1,7 +1,7 @@
 """Common configuration elements for training imitation algorithms."""
 
 import logging
-from typing import Any, Mapping, Union
+from typing import Any, Mapping, Union, Optional
 
 import sacred
 from stable_baselines3.common import base_class, policies, torch_layers, vec_env
@@ -9,6 +9,12 @@ from stable_baselines3.common import base_class, policies, torch_layers, vec_env
 import imitation.util.networks
 from imitation.data import rollout
 from imitation.policies import base
+import os, git, time
+import numpy as np
+
+repo = git.Repo(os.getcwd(), search_parent_directories=True)
+git_home = repo.working_tree_dir
+imitation_dir = str(git_home)
 
 train_ingredient = sacred.Ingredient("train")
 logger = logging.getLogger(__name__)
@@ -73,6 +79,7 @@ def eval_policy(
     rl_algo: Union[base_class.BaseAlgorithm, policies.BasePolicy],
     venv: vec_env.VecEnv,
     n_episodes_eval: int,
+    max_time_steps: Optional[int] = np.iinfo('uint64').max
 ) -> Mapping[str, float]:
     """Evaluation of imitation learned policy.
 
@@ -89,13 +96,26 @@ def eval_policy(
         "monitor_return" key). "expert_stats" gives the return value of
         `rollout_stats()` on the expert demonstrations loaded from `rollout_path`.
     """
+    st_tm = time.time() 
     sample_until_eval = rollout.make_min_episodes(n_episodes_eval)
+    tm_make_min_episodes = (time.time() - st_tm)/60
     trajs = rollout.generate_trajectories(
         rl_algo,
         venv,
         sample_until=sample_until_eval,
+        max_time_steps=max_time_steps
     )
-    return rollout.rollout_stats(trajs)
+    tm_generate_trajectories = (time.time() - st_tm)/60 - tm_make_min_episodes
+    stats = rollout.rollout_stats(trajs)
+    tm_rollout_stats = (time.time() - st_tm)/60 - tm_make_min_episodes - tm_generate_trajectories
+    
+    stats_times_filename = imitation_dir + "/for_debugging/stats_times.txt" 
+    stats_times_fileh = open(stats_times_filename, "a")
+    stats_times_fileh.write("\ntm_make_min_episodes {} tm_generate_trajectories {} tm_rollout_stats {}".format(\
+        tm_make_min_episodes,tm_generate_trajectories,tm_rollout_stats))
+    stats_times_fileh.close() 
+    
+    return stats
 
 
 

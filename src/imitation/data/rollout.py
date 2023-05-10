@@ -321,6 +321,7 @@ def generate_trajectories(
     rng: np.random.RandomState = np.random,
     noise_insertion: bool = False,
     max_time_steps: Optional[int] = np.iinfo('uint64').max,
+    hard_limit_max_time_steps: Optional[bool] = False
 ) -> Sequence[types.TrajectoryWithRew]:
     """Generate trajectory dictionaries from a policy and an environment.
 
@@ -378,13 +379,30 @@ def generate_trajectories(
             # ending all partial trajectories that are not done 
             new_trajs = []
             for env_idx in range(len(obs)): 
-                new_traj = trajectories_accum.finish_trajectory(env_idx, terminal=False) 
-                new_trajs.append(new_traj)
+                # Check that we have any transitions at all.
+                # The number of "transitions" or "timesteps" stored for the ith
+                # environment is the number of step dicts stored in
+                # `partial_trajectories[i]` minus one. We need to offset by one because
+                # the first step dict is comes from `reset()`, not from `step()`.
+                n_transitions = len(trajectories_accum.partial_trajectories[env_idx]) - 1
+                assert n_transitions >= 0, "Invalid TrajectoryAccumulator state"
+                if n_transitions >= 1:
+                    new_traj = trajectories_accum.finish_trajectory(env_idx, terminal=False) 
+                    new_trajs.append(new_traj)
             trajectories.extend(new_trajs)
+            
             # removing all trajectories with size smaller than max_time_steps 
-            trajectories = [traj for traj in trajectories if len(traj.obs)>=max_time_steps]
+            trajectories_pruned = [traj for traj in trajectories if len(traj.obs)>=max_time_steps]
+            
+            if hard_limit_max_time_steps:
+                assert len(trajectories_pruned)!=0,ValueError("couldn't get rollouts of desired length ")
+                trajectories = trajectories_pruned
 
-            assert len(trajectories)!=0,ValueError("couldn't get rollouts of expected max_time_steps size")
+            # hard_limit_max_time_steps should not be True for 
+            # for eval_policy calls outside imitation.eval_policy (e.g. call from train_adversarial), 
+            # in those cases, trajectories set with smaller trajs goes through as is
+            # But, even for those cases, call to this method may take too long if we
+            # don't set max_time_steps
 
             num_traj_demo_filename = imitation_dir + "/for_debugging/num_traj_demo.txt" 
             num_traj_demo_fileh = open(num_traj_demo_filename, "a")
