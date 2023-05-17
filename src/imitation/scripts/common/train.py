@@ -79,6 +79,7 @@ def eval_policy(
     rl_algo: Union[base_class.BaseAlgorithm, policies.BasePolicy],
     venv: vec_env.VecEnv,
     n_episodes_eval: int,
+    eval_n_timesteps: Optional[int],
     max_time_steps: Optional[int] = np.iinfo('uint64').max
 ) -> Mapping[str, float]:
     """Evaluation of imitation learned policy.
@@ -97,7 +98,14 @@ def eval_policy(
         `rollout_stats()` on the expert demonstrations loaded from `rollout_path`.
     """
     st_tm = time.time() 
-    sample_until_eval = rollout.make_min_episodes(n_episodes_eval)
+    
+    # learner's policy condition should be same as expert policy eval condition 
+    if n_episodes_eval != -1:
+        sample_until_eval = rollout.make_min_episodes(n_episodes_eval)
+    else:
+        n_episodes_eval = None
+        sample_until_eval = rollout.make_sample_until(eval_n_timesteps, n_episodes_eval)
+
     tm_make_min_episodes = (time.time() - st_tm)/60
     trajs = rollout.generate_trajectories(
         rl_algo,

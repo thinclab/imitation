@@ -10,8 +10,12 @@
 # policypath="/home/katy/imitation/output/train_rl/imitationNM_DiscretizedStateMountainCar-v0/set3_policy/20230217_160919_a9fee2/policies/final"
 
 # Ant & Ant wd Noise
-env_nm_config=ant_wd_noise
-policypath="/home/katy/imitation//output/train_rl/Ant-v2/20230505_153134_1ab855/policies/final"
+# env_nm_config=ant_wd_noise
+# policypath="/home/katy/imitation/output/train_rl/Ant-v2/20230505_153134_1ab855/policies/final"
+
+# Half Cheetah
+env_nm_config=half_cheetah_mdfd_weights
+policypath="/home/katy/imitation/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_155826_16533b/policies/000000500000"
 
 # noiseinsertion=True
 noiseinsertion=False

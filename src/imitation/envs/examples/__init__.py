@@ -26,3 +26,7 @@ _register("imitationNM/PatrolModel-v0", entry_point="perimeter_patrol_env:Patrol
 _register("imitationNM/DiscretizedStateMountainCar-v0", entry_point="discrtzd_mountain_car:DiscretizedStateMountainCarEnv") 
 
 _register("imitationNM/AntWdNoise-v0", entry_point="ant_wd_noise:AntEnvWdNoise") 
+
+_register("imitationNM/HalfCheetahEnvMdfdWeights-v0", entry_point="half_cheetah_mdfd_weights:HalfCheetahEnvMdfdWeights") 
+
+_register("imitationNM/HalfCheetahEnvMdfdReward-v0", entry_point="half_cheetah_mdfd_reward:HalfCheetahEnvMdfdReward") 

@@ -54,7 +54,7 @@ def ant():
 @eval_policy_ex.named_config
 def ant_wd_noise():
     common = dict(env_name="imitationNM/AntWdNoise-v0")
-    max_time_steps = 512  # Max timesteps to evaluate
+    max_time_steps = 128  # Max timesteps to evaluate
     hard_limit_max_time_steps = True # hard limit True means no trajectory smaller than this size allowed
     eval_n_timesteps = max_time_steps+3  # redundant if large than max_time_steps 
 
@@ -72,6 +72,17 @@ def seals_cartpole():
 def half_cheetah():
     common = dict(env_name="HalfCheetah-v2")
 
+@eval_policy_ex.named_config
+def half_cheetah_mdfd_weights():
+    common = dict(env_name="imitationNM/HalfCheetahEnvMdfdWeights-v0")
+    eval_n_timesteps = 8192 # minimum demo size we want for i2rl sessions
+    hard_limit_max_time_steps = True # should code remove trajectory size smaller than max_time_steps? 
+    max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
+
+@eval_policy_ex.named_config
+def half_cheetah_mdfd_reward():
+    common = dict(env_name="imitationNM/HalfCheetahEnvMdfdReward-v0")
+    max_time_steps = 5000
 
 @eval_policy_ex.named_config
 def seals_hopper():

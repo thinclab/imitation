@@ -124,12 +124,44 @@ def half_cheetah():
         ),
     )
     algorithm_kwargs = dict(
+        # Number of discriminator updates after each round of generator updates n_disc_updates_per_round
+        n_disc_updates_per_round=16,
+        # Equivalent to no replay buffer if batch size is the same gen_replay_buffer_capacity
+        gen_replay_buffer_capacity=16384,
+        demo_batch_size=8192,
+    )
+
+
+@train_adversarial_ex.named_config
+def half_cheetah_mdfd_weights():
+    locals().update(**MUJOCO_SHARED_LOCALS)
+    common = dict(env_name="imitationNM/HalfCheetahEnvMdfdWeights-v0")
+    rl = dict(batch_size=16384, rl_kwargs=dict(batch_size=1024))
+    algorithm_specific = dict(
+        airl=dict(total_timesteps=int(5e6)),
+        gail=dict(total_timesteps=int(8e6)),
+    )
+    reward = dict(
+        algorithm_specific=dict(
+            airl=dict(
+                net_cls=reward_nets.BasicShapedRewardNet,
+                net_kwargs=dict(
+                    reward_hid_sizes=(32,),
+                    potential_hid_sizes=(32,),
+                ),
+            ),
+        ),
+    )
+    algorithm_kwargs = dict(
         # Number of discriminator updates after each round of generator updates
         n_disc_updates_per_round=16,
         # Equivalent to no replay buffer if batch size is the same
         gen_replay_buffer_capacity=16384,
         demo_batch_size=8192,
     )
+    eval_n_timesteps = algorithm_kwargs['demo_batch_size'] # minimum demo size we want for i2rl sessions
+    max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
+    n_episodes_eval = -1 # used in train.eval_policy  
 
 
 @train_adversarial_ex.named_config
@@ -199,11 +231,11 @@ def ant_wd_noise():
     common = dict(env_name="imitationNM/AntWdNoise-v0",num_vec=8)
     algorithm_kwargs = dict(
         allow_variable_horizon = True,
-        demo_batch_size = 512 
+        demo_batch_size = 8192 
     )
-    rl = dict(batch_size = 512)
+    rl = dict(batch_size = 8192)
     algo_cls = 'airl'
-    max_time_steps = 512 # for rollout part
+    max_time_steps = 8192 # for rollout part
 
 # Debug configs
 

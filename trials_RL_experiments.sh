@@ -3,7 +3,7 @@
 
 for i in {1..1}
 do
-    python -m imitation.scripts.train_rl with half_cheetah
+    python -m imitation.scripts.train_rl with half_cheetah_mdfd_weights
 
     echo ""
 done

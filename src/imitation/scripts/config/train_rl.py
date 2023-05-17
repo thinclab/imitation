@@ -72,6 +72,15 @@ def half_cheetah():
     common = dict(env_name="HalfCheetah-v3")
     total_timesteps = int(5e6)  # does OK after 1e6, but continues improving
 
+@train_rl_ex.named_config
+def half_cheetah_mdfd_weights():
+    common = dict(env_name="imitationNM/HalfCheetahEnvMdfdWeights-v0")
+    total_timesteps = int(10e6)
+
+@train_rl_ex.named_config
+def half_cheetah_mdfd_reward():
+    common = dict(env_name="imitationNM/HalfCheetahEnvMdfdReward-v0")
+    total_timesteps = int(2e6)
 
 @train_rl_ex.named_config
 def seals_hopper():

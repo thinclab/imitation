@@ -19,6 +19,7 @@ from imitation.scripts.common import demonstrations, reward, rl, train
 from imitation.scripts.config.train_adversarial import train_adversarial_ex
 import pickle
 import os, git, time
+import numpy as np
 
 repo = git.Repo(os.getcwd(), search_parent_directories=True)
 git_home = repo.working_tree_dir
@@ -82,7 +83,9 @@ def train_adversarial(
     demonstration_policy_path: Optional[str],
     wdGibbsSamp: bool,
     threshold_stop_Gibbs_sampling: float,
-    max_time_steps: Optional[int]
+    max_time_steps: Optional[int] = np.iinfo('uint64').max,
+    eval_n_timesteps: Optional[int] = np.iinfo('uint64').max,
+    n_episodes_eval: Optional[int] = 50,
 ) -> Mapping[str, Mapping[str, float]]:
     """Train an adversarial-network-based imitation learning algorithm.
 
@@ -129,7 +132,6 @@ def train_adversarial(
     env_name = _run.config["common"]["env_name"]
 
     venv = common_config.make_venv()
-    
     
 
     if agent_path is None:
@@ -218,7 +220,7 @@ def train_adversarial(
         # stats = train.eval_policy(trainer.policy, trainer.venv_train) 
 
     else:
-        if env_name == "imitationNM/AntWdNoise-v0": 
+        if env_name == "imitationNM/AntWdNoise-v0" or env_name == "imitationNM/HalfCheetahEnvMdfdWeights-v0": 
             # LBA for continuous state cont action domain w/o discretization 
             if demonstration_policy_path: 
                 policy_type = "ppo" 
@@ -230,7 +232,9 @@ def train_adversarial(
 
             # keeping stats none because time stats compute increases with more sesssions. and we aren't using reward info yet.             
             st_tm = time.time() 
-            stats = train.eval_policy(trainer.policy, trainer.venv_train, max_time_steps=max_time_steps) 
+            stats = train.eval_policy(trainer.policy, trainer.venv_train, \
+                                      eval_n_timesteps=eval_n_timesteps, \
+                                      max_time_steps=max_time_steps, n_episodes_eval=n_episodes_eval) 
             stats_times_filename = imitation_dir + "/for_debugging/stats_times.txt" 
             stats_times_fileh = open(stats_times_filename, "a")
             stats_times_fileh.write("\ntime taken for eval_policy {} min".format((time.time()-st_tm)/60))

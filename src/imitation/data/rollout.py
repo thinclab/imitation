@@ -391,29 +391,19 @@ def generate_trajectories(
                     new_trajs.append(new_traj)
             trajectories.extend(new_trajs)
             
-            # removing all trajectories with size smaller than max_time_steps 
-            trajectories_pruned = [traj for traj in trajectories if len(traj.obs)>=max_time_steps]
-            
-            if hard_limit_max_time_steps:
-                assert len(trajectories_pruned)!=0,ValueError("couldn't get rollouts of desired length ")
-                trajectories = trajectories_pruned
-
-            # hard_limit_max_time_steps should not be True for 
-            # for eval_policy calls outside imitation.eval_policy (e.g. call from train_adversarial), 
-            # in those cases, trajectories set with smaller trajs goes through as is
-            # But, even for those cases, call to this method may take too long if we
-            # don't set max_time_steps
+            total_time_steps = sum([len(traj.acts) for traj in trajectories])
 
             num_traj_demo_filename = imitation_dir + "/for_debugging/num_traj_demo.txt" 
             num_traj_demo_fileh = open(num_traj_demo_filename, "a")
-            num_traj_demo_fileh.write("\nnum trajs {} max_time_steps {}".format(len(trajectories),max_time_steps))
+            num_traj_demo_fileh.write("\nnum traj steps {} max_time_steps {}".format(total_time_steps,max_time_steps))
             num_traj_demo_fileh.close() 
 
             break
 
         acts = get_actions(obs)
         next_obs, rews, dones, infos = venv.step(acts)
-        n_timesteps += 1
+        n_timesteps += venv.num_envs
+
         if not isinstance(venv.observation_space, gym.spaces.Box): # it doesn't make sense to count distinct values in a continuous /Box space  
             for i in range(len(obs)):
                 s,a = obs[i],acts[i]
@@ -1247,14 +1237,15 @@ def calc_LBA_cont_states_cont_act_no_partitions(venv, expert_policy, learner_pol
     lba_0_to_1_2 = 1/len(sampled_states)*round(sum_estimate2,3)
     lba_0_to_1_3 = 1/len(sampled_states)*round(sum_estimate3,3)
 
-    # assert (lba_0_to_1>=0 and lba_0_to_1 <= 1),f"lba computation mistake. it should be between 0 and 1, got {lba_0_to_1}"
+    assert (lba_0_to_1_1>=0 and lba_0_to_1_1 <= 1),f"lba computation mistake. it should be between 0 and 1, got {lba_0_to_1}"
     
     # lba_times_filename = imitation_dir + "/for_debugging/lba_times.txt" 
     # lba_times_fileh = open(lba_times_filename, "a")
     # lba_times_fileh.write("\ntime taken for compute lba {} min".format((time.time()-st_tm)/60))
     # lba_times_fileh.close() 
     
-    return (lba_0_to_1_1, lba_0_to_1_2, lba_0_to_1_3)
+    # return (lba_0_to_1_1, lba_0_to_1_2, lba_0_to_1_3)
+    return lba_0_to_1_1
 
 def create_flattened_gibbs_stepdistr(
     venv: VecEnv,

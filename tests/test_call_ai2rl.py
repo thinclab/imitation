@@ -129,8 +129,8 @@ def incremental_train_adversarial(
             return_mean_all_sessions.append(0.0)
             returnbylen_mean_all_sessions.append(0.0)
         
-        if i%10==0:
-            print("10 more sessions done")
+        if i%5==0:
+            print("Five more sessions done")
         
         agent_path = run.config["common"]["log_dir"]+ "/checkpoints/final/gen_policy"
 
@@ -230,7 +230,7 @@ def run_trials_ai2rl(
 if __name__ == '__main__':
 
     ## setting hyper parameters for training ##
-    num_trials = 1
+    num_trials = 11
 
     # perimeter patrol env
     patrol_named_config_env = 'perimeter_patrol' 
@@ -253,13 +253,22 @@ if __name__ == '__main__':
     # ant wd noise
     awn_named_config_env = 'ant_wd_noise'
     awn_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/Ant-v2/20230505_153134_1ab855/policies/final"
-    awn_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_AntWdNoise-v0/noise_free/demo_size_min_max_512'
-    awn_total_timesteps_per_session = 8192
+    awn_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_AntWdNoise-v0/noise_free/demo_size_min_max_8192'
+    awn_total_timesteps_per_session = 8192*3
     awn_hard_lmt_sessioncount = 100
 
-    named_config_env = awn_named_config_env 
+    # half cheetah
+    hc_named_config_env = 'half_cheetah_mdfd_weights'
+    hc_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_155826_16533b/policies/000000500000"
+    hc_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/demo_batch_size_8192'
+    hc_total_timesteps_per_session = 75000 # int(5e6)
+    hc_hard_lmt_sessioncount = 100
+
+    named_config_env = hc_named_config_env 
     avg_lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
-    # avg_lba_fileh = create_file(avg_lba_filename) 
+    if not os.path.exists(avg_lba_filename):
+        os.mkdir(parent_of_output_dir+"/output/ai2rl/"+str(named_config_env))
+        avg_lba_fileh = create_file(avg_lba_filename) 
 
     wdGibbsSamp = False 
     if not wdGibbsSamp:
@@ -296,6 +305,14 @@ if __name__ == '__main__':
                         wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
                         total_timesteps_per_session=awn_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
                         hard_lmt_sessioncount=awn_hard_lmt_sessioncount) 
+
+            if named_configs_in[0] == hc_named_config_env: 
+                # ant
+                run_trials_ai2rl(num_trials=num_trials,rootdir=hc_rootdir_noisefree_input,\
+                        demonstration_policy_path=hc_demonstration_policy_path,named_configs_in=named_configs_in,\
+                        wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
+                        total_timesteps_per_session=hc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
+                        hard_lmt_sessioncount=hc_hard_lmt_sessioncount) 
 
 
     except MemoryError:

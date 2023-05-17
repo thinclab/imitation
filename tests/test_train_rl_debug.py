@@ -22,4 +22,6 @@ if __name__ == '__main__':
 
     env_name_config_reacher = "reacher"
     env_name_config_ant = "ant"
-    test_train_rl(env_name_config_ant) 
+    env_name_config_half_cheetah2 = 'half_cheetah_mdfd_weights'
+    env_name_config_half_cheetah3 = 'half_cheetah_mdfd_reward'
+    test_train_rl(env_name_config_half_cheetah2) 
