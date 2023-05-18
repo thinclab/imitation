@@ -70,7 +70,9 @@ def eval_policy(
     rollout_save_path: Optional[str] = None,
     noise_insertion: bool = False,
     max_time_steps: Optional[int] = np.iinfo('uint64').max,
-    hard_limit_max_time_steps: Optional[bool] = False
+    hard_limit_max_time_steps: Optional[bool] = False,
+    is_mujoco_env: bool = False,
+    env_make_kwargs: Mapping[str, Any] = {}
 ):
     """Rolls a policy out in an environment, collecting statistics.
 
@@ -104,7 +106,7 @@ def eval_policy(
 
     sample_until = rollout.make_sample_until(eval_n_timesteps, eval_n_episodes)
     post_wrappers = [video_wrapper_factory(log_dir, **video_kwargs)] if videos else None
-    venv = common.make_venv(post_wrappers=post_wrappers)
+    venv = common.make_venv(env_make_kwargs=env_make_kwargs, post_wrappers=post_wrappers)
     env_name = _run.config["common"]["env_name"]
 
     try:
@@ -149,7 +151,7 @@ def eval_policy(
             trajs = rollout.generate_trajectories(policy, venv, sample_until, \
                                                     noise_insertion=noise_insertion,\
                                                     max_time_steps=max_time_steps, \
-                                                    hard_limit_max_time_steps=hard_limit_max_time_steps)
+                                                    is_mujoco_env=is_mujoco_env)
 
         if rollout_save_path:
             types.save(rollout_save_path.replace("{log_dir}", log_dir), trajs)

@@ -230,7 +230,7 @@ def run_trials_ai2rl(
 if __name__ == '__main__':
 
     ## setting hyper parameters for training ##
-    num_trials = 11
+    num_trials = 3
 
     # perimeter patrol env
     patrol_named_config_env = 'perimeter_patrol' 
@@ -261,6 +261,8 @@ if __name__ == '__main__':
     hc_named_config_env = 'half_cheetah_mdfd_weights'
     hc_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_155826_16533b/policies/000000500000"
     hc_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/demo_batch_size_8192'
+    hc_rootdir_noisy_input1 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_8192/st_ns0.001_act_ns0.00001'
+    hc_rootdir_noisy_input = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_8192/st_ns0.005_act_ns0.00001'
     hc_total_timesteps_per_session = 75000 # int(5e6)
     hc_hard_lmt_sessioncount = 100
 
@@ -308,7 +310,7 @@ if __name__ == '__main__':
 
             if named_configs_in[0] == hc_named_config_env: 
                 # ant
-                run_trials_ai2rl(num_trials=num_trials,rootdir=hc_rootdir_noisefree_input,\
+                run_trials_ai2rl(num_trials=num_trials,rootdir=hc_rootdir_noisy_input,\
                         demonstration_policy_path=hc_demonstration_policy_path,named_configs_in=named_configs_in,\
                         wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
                         total_timesteps_per_session=hc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\

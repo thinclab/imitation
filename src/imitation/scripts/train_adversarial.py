@@ -86,6 +86,7 @@ def train_adversarial(
     max_time_steps: Optional[int] = np.iinfo('uint64').max,
     eval_n_timesteps: Optional[int] = np.iinfo('uint64').max,
     n_episodes_eval: Optional[int] = 50,
+    env_make_kwargs: Mapping[str, Any] = {}
 ) -> Mapping[str, Mapping[str, float]]:
     """Train an adversarial-network-based imitation learning algorithm.
 
@@ -131,7 +132,7 @@ def train_adversarial(
 
     env_name = _run.config["common"]["env_name"]
 
-    venv = common_config.make_venv()
+    venv = common_config.make_venv(env_make_kwargs=env_make_kwargs)
     
 
     if agent_path is None:

@@ -321,6 +321,7 @@ def generate_trajectories(
     rng: np.random.RandomState = np.random,
     noise_insertion: bool = False,
     max_time_steps: Optional[int] = np.iinfo('uint64').max,
+    is_mujoco_env: bool = False,
     hard_limit_max_time_steps: Optional[bool] = False
 ) -> Sequence[types.TrajectoryWithRew]:
     """Generate trajectory dictionaries from a policy and an environment.
@@ -414,15 +415,19 @@ def generate_trajectories(
 
                     dones_counter += 1
 
-        if noise_insertion: 
-            for i in range(len(obs)):
-                (noisy_ob,noisy_act) = venv.env_method(method_name='insertNoise',indices=0,s=obs[i],a=acts[i])[0]
-                if np.any(noisy_ob != obs[i]) or noisy_act != acts[i]:
-                    # print("noise inserted") 
-                    obs[i], acts[i] = noisy_ob, noisy_act
-                    if not isinstance(venv.observation_space, gym.spaces.Box): 
-                        if (obs[i], acts[i]) not in distinct_noised_sa_pairs_list:
-                            distinct_noised_sa_pairs_list.append((obs[i], acts[i]))
+        if noise_insertion:
+            if not is_mujoco_env: # not mujoco env 
+                for i in range(len(obs)):
+                    (noisy_ob,noisy_act) = venv.env_method(method_name='insertNoise',indices=0,s=obs[i],a=acts[i])[0]
+                    if np.any(noisy_ob != obs[i]) or noisy_act != acts[i]:
+                        # print("noise inserted") 
+                        obs[i], acts[i] = noisy_ob, noisy_act
+                        if not isinstance(venv.observation_space, gym.spaces.Box): 
+                            if (obs[i], acts[i]) not in distinct_noised_sa_pairs_list:
+                                distinct_noised_sa_pairs_list.append((obs[i], acts[i]))
+            else: # assume noise exists for mujcoc env 
+                for i in range(len(obs)):
+                    distinct_noised_sa_pairs_list.append((obs[i], acts[i]))
 
         # If an environment is inactive, i.e. the episode completed for that
         # environment after `sample_until(trajectories)` was true, then we do

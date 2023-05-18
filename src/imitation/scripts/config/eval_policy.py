@@ -34,6 +34,8 @@ def replay_defaults():
     noise_insertion = False
     max_time_steps = np.iinfo('uint64').max
     hard_limit_max_time_steps = True # hard limit True means no trajectory smaller than this size allowed
+    env_make_kwargs = {}
+    is_mujoco_env = False
 
 
 @eval_policy_ex.named_config
@@ -78,6 +80,12 @@ def half_cheetah_mdfd_weights():
     eval_n_timesteps = 8192 # minimum demo size we want for i2rl sessions
     hard_limit_max_time_steps = True # should code remove trajectory size smaller than max_time_steps? 
     max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
+    is_mujoco_env = True
+    env_make_kwargs = {
+        'cov_diag_val_transition_model': 0.0001, 
+        'cov_diag_val_st_noise': 0.005,
+        'cov_diag_val_act_noise': 0.00001, 
+        'noise_insertion': True}
 
 @eval_policy_ex.named_config
 def half_cheetah_mdfd_reward():

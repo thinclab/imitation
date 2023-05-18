@@ -27,6 +27,15 @@ _register("imitationNM/DiscretizedStateMountainCar-v0", entry_point="discrtzd_mo
 
 _register("imitationNM/AntWdNoise-v0", entry_point="ant_wd_noise:AntEnvWdNoise") 
 
-_register("imitationNM/HalfCheetahEnvMdfdWeights-v0", entry_point="half_cheetah_mdfd_weights:HalfCheetahEnvMdfdWeights") 
+_register("imitationNM/HalfCheetahEnvMdfdWeights-v0", entry_point="half_cheetah_mdfd_weights:HalfCheetahEnvMdfdWeights",
+          kwargs={
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'reset_noise_scale':0.09,
+            'cov_diag_val_transition_model' : 0.0001, 
+            'cov_diag_val_st_noise' : 50,
+            'cov_diag_val_act_noise' : 50, 
+            'noise_insertion':False
+          }) 
 
 _register("imitationNM/HalfCheetahEnvMdfdReward-v0", entry_point="half_cheetah_mdfd_reward:HalfCheetahEnvMdfdReward") 

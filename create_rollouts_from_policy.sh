@@ -17,13 +17,16 @@
 env_nm_config=half_cheetah_mdfd_weights
 policypath="/home/katy/imitation/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_155826_16533b/policies/000000500000"
 
-# noiseinsertion=True
-noiseinsertion=False
+# for mujoco, set this in env_make_kwargs in config file 
+noiseinsertion=True
+# noiseinsertion=False
+
+render=False
 
 for i in {1..100}
 do
     # PPO learned policy 
-    python -m imitation.scripts.eval_policy eval_policy with $env_nm_config policy_path=$policypath noise_insertion=$noiseinsertion
+    python -m imitation.scripts.eval_policy eval_policy with $env_nm_config policy_path=$policypath noise_insertion=$noiseinsertion render=$render
 
     # Hardcoded policy perimeter patrol
     # python -m imitation.scripts.eval_policy eval_policy with perimeter_patrol noise_insertion=$noiseinsertion
