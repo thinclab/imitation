@@ -47,7 +47,8 @@ def incremental_train_adversarial(
     threshold_stop_Gibbs_sampling: float,
     total_timesteps_per_session: int,
     time_tracking_filename: str,
-    hard_lmt_sessioncount: int
+    hard_lmt_sessioncount: int,
+    num_iters_Gibbs_sampling: int
     ):
     '''
     Args:
@@ -74,6 +75,7 @@ def incremental_train_adversarial(
         "wdGibbsSamp": wdGibbsSamp,
         "threshold_stop_Gibbs_sampling": threshold_stop_Gibbs_sampling,
         "total_timesteps": total_timesteps_per_session,
+        "num_iters_Gibbs_sampling": num_iters_Gibbs_sampling
     }
     start_time_session = time.time()
     i = 0
@@ -109,6 +111,7 @@ def incremental_train_adversarial(
             "wdGibbsSamp": wdGibbsSamp,
             "threshold_stop_Gibbs_sampling": threshold_stop_Gibbs_sampling,
             "total_timesteps": total_timesteps_per_session,
+            "num_iters_Gibbs_sampling": num_iters_Gibbs_sampling
         }
         start_time_session = time.time()
         run = train_adversarial.train_adversarial_ex.run(
@@ -156,7 +159,8 @@ def run_trials_ai2rl(
     threshold_stop_Gibbs_sampling: float,
     total_timesteps_per_session: int,
     avg_lba_filename: str,
-    hard_lmt_sessioncount: int
+    hard_lmt_sessioncount: int,
+    num_iters_Gibbs_sampling: int
     ):
     named_config_env = named_configs_in[0]
     # make directory to save result arrays
@@ -187,7 +191,7 @@ def run_trials_ai2rl(
             demonstration_policy_path=demonstration_policy_path,named_configs_in=named_configs_in,\
             wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
             total_timesteps_per_session=total_timesteps_per_session, time_tracking_filename=session_times_filename,
-            hard_lmt_sessioncount=hard_lmt_sessioncount)
+            hard_lmt_sessioncount=hard_lmt_sessioncount, num_iters_Gibbs_sampling=num_iters_Gibbs_sampling)
 
         lba_values_over_AI2RL_trials.append(lba_all_sessions) 
         return_mean_over_AI2RL_trials.append(return_mean_all_sessions) 
@@ -259,22 +263,25 @@ if __name__ == '__main__':
 
     # half cheetah
     hc_named_config_env = 'half_cheetah_mdfd_weights'
-    hc_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_155826_16533b/policies/000000500000"
-    hc_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/demo_batch_size_8192'
+    hc_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/0pnt095noise_16disc_updates_per_round/20230512_155826_16533b/policies/000000500000"
+    hc_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_batch_size_8192'
     hc_rootdir_noisy_input1 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_8192/st_ns0.001_act_ns0.00001'
-    hc_rootdir_noisy_input = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_8192/st_ns0.005_act_ns0.00001'
+    hc_rootdir_noisy_input2 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_8192/st_ns0.005_act_ns0.00001'
     hc_total_timesteps_per_session = 75000 # int(5e6)
-    hc_hard_lmt_sessioncount = 100
+    hc_hard_lmt_sessioncount = 50
+    hc_threshold_stop_Gibbs_sampling = 0.75
+    hc_num_iters_Gibbs_sampling = 5
 
     named_config_env = hc_named_config_env 
+    threshold_stop_Gibbs_sampling = hc_threshold_stop_Gibbs_sampling
+    num_iters_Gibbs_sampling = hc_num_iters_Gibbs_sampling
+    wdGibbsSamp = False 
+    if not wdGibbsSamp:
+        threshold_stop_Gibbs_sampling = None
     avg_lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
     if not os.path.exists(avg_lba_filename):
         os.mkdir(parent_of_output_dir+"/output/ai2rl/"+str(named_config_env))
         avg_lba_fileh = create_file(avg_lba_filename) 
-
-    wdGibbsSamp = False 
-    if not wdGibbsSamp:
-        threshold_stop_Gibbs_sampling = None
 
     # memory_limit() # Limits RAM usage 
     try:
@@ -310,11 +317,11 @@ if __name__ == '__main__':
 
             if named_configs_in[0] == hc_named_config_env: 
                 # ant
-                run_trials_ai2rl(num_trials=num_trials,rootdir=hc_rootdir_noisy_input,\
+                run_trials_ai2rl(num_trials=num_trials,rootdir=hc_rootdir_noisefree_input,\
                         demonstration_policy_path=hc_demonstration_policy_path,named_configs_in=named_configs_in,\
                         wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
                         total_timesteps_per_session=hc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
-                        hard_lmt_sessioncount=hc_hard_lmt_sessioncount) 
+                        hard_lmt_sessioncount=hc_hard_lmt_sessioncount, num_iters_Gibbs_sampling=num_iters_Gibbs_sampling) 
 
 
     except MemoryError:

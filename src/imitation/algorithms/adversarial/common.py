@@ -123,6 +123,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         debug_use_ground_truth: bool = False,
         allow_variable_horizon: bool = False,
         threshold_stop_Gibbs_sampling: float,
+        num_iters_Gibbs_sampling: int
     ):
         """Builds AdversarialTrainer.
 
@@ -241,6 +242,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         )
 
         self.threshold_stop_Gibbs_sampling = threshold_stop_Gibbs_sampling
+        self.num_iters_Gibbs_sampling = num_iters_Gibbs_sampling
 
     @property
     def policy(self) -> policies.BasePolicy:
@@ -396,95 +398,136 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
                     '''
 
-                    def policy_a_giv_s_cont_st_disc_act(act,partition_sg):
-                        # integration of P(act|s_g,t) over partition_sg, term B in Gibbs sampler draft on overleaf
+                    # uncomment for discretized mountain car 
+                    # def policy_a_giv_s_cont_st_disc_act(act,partition_sg):
+                    #     # integration of P(act|s_g,t) over partition_sg, term B in Gibbs sampler draft on overleaf
                         
-                        samples_sg,size_Sg = self.venv.env_method(method_name='discrete_samples_to_estimate_integral',indices=0,ind=partition_sg)[0]
+                    #     samples_sg,size_Sg = self.venv.env_method(method_name='discrete_samples_to_estimate_integral',indices=0,ind=partition_sg)[0]
                         
-                        a_th = th.as_tensor([act]*len(samples_sg), device=self.gen_algo.device) 
+                    #     a_th = th.as_tensor([act]*len(samples_sg), device=self.gen_algo.device) 
                         
-                        sg_cont_th = th.as_tensor(np.array(samples_sg), device=self.gen_algo.device) 
-                        sum_monte_carlo = self.policy.prob_acts(obs=sg_cont_th,actions=a_th).sum().item() 
+                    #     sg_cont_th = th.as_tensor(np.array(samples_sg), device=self.gen_algo.device) 
+                    #     sum_monte_carlo = self.policy.prob_acts(obs=sg_cont_th,actions=a_th).sum().item() 
                     
-                        return (size_Sg * sum_monte_carlo * 1/(len(samples_sg)))
+                    #     return (size_Sg * sum_monte_carlo * 1/(len(samples_sg)))
 
                     start_tm = time.time()
 
-                    # temp storage of traj specific list of probs_sa_gt_sa_j 
-                    sa_distr_trajs = np.zeros((len(GT_traj),len(combinations_sa_tuples)),dtype=float) 
+                    if isinstance(self.venv.observation_space, gym.spaces.Discrete):
+                        # temp storage of traj specific list of probs_sa_gt_sa_j 
+                        sa_distr_trajs = np.zeros((len(GT_traj),len(combinations_sa_tuples)),dtype=float) 
 
-                    for j in range(len(GT_traj)):
-                        start_tm2 = time.time()
-                        
-                        # list of probabilities specific to time step j 
-                        probs_sa_gt_sa_j = [0.0]*len(combinations_sa_tuples) 
+                        for j in range(len(GT_traj)):
+                            start_tm2 = time.time()
+                            
+                            # list of probabilities specific to time step j 
+                            probs_sa_gt_sa_j = [0.0]*len(combinations_sa_tuples) 
 
-                        for s in range(get_state_space_upperlimit()):
-                            for a in range(self.venv.action_space.n):
-                                
-                                skip_next_steps = False 
-                                start_tm3 = time.time()
-                                if j==len(GT_traj)-1:
-                                    # GT_traj[j+1] is empty for len(GT_traj)-1 index
-                                    P_nexts_s_a = 1.0 
-                                else: 
-                                    if isinstance(self.venv.observation_space, gym.spaces.Discrete):
-                                        P_nexts_s_a = self.venv.env_method(method_name='P_sasp',indices=0,s=s,a=a,sp=GT_traj[j+1][0])[0] 
-                                    elif isinstance(self.venv.observation_space, gym.spaces.Box): 
-                                        # for continuous state discrete action domain, we created separate method. 
-                                        # this call has s as a partition for state space but sp as a continuous state
-                                        P_nexts_s_a = self.venv.env_method(method_name='P_sasp2_no_intgrl',indices=0,s=s,a=a,sp=GT_traj[j+1][0])[0] 
-                                    else:
-                                        raise TypeError("Unsupported type of state space")
-                                tm_P_nexts_s_a = (time.time()-start_tm3)/60 
-                                if P_nexts_s_a==0:
-                                    skip_next_steps = True
-                                    probs_sa_gt_sa_j[combinations_sa_tuples.index((s,a))] = 0
-
-                                if not skip_next_steps:
-                                    if j==0:
-                                        P_s_prevs_preva = 1.0
+                            for s in range(get_state_space_upperlimit()):
+                                for a in range(self.venv.action_space.n):
+                                    
+                                    skip_next_steps = False 
+                                    start_tm3 = time.time()
+                                    if j==len(GT_traj)-1:
+                                        # GT_traj[j+1] is empty for len(GT_traj)-1 index
+                                        P_nexts_s_a = 1.0 
                                     else: 
-                                        # for continuous state space, this call has s as a continuous state but sp as a partition for state space
-                                        P_s_prevs_preva = self.venv.env_method(method_name='P_sasp',indices=0,s=GT_traj[j-1][0],a=GT_traj[j-1][1],sp=s)[0]
-                                    tm_P_s_prevs_preva = (time.time()-start_tm3)/60 - tm_P_nexts_s_a
-                                    if P_s_prevs_preva==0:
+                                        if isinstance(self.venv.observation_space, gym.spaces.Discrete):
+                                            P_nexts_s_a = self.venv.env_method(method_name='P_sasp',indices=0,s=s,a=a,sp=GT_traj[j+1][0])[0] 
+                                        # elif isinstance(self.venv.observation_space, gym.spaces.Box): 
+                                        #     # for continuous state discrete action domain, we created separate method. 
+                                        #     # this call has s as a partition for state space but sp as a continuous state
+                                        #     P_nexts_s_a = self.venv.env_method(method_name='P_sasp2_no_intgrl',indices=0,s=s,a=a,sp=GT_traj[j+1][0])[0] 
+                                        else:
+                                            raise TypeError("Unsupported type of state space")
+                                    tm_P_nexts_s_a = (time.time()-start_tm3)/60 
+                                    if P_nexts_s_a==0:
                                         skip_next_steps = True
                                         probs_sa_gt_sa_j[combinations_sa_tuples.index((s,a))] = 0
 
-                                if not skip_next_steps:
-                                    if isinstance(self.venv.observation_space, gym.spaces.Discrete):
-                                        # if state space is discrete
-                                        s_th = th.as_tensor([s], device=self.gen_algo.device) 
-                                        a_th = th.as_tensor([a], device=self.gen_algo.device) 
-                                        policy_a_giv_s = self.policy.prob_acts(obs=s_th,actions=a_th)[0].item() 
-                                    elif isinstance(self.venv.observation_space, gym.spaces.Box): 
-                                        # if state space is continous
-                                        policy_a_giv_s = policy_a_giv_s_cont_st_disc_act(a,s)
-                                    else:
-                                        raise TypeError("Unsupported type of state space")
-                                    tm_policy_a_giv_s = (time.time()-start_tm3)/60 - tm_P_s_prevs_preva - tm_P_nexts_s_a
-                                    if policy_a_giv_s==0:
-                                        skip_next_steps = True
-                                        probs_sa_gt_sa_j[combinations_sa_tuples.index((s,a))] = 0
+                                    if not skip_next_steps:
+                                        if j==0:
+                                            P_s_prevs_preva = 1.0
+                                        else: 
+                                            # for continuous state space, this call has s as a continuous state but sp as a partition for state space
+                                            P_s_prevs_preva = self.venv.env_method(method_name='P_sasp',indices=0,s=GT_traj[j-1][0],a=GT_traj[j-1][1],sp=s)[0]
+                                        tm_P_s_prevs_preva = (time.time()-start_tm3)/60 - tm_P_nexts_s_a
+                                        if P_s_prevs_preva==0:
+                                            skip_next_steps = True
+                                            probs_sa_gt_sa_j[combinations_sa_tuples.index((s,a))] = 0
 
-                                if not skip_next_steps:
-                                    if j==len(GT_traj)-1: 
-                                        # obsvd_traj.acts is empty at len(GT_traj)-1
-                                        P_obssa_GTsa = 1.0
-                                    else:
-                                        # for continuous state space, this call has sg as a partition for state space but so as a continuous state 
-                                        P_obssa_GTsa = self.venv.env_method(method_name='obs_model',indices=0,sg=s,ag=a,so=expert_samples_batch['obs'][j].numpy(),ao=expert_samples_batch['acts'][j].item())[0] 
-                                    tm_P_obssa_GTsa = (time.time()-start_tm3)/60 - tm_P_s_prevs_preva - tm_P_nexts_s_a - tm_policy_a_giv_s
+                                    if not skip_next_steps:
+                                        if isinstance(self.venv.observation_space, gym.spaces.Discrete):
+                                            # if state space is discrete
+                                            s_th = th.as_tensor([s], device=self.gen_algo.device) 
+                                            a_th = th.as_tensor([a], device=self.gen_algo.device) 
+                                            policy_a_giv_s = self.policy.prob_acts(obs=s_th,actions=a_th)[0].item() 
+                                        # elif isinstance(self.venv.observation_space, gym.spaces.Box): 
+                                        #     # if state space is continous
+                                        #     policy_a_giv_s = policy_a_giv_s_cont_st_disc_act(a,s)
+                                        else:
+                                            raise TypeError("Unsupported type of state space")
+                                        tm_policy_a_giv_s = (time.time()-start_tm3)/60 - tm_P_s_prevs_preva - tm_P_nexts_s_a
+                                        if policy_a_giv_s==0:
+                                            skip_next_steps = True
+                                            probs_sa_gt_sa_j[combinations_sa_tuples.index((s,a))] = 0
 
-                                    probs_sa_gt_sa_j[combinations_sa_tuples.index((s,a))] = P_s_prevs_preva * \
-                                        policy_a_giv_s * P_nexts_s_a * P_obssa_GTsa 
-                                
-                                    # print("\ntm_P_s_prevs_preva = {}\ntm_P_nexts_s_a = {}\ntm_P_obssa_GTsa = {}\ntm_policy_a_giv_s = {}".format(tm_P_s_prevs_preva,tm_P_nexts_s_a,tm_P_obssa_GTsa,tm_policy_a_giv_s))
-                                    # print("estimated time per call to gibbs_sampler = {} hours".format((time.time()-start_tm3)*get_state_space_upperlimit()*self.venv.action_space.n*len(GT_traj)*1/3600))
-                        
-                        # Gibbs sampling distribution for time step j of ground truth trajectory 
-                        sa_distr_trajs[j]=np.array(probs_sa_gt_sa_j)
+                                    if not skip_next_steps:
+                                        if j==len(GT_traj)-1: 
+                                            # obsvd_traj.acts is empty at len(GT_traj)-1
+                                            P_obssa_GTsa = 1.0
+                                        else:
+                                            # for continuous state space, this call has sg as a partition for state space but so as a continuous state 
+                                            P_obssa_GTsa = self.venv.env_method(method_name='obs_model',indices=0,sg=s,ag=a,so=expert_samples_batch['obs'][j].numpy(),ao=expert_samples_batch['acts'][j].item())[0] 
+                                        tm_P_obssa_GTsa = (time.time()-start_tm3)/60 - tm_P_s_prevs_preva - tm_P_nexts_s_a - tm_policy_a_giv_s
+
+                                        probs_sa_gt_sa_j[combinations_sa_tuples.index((s,a))] = P_s_prevs_preva * \
+                                            policy_a_giv_s * P_nexts_s_a * P_obssa_GTsa 
+                                    
+                                        # print("\ntm_P_s_prevs_preva = {}\ntm_P_nexts_s_a = {}\ntm_P_obssa_GTsa = {}\ntm_policy_a_giv_s = {}".format(tm_P_s_prevs_preva,tm_P_nexts_s_a,tm_P_obssa_GTsa,tm_policy_a_giv_s))
+                                        # print("estimated time per call to gibbs_sampler = {} hours".format((time.time()-start_tm3)*get_state_space_upperlimit()*self.venv.action_space.n*len(GT_traj)*1/3600))
+                            
+                            # Gibbs sampling distribution for time step j of ground truth trajectory 
+                            sa_distr_trajs[j]=np.array(probs_sa_gt_sa_j)
+
+                    elif isinstance(self.venv.observation_space, gym.spaces.Box):
+                            
+                        def mean_cov_agt_gvn_sgt(s_g_t):
+                            # sample a_g_t 10000 times and use those samples to make mean and cov of 
+                            # Gaussian approximation of generator's P(. | s_g_t) distribution
+                            sg_cont_th = th.as_tensor(np.repeat([s_g_t], 10000, axis=0), device=self.gen_algo.device) 
+                            samples_gauss = self.policy.predict(sg_cont_th,deterministic=False)[0]
+                            mean_agt_gvn_sgt = np.mean(samples_gauss, axis=0)
+                            cov_agt_gvn_sgt = np.cov(np.transpose(samples_gauss))
+                            return mean_agt_gvn_sgt,cov_agt_gvn_sgt
+                            
+                        # temp storage of traj specific list of probs_sa_gt_sa_j 
+                        # for each timestep t, we store mean and cov of P(s_g_t | MB(s_g_t)) and P(a_g_t|MB(a_g_t))
+                        sa_distr_trajs = []
+
+                        for j in range(len(GT_traj)):
+                            st_time2 = time.time() 
+                            sg_tmns1, ag_tmns1, sg_t, ag_t, sg_tpls1 = \
+                                None, None, GT_traj[j][0], GT_traj[j][1] , None 
+                            mean_agt_gvn_sgt, cov_agt_gvn_sgt = mean_cov_agt_gvn_sgt(sg_t)
+
+                            ed_time1 = time.time() - st_time2
+                            if j!=len(GT_traj)-1:
+                                sg_tpls1 = GT_traj[j+1][0]
+
+                            if j!=0:
+                                sg_tmns1, ag_tmns1 = GT_traj[j-1][0], GT_traj[j-1][1]
+
+                            mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t = \
+                                self.venv.env_method(method_name='gibbs_sampling_mean_cov',indices=[0]*self.venv.num_envs,\
+                                sg_tmns1=sg_tmns1, ag_tmns1=ag_tmns1, mean_agt_gvn_sgt=mean_agt_gvn_sgt, cov_agt_gvn_sgt=\
+                                cov_agt_gvn_sgt,sg_t=sg_t, ag_t=ag_t, sg_tpls1=sg_tpls1)[0]
+                            ed_time2 = time.time() - st_time2 - ed_time1
+                            sa_distr_trajs.append([mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t])
+                            print("create_gibbs_sampler ed_time1 {}, ed_time2 {}".format(ed_time1,ed_time2))
+
+                    else:
+                        raise TypeError("Unsupported type of state space")
 
                     # print("time taken to create sa_distr_trajs: {} minutes ".format((time.time()-start_tm)/60)) 
                     writer.write("time taken to create sa_distr_trajs: {} minutes \n".format((time.time()-start_tm)/60)) 
@@ -544,28 +587,35 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     return s, a
 
                 def get_state_from_sampled_index(s):
-                    if isinstance(self.venv.observation_space, gym.spaces.Discrete):
-                        return s 
-                    elif isinstance(self.venv.observation_space, gym.spaces.Box): 
-                        cont_st = self.venv.env_method(method_name='sample_random_state_from_partition',indices=0,ind=s)[0] 
-                        return cont_st
-                    else:
-                        raise TypeError("Unsupported type of state space")
+                    return s 
+                    # uncomment for using mountain car
+                    # if isinstance(self.venv.observation_space, gym.spaces.Discrete):
+                    #     return s 
+                    # elif isinstance(self.venv.observation_space, gym.spaces.Box): 
+                    #     cont_st = self.venv.env_method(method_name='sample_random_state_from_partition',indices=0,ind=s)[0] 
+                    #     return cont_st
+                    # else:
+                    #     raise TypeError("Unsupported type of state space")
 
-                list_s = list(range(get_state_space_upperlimit()))
-                list_a = list(range(self.venv.action_space.n))
-                start_tm = time.time()
-                combinations_sa_tuples = list(itertools.product(list_s,list_a))
-                print("time taken to create combinations_sa_tuples: {} minutes ".format((time.time()-start_tm)/60))
+                combinations_sa_tuples = None 
+                if isinstance(self.venv.observation_space, gym.spaces.Discrete):
+                    list_s = list(range(get_state_space_upperlimit()))
+                    list_a = list(range(self.venv.action_space.n))
+                    start_tm = time.time()
+                    combinations_sa_tuples = list(itertools.product(list_s,list_a))
+                    print("time taken to create combinations_sa_tuples: {} minutes ".format((time.time()-start_tm)/60))
 
                 # create GT_trajs 
                 # simulate random ground truth trajectories from learned policy 
                 GT_traj = np.empty((len(expert_samples['obs'])+1,2),dtype=int)
-                self.venv.reset()
-                GT_traj = np.array([[self.venv.get_attr('state')[0],None]])
+                init_obs = self.venv.reset()
+                GT_traj = np.array([[init_obs[0],None]])
                 for j in range(len(expert_samples['obs'])):
                     a, _ = self.policy.predict(GT_traj[j][0],deterministic=False)
-                    GT_traj[j][1] = a.item(0)
+                    if isinstance(self.venv.observation_space, gym.spaces.Discrete):
+                        GT_traj[j][1] = a.item(0)
+                    else:
+                        GT_traj[j][1] = a
                     ret_tuples = self.venv.env_method(method_name='step_sa',indices=[0]*self.venv.num_envs,s=GT_traj[j][0],a=GT_traj[j][1])
                     ns = ret_tuples[0] 
                     GT_traj = np.vstack((GT_traj,np.array([ns, -1]))) 
@@ -596,8 +646,13 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     compute delta change in average w.r.t previous iteration 
 
                 '''
-                while normed_delta_avg_disc_logits > self.threshold_stop_Gibbs_sampling:
-                    
+                if isinstance(self.venv.observation_space, gym.spaces.Box): 
+                    obs_size = self.venv.get_attr('obs_size')[0]
+                    act_size = self.venv.get_attr('act_size')[0]
+
+                while normed_delta_avg_disc_logits > self.threshold_stop_Gibbs_sampling and \
+                    ind_avg <= self.num_iters_Gibbs_sampling:
+    
                     sa_distr_samples = create_gibbs_sampler(expert_samples,GT_traj,combinations_sa_tuples,writer) 
 
                     #################################################################################
@@ -606,11 +661,20 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                     for j in range(len(expert_samples['obs'])):
                         
                         # sampling must happen specifically for index j
-                        probs_sa_gt_sa_j = sa_distr_samples['obs_sa_distr'][j].tolist() 
-                        s,a = sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer)
-                        
+                        if isinstance(self.venv.observation_space, gym.spaces.Discrete):
+                            probs_sa_gt_sa_j = sa_distr_samples['obs_sa_distr'][j].tolist() 
+                            s,a = sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer)
+                        elif isinstance(self.venv.observation_space, gym.spaces.Box):
+                            [mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t] = sa_distr_samples['obs_sa_distr'][j]
+                            s = np.random.multivariate_normal(mean_Gs_s_g_t, cov_Gs_s_g_t, (1))[0]
+                            assert len(s)==obs_size, "Sampled ground truth state size {} not eq obs_size {}".format(len(s),obs_size)
+                            a = np.random.multivariate_normal(mean_Gs_a_g_t, cov_Gs_a_g_t, (1))[0]
+                            assert len(a)==act_size, "Sampled ground truth action size {} not eq act_size {}".format(len(a),act_size)
+                        else:
+                            raise TypeError("Unsupported type of state space")
+
                         # to compute logits, we only need sampled ground truth in same format as expert_samples 
-                        if s:
+                        if s is not None:
                             st = get_state_from_sampled_index(s)
 
                             # if sampling valid, get samples ready for computing logits 
@@ -625,10 +689,18 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                             GT_traj[j][0] = st
                             GT_traj[j][1] = a
 
-                    # sampling last next obs 
-                    probs_sa_gt_sa_j = sa_distr_samples['nxtobs_sa_distr'][-1].tolist() 
-                    last_s,last_a = sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer) 
-                    if last_s: 
+                    # sampling last state in 'next_obs' part to gibbs_sampled_expert_samples 
+                    if isinstance(self.venv.observation_space, gym.spaces.Discrete):
+                        probs_sa_gt_sa_j = sa_distr_samples['nxtobs_sa_distr'][-1].tolist() 
+                        last_s,last_a = sample_sa_gibbs_sampler(probs_sa_gt_sa_j,combinations_sa_tuples,writer) 
+                    elif isinstance(self.venv.observation_space, gym.spaces.Box):
+                        [mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t] = sa_distr_samples['nxtobs_sa_distr'][-1]
+                        last_s = np.random.multivariate_normal(mean_Gs_s_g_t, cov_Gs_s_g_t, (1))[0]
+                        assert len(last_s)==obs_size, "Sampled ground truth state last_s size {} not eq obs_size {}".format(len(s),obs_size)
+                    else:
+                        raise TypeError("Unsupported type of state space")
+
+                    if last_s is not None: 
                         st = get_state_from_sampled_index(last_s) 
                         gibbs_sampled_expert_samples['next_obs'][-1] = th.tensor(st) if isinstance(st, int) else th.from_numpy(st)
 

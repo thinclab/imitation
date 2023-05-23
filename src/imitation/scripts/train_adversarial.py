@@ -83,10 +83,11 @@ def train_adversarial(
     demonstration_policy_path: Optional[str],
     wdGibbsSamp: bool,
     threshold_stop_Gibbs_sampling: float,
+    num_iters_Gibbs_sampling: int,
     max_time_steps: Optional[int] = np.iinfo('uint64').max,
     eval_n_timesteps: Optional[int] = np.iinfo('uint64').max,
     n_episodes_eval: Optional[int] = 50,
-    env_make_kwargs: Mapping[str, Any] = {}
+    env_make_kwargs: Mapping[str, Any] = {},
 ) -> Mapping[str, Mapping[str, float]]:
     """Train an adversarial-network-based imitation learning algorithm.
 
@@ -129,12 +130,10 @@ def train_adversarial(
 
     custom_logger, log_dir = common_config.setup_logging()
     expert_trajs = demonstrations.load_expert_trajs()
-
     env_name = _run.config["common"]["env_name"]
 
     venv = common_config.make_venv(env_make_kwargs=env_make_kwargs)
     
-
     if agent_path is None:
         gen_algo = rl.make_rl_algo(venv)
     else:
@@ -168,6 +167,7 @@ def train_adversarial(
         reward_net=reward_net,
         custom_logger=custom_logger,
         threshold_stop_Gibbs_sampling = threshold_stop_Gibbs_sampling, 
+        num_iters_Gibbs_sampling = num_iters_Gibbs_sampling,
         **algorithm_kwargs,
     )
 

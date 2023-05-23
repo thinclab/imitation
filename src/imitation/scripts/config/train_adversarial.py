@@ -34,7 +34,12 @@ def defaults():
     demonstration_policy_path = None
     wdGibbsSamp = False
     threshold_stop_Gibbs_sampling = 0.05
+    num_iters_Gibbs_sampling = 50
     sa_distr_read = False
+    eval_n_timesteps = 2000
+    max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
+    n_episodes_eval = -1 # used in train.eval_policy  
+    env_make_kwargs = {}
 
 @train_adversarial_ex.config
 def aliases_default_gen_batch_size(algorithm_kwargs, rl):
@@ -162,6 +167,11 @@ def half_cheetah_mdfd_weights():
     eval_n_timesteps = algorithm_kwargs['demo_batch_size'] # minimum demo size we want for i2rl sessions
     max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
     n_episodes_eval = -1 # used in train.eval_policy  
+    env_make_kwargs = {
+        'cov_diag_val_transition_model': 0.0001, 
+        'cov_diag_val_st_noise': 0.005,
+        'cov_diag_val_act_noise': 0.00001, 
+        'noise_insertion': False}
 
 
 @train_adversarial_ex.named_config

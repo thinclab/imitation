@@ -52,14 +52,14 @@ if __name__ == '__main__':
     env_name_config_half_cheetah = 'half_cheetah' 
     # expert policies
     policypath_half_cheetah = parent_of_output_dir+'/output/train_rl/HalfCheetah-v3/20230511_191304_8315b7/policies/000001000000'
-    policypath_half_cheetah2_0pnt01noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_121542_f7216c/policies/000001000000'
-    policypath_half_cheetah2_0pnt05noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_133554_e533db/policies/000003000000'
-    policypath_half_cheetah2_0pnt075noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_140918_7c19d7/policies/00003000000'
-    policypath_half_cheetah2_0pnt09noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_151327_a43c3a/policies/000000050000'
-    policypath_half_cheetah2_0pnt095noise_1pnt25forwd = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_162644_9419d1/policies/000000990000'
-    policypath_half_cheetah2_0pnt09noise_mrTrn = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_180946_95009d/policies/000000530000'
+    policypath_half_cheetah2_0pnt01noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/other_noise_levels/20230512_121542_f7216c/policies/000001000000'
+    policypath_half_cheetah2_0pnt05noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/other_noise_levels/20230512_133554_e533db/policies/000003000000'
+    policypath_half_cheetah2_0pnt075noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/other_noise_levels/20230512_140918_7c19d7/policies/00003000000'
+    policypath_half_cheetah2_0pnt09noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/other_noise_levels/20230512_151327_a43c3a/policies/000000050000'
+    policypath_half_cheetah2_0pnt095noise_1pnt25forwd = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/other_noise_levels/20230512_162644_9419d1/policies/000000990000'
+    policypath_half_cheetah2_0pnt09noise_mrTrn = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/other_noise_levels/20230512_180946_95009d/policies/000000530000'
     # chosen expert
-    policypath_half_cheetah2_0pnt095noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_155826_16533b/policies/000000500000'
+    policypath_half_cheetah2_0pnt095noise = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/0pnt095noise_16disc_updates_per_round/20230512_155826_16533b/policies/000000500000'
     # learned policies 
     policypath_half_cheetah2_learner_wo_noise_session10_75000trainsteps = parent_of_output_dir+'/output/airl/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_size_8192_trainsteps_75000/20230514_173931_51f5cc/checkpoints/final/gen_policy'
     policypath_half_cheetah2_learner_wo_noise_session51_75000trainsteps = parent_of_output_dir+'/output/airl/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_size_8192_trainsteps_75000/20230514_192624_c6dd70/checkpoints/final/gen_policy'
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     policypath_half_cheetah3 = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdReward-v0/20230512_165157_29de4a/policies/000000030000'
     env_name_config_half_cheetah3 = 'half_cheetah_mdfd_reward'
 
-    noiseinsertion = False 
+    noiseinsertion = True 
     render = True
 
     test_eval_policy(policypath_half_cheetah2_0pnt095noise, noiseinsertion, 
