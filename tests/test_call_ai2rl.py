@@ -48,7 +48,8 @@ def incremental_train_adversarial(
     total_timesteps_per_session: int,
     time_tracking_filename: str,
     hard_lmt_sessioncount: int,
-    num_iters_Gibbs_sampling: int
+    num_iters_Gibbs_sampling: int,
+    lba_tracking_filename: str 
     ):
     '''
     Args:
@@ -66,6 +67,7 @@ def incremental_train_adversarial(
             rollout_paths.append(subdir+"/final.pkl")
 
     writer = open(time_tracking_filename, "a")
+    writer_lba = open(lba_tracking_filename, "a")
 
     # first call won't have any agent path
     config_updates = {
@@ -87,6 +89,9 @@ def incremental_train_adversarial(
     writer.write("{}, {}".format(i+1, round((time.time()-start_time_session)/60,3)))
     writer.write("\n")
     writer.close()
+    writer_lba.write("\n")
+    writer_lba.write("{} - {}, ".format(i+1, round(run.result["LBA"],3)))
+    writer_lba.close()
 
     # lba_all_sessions = [round(run.result["LBA"],3)]
     lba_all_sessions = [run.result["LBA"]]
@@ -123,6 +128,10 @@ def incremental_train_adversarial(
         writer.write("{}, {}".format(i+1, round((time.time()-start_time_session)/60,3)))
         writer.write("\n")
 
+        writer_lba = open(lba_tracking_filename, "a")
+        writer_lba.write("{} - {}, ".format(i+1, round(run.result["LBA"],3)))
+        writer_lba.close()
+
         # lba_all_sessions.append(round(run.result["LBA"],3))
         lba_all_sessions.append(run.result["LBA"])
         if named_configs_in[0] != 'discretized_state_mountain_car':
@@ -132,8 +141,8 @@ def incremental_train_adversarial(
             return_mean_all_sessions.append(0.0)
             returnbylen_mean_all_sessions.append(0.0)
         
-        if i%5==0:
-            print("Five more sessions done")
+        # if i%5==0:
+        #     print("Five more sessions done")
         
         agent_path = run.config["common"]["log_dir"]+ "/checkpoints/final/gen_policy"
 
@@ -191,7 +200,8 @@ def run_trials_ai2rl(
             demonstration_policy_path=demonstration_policy_path,named_configs_in=named_configs_in,\
             wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
             total_timesteps_per_session=total_timesteps_per_session, time_tracking_filename=session_times_filename,
-            hard_lmt_sessioncount=hard_lmt_sessioncount, num_iters_Gibbs_sampling=num_iters_Gibbs_sampling)
+            hard_lmt_sessioncount=hard_lmt_sessioncount, num_iters_Gibbs_sampling=num_iters_Gibbs_sampling,
+            lba_tracking_filename=lba_filename)
 
         lba_values_over_AI2RL_trials.append(lba_all_sessions) 
         return_mean_over_AI2RL_trials.append(return_mean_all_sessions) 
@@ -263,19 +273,27 @@ if __name__ == '__main__':
 
     # half cheetah
     hc_named_config_env = 'half_cheetah_mdfd_weights'
-    hc_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/0pnt095noise_16disc_updates_per_round/20230512_155826_16533b/policies/000000500000"
-    hc_rootdir_noisefree_input = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_batch_size_8192'
-    hc_rootdir_noisy_input1 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_8192/st_ns0.001_act_ns0.00001'
-    hc_rootdir_noisy_input2 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_8192/st_ns0.005_act_ns0.00001'
+    hc_demonstration_policy_path = parent_of_output_dir+"/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/0pnt095noise/20230512_155826_16533b/policies/000000500000"
+    hc_rootdir_noisefree_input_demobatchsz8192 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_batch_size_8192'
+    hc_rootdir_noisy_input1_demobatchsz8192 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_8192/st_ns0.001_act_ns0.00001'
+    hc_rootdir_noisy_input2_demobatchsz8192 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_8192/st_ns0.005_act_ns0.00001'
+    hc_rootdir_noisefree_input_demobatchsz1024 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_batch_size_1024'
+    hc_rootdir_noisefree_input_demobatchsz256 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_batch_size_256'
+    hc_rootdir_noisy_input2_demobatchsz256 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_256/st_ns0.005_act_ns0.00001'
+    hc_rootdir_noisy_input3_demobatchsz256 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_256/st_ns0.01_act_ns0.00001'
+    hc_rootdir_noisy_input4_demobatchsz256 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_256/st_ns0.1_act_ns0.00001'
+    hc_rootdir_noisefree_input_demobatchsz32 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_batch_size_32'
+    hc_rootdir_noisefree_input_demobatchsz128 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_batch_size_128'
+    
     hc_total_timesteps_per_session = 75000 # int(5e6)
     hc_hard_lmt_sessioncount = 50
     hc_threshold_stop_Gibbs_sampling = 0.75
-    hc_num_iters_Gibbs_sampling = 5
+    hc_num_iters_Gibbs_sampling = 3
 
     named_config_env = hc_named_config_env 
     threshold_stop_Gibbs_sampling = hc_threshold_stop_Gibbs_sampling
     num_iters_Gibbs_sampling = hc_num_iters_Gibbs_sampling
-    wdGibbsSamp = False 
+    wdGibbsSamp = True 
     if not wdGibbsSamp:
         threshold_stop_Gibbs_sampling = None
     avg_lba_filename = parent_of_output_dir+"/output/ai2rl/"+str(named_config_env)+"/log_avg_lba_arrays.csv"  
@@ -317,13 +335,12 @@ if __name__ == '__main__':
 
             if named_configs_in[0] == hc_named_config_env: 
                 # ant
-                run_trials_ai2rl(num_trials=num_trials,rootdir=hc_rootdir_noisefree_input,\
+                run_trials_ai2rl(num_trials=num_trials,rootdir=hc_rootdir_noisy_input4_demobatchsz256,\
                         demonstration_policy_path=hc_demonstration_policy_path,named_configs_in=named_configs_in,\
                         wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
                         total_timesteps_per_session=hc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
                         hard_lmt_sessioncount=hc_hard_lmt_sessioncount, num_iters_Gibbs_sampling=num_iters_Gibbs_sampling) 
-
-
+            
     except MemoryError:
         sys.stderr.write('\n\nERROR: Memory Exception\n')
         sys.exit(1)

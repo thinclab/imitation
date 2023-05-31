@@ -140,7 +140,7 @@ def half_cheetah():
 @train_adversarial_ex.named_config
 def half_cheetah_mdfd_weights():
     locals().update(**MUJOCO_SHARED_LOCALS)
-    common = dict(env_name="imitationNM/HalfCheetahEnvMdfdWeights-v0")
+    common = dict(env_name="imitationNM/HalfCheetahEnvMdfdWeights-v0",num_vec = 2)
     rl = dict(batch_size=16384, rl_kwargs=dict(batch_size=1024))
     algorithm_specific = dict(
         airl=dict(total_timesteps=int(5e6)),
@@ -162,14 +162,15 @@ def half_cheetah_mdfd_weights():
         n_disc_updates_per_round=16,
         # Equivalent to no replay buffer if batch size is the same
         gen_replay_buffer_capacity=16384,
-        demo_batch_size=8192,
+        # demo_batch_size=8192,
+        demo_batch_size = 128, # trying lower size to reduce session time with Gibbs sampling
     )
     eval_n_timesteps = algorithm_kwargs['demo_batch_size'] # minimum demo size we want for i2rl sessions
     max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
     n_episodes_eval = -1 # used in train.eval_policy  
     env_make_kwargs = {
         'cov_diag_val_transition_model': 0.0001, 
-        'cov_diag_val_st_noise': 0.005,
+        'cov_diag_val_st_noise': 0.1,
         'cov_diag_val_act_noise': 0.00001, 
         'noise_insertion': False}
 

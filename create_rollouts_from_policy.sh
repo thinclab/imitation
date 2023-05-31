@@ -15,11 +15,11 @@
 
 # Half Cheetah
 env_nm_config=half_cheetah_mdfd_weights
-policypath="/home/katy/imitation/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/20230512_155826_16533b/policies/000000500000"
+policypath="/home/katy/imitation/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/0pnt095noise/20230512_155826_16533b/policies/000000500000"
 
 # for mujoco, set this in env_make_kwargs in config file 
-noiseinsertion=True
-# noiseinsertion=False
+# noiseinsertion=True
+noiseinsertion=False
 
 render=False
 

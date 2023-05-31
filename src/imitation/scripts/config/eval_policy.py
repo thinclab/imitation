@@ -77,15 +77,16 @@ def half_cheetah():
 @eval_policy_ex.named_config
 def half_cheetah_mdfd_weights():
     common = dict(env_name="imitationNM/HalfCheetahEnvMdfdWeights-v0")
-    eval_n_timesteps = 8192 # minimum demo size we want for i2rl sessions
+    # eval_n_timesteps = 8192 # minimum demo size we want for i2rl sessions
+    eval_n_timesteps = 128 # trying lower size to reduce session time with Gibbs sampling
     hard_limit_max_time_steps = True # should code remove trajectory size smaller than max_time_steps? 
     max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
     is_mujoco_env = True
     env_make_kwargs = {
         'cov_diag_val_transition_model': 0.0001, 
-        'cov_diag_val_st_noise': 0.005,
+        'cov_diag_val_st_noise': 0.1,
         'cov_diag_val_act_noise': 0.00001, 
-        'noise_insertion': True}
+        'noise_insertion': False}
 
 @eval_policy_ex.named_config
 def half_cheetah_mdfd_reward():

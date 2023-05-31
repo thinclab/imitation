@@ -18,7 +18,7 @@ from imitation.algorithms import base
 from imitation.data import buffer, rollout, types, wrappers
 from imitation.rewards import reward_nets, reward_wrapper
 from imitation.util import logger, networks, util
-
+from imitation.util.util import run_parallel
 
 def compute_train_stats(
     disc_logits_expert_is_high: th.Tensor,
@@ -89,7 +89,6 @@ def compute_train_stats(
         ("n_generated", float(n_generated)),
     ]  # type: Sequence[Tuple[str, float]]
     return collections.OrderedDict(pairs)
-
 
 class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
     """Base class for adversarial imitation learning algorithms like GAIL and AIRL."""
@@ -504,7 +503,8 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                         # temp storage of traj specific list of probs_sa_gt_sa_j 
                         # for each timestep t, we store mean and cov of P(s_g_t | MB(s_g_t)) and P(a_g_t|MB(a_g_t))
                         sa_distr_trajs = []
-
+                        # limit_num_threads = 6 # parallelization didn't work 
+                        list_ranges = []
                         for j in range(len(GT_traj)):
                             st_time2 = time.time() 
                             sg_tmns1, ag_tmns1, sg_t, ag_t, sg_tpls1 = \
@@ -517,14 +517,23 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
                             if j!=0:
                                 sg_tmns1, ag_tmns1 = GT_traj[j-1][0], GT_traj[j-1][1]
+                            
+                            # list_inputs = [self.venv,sg_tmns1, ag_tmns1, mean_agt_gvn_sgt, cov_agt_gvn_sgt, sg_t, ag_t, sg_tpls1]                            
+                            # list_ranges.append(list_inputs)
+                            # if len(list_ranges) == limit_num_threads or j == len(GT_traj)-1:
+                            #     results = run_parallel(list_ranges)
+                            #     for list_outputs in results:
+                            #         # each list_outputs should be [mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t]
+                            #         sa_distr_trajs.append(list_outputs)
+                            #     list_ranges = []
 
+                            list_inputs = [sg_tmns1, ag_tmns1, mean_agt_gvn_sgt, cov_agt_gvn_sgt, sg_t, ag_t, sg_tpls1]
                             mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t = \
-                                self.venv.env_method(method_name='gibbs_sampling_mean_cov',indices=[0]*self.venv.num_envs,\
-                                sg_tmns1=sg_tmns1, ag_tmns1=ag_tmns1, mean_agt_gvn_sgt=mean_agt_gvn_sgt, cov_agt_gvn_sgt=\
-                                cov_agt_gvn_sgt,sg_t=sg_t, ag_t=ag_t, sg_tpls1=sg_tpls1)[0]
+                                self.venv.env_method(method_name='gibbs_sampling_mean_cov',indices=0,\
+                                list_inputs=list_inputs)[0]
                             ed_time2 = time.time() - st_time2 - ed_time1
                             sa_distr_trajs.append([mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t])
-                            print("create_gibbs_sampler ed_time1 {}, ed_time2 {}".format(ed_time1,ed_time2))
+                            # print("create_gibbs_sampler ed_time1 {}, ed_time2 {}".format(ed_time1,ed_time2))
 
                     else:
                         raise TypeError("Unsupported type of state space")

@@ -24,6 +24,9 @@ from gym.wrappers import TimeLimit
 from stable_baselines3.common import monitor
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv, VecEnv
 
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+from multiprocessing import Pool
+
 
 def oric(x: np.ndarray) -> np.ndarray:
     """Optimal rounding under integer constraints.
@@ -237,3 +240,25 @@ def tensor_iter_norm(
     # = sum(x**ord for x in tensor for tensor in tensor_iter)**(1/ord)
     # = th.norm(concatenated tensors)
     return th.norm(norm_tensor, p=ord)
+
+
+def call_venv_gibbs(list_inputs):
+    
+    venv = list_inputs[0]
+    mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t = \
+        venv.env_method(method_name='gibbs_sampling_mean_cov',indices=[0],\
+        list_inputs=list_inputs[1:])[0]
+    
+    return [mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t]
+
+
+def run_parallel(data):
+    # with ThreadPoolExecutor(len(data)) as executor:
+    # with ProcessPoolExecutor(len(data)) as executor:        
+    #     result = executor.map(call_venv_gibbs, data)
+    # return result
+
+    pool = Pool(processes=len(data))
+    result = pool.map(call_venv_gibbs, data)
+    return list(result)
+

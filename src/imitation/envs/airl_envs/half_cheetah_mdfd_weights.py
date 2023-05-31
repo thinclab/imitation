@@ -208,8 +208,7 @@ class HalfCheetahEnvMdfdWeights(HalfCheetahEnv):
     def step_sa(self, s, a): # AdversarialTrainer > train_disc uses this method to create gound truth trajectory 
         return self.intended_next_state(s, a)
 
-    def gibbs_sampling_mean_cov(self, sg_tmns1, ag_tmns1, mean_agt_gvn_sgt, 
-                                cov_agt_gvn_sgt, sg_t, ag_t, sg_tpls1):
+    def gibbs_sampling_mean_cov(self, list_inputs):
         '''
         Inputs:
         sg_tmns1, ag_tmns1 - prev timestep s-a pair of ground truth used in current iteration of discriminator update 
@@ -223,6 +222,7 @@ class HalfCheetahEnvMdfdWeights(HalfCheetahEnv):
         P (a_g t| MB(a_g t)) =  P (a_g t| s_g t) P (s_g tpls1| s_g t, a_g t) P (s_o t| s_g t, a_g t) P (a_o t| s_g t, a_g t)​ 
 
         '''
+        [sg_tmns1, ag_tmns1, mean_agt_gvn_sgt, cov_agt_gvn_sgt, sg_t, ag_t, sg_tpls1] = list_inputs
         st_time = time.time()
         if sg_tmns1 is not None:
             mean_sg_t_gvn_sag_tmns1, cov_sg_t_gvn_sag_tmns1 = self.mean_cov_sg_t_gvn_sag_tmns1(sg_tmns1, ag_tmns1)
@@ -299,7 +299,7 @@ class HalfCheetahEnvMdfdWeights(HalfCheetahEnv):
         #     mean_Gs_a_g_t = ag_t 
         ed_time7 = time.time() - st_time - ed_time1 - ed_time2 - ed_time3 - ed_time4 - ed_time5 - ed_time6
 
-        print("ed_time1 {}, \ned_time2 {}, \ned_time3 {}, \ned_time4 {}, \ned_time5 {}, \ned_time6 {} \ned_time7 {}".format(\
-            ed_time1, ed_time2, ed_time3, ed_time4, ed_time5, ed_time6, ed_time7)) 
+        # print("ed_time1 {}, \ned_time2 {}, \ned_time3 {}, \ned_time4 {}, \ned_time5 {}, \ned_time6 {} \ned_time7 {}".format(\
+        #     ed_time1, ed_time2, ed_time3, ed_time4, ed_time5, ed_time6, ed_time7)) 
 
         return mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t
