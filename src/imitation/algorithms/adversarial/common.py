@@ -19,6 +19,7 @@ from imitation.data import buffer, rollout, types, wrappers
 from imitation.rewards import reward_nets, reward_wrapper
 from imitation.util import logger, networks, util
 from imitation.util.util import run_parallel
+import matplotlib.pyplot as plt
 
 def compute_train_stats(
     disc_logits_expert_is_high: th.Tensor,
@@ -489,13 +490,22 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                             # Gibbs sampling distribution for time step j of ground truth trajectory 
                             sa_distr_trajs[j]=np.array(probs_sa_gt_sa_j)
 
-                    elif isinstance(self.venv.observation_space, gym.spaces.Box):
-                            
-                        def mean_cov_agt_gvn_sgt(s_g_t):
+                    elif isinstance(self.venv.observation_space, gym.spaces.Box):                            
+                        
+                        def plot_hist(samples):
+                            np.random.seed(19680801)
+                            n_bins = 10
+                            _ = plt.hist(samples, bins=n_bins, histtype='bar')
+                            plt.show()
+
+                        def mean_cov_agt_gvn_sgt(s_g_t,j):
                             # sample a_g_t 10000 times and use those samples to make mean and cov of 
                             # Gaussian approximation of generator's P(. | s_g_t) distribution
                             sg_cont_th = th.as_tensor(np.repeat([s_g_t], 10000, axis=0), device=self.gen_algo.device) 
                             samples_gauss = self.policy.predict(sg_cont_th,deterministic=False)[0]
+                            if j == 0:
+                                plot_hist(samples_gauss)
+                            
                             mean_agt_gvn_sgt = np.mean(samples_gauss, axis=0)
                             cov_agt_gvn_sgt = np.cov(np.transpose(samples_gauss))
                             return mean_agt_gvn_sgt,cov_agt_gvn_sgt
@@ -509,7 +519,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                             st_time2 = time.time() 
                             sg_tmns1, ag_tmns1, sg_t, ag_t, sg_tpls1 = \
                                 None, None, GT_traj[j][0], GT_traj[j][1] , None 
-                            mean_agt_gvn_sgt, cov_agt_gvn_sgt = mean_cov_agt_gvn_sgt(sg_t)
+                            mean_agt_gvn_sgt, cov_agt_gvn_sgt = mean_cov_agt_gvn_sgt(sg_t,j)
 
                             ed_time1 = time.time() - st_time2
                             if j!=len(GT_traj)-1:

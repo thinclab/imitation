@@ -188,7 +188,7 @@ def train_adversarial(
     # appender.write("")
     # appender.close()
 
-    stats, LBA = None, None
+    stats, LBA = None, -1
     if env_name == "imitationNM/SortingOnions-v0" or env_name == "imitationNM/PatrolModel-v0":
         stats, policy_acts_learner = train.eval_policy_return_detActList(trainer.policy, trainer.venv_train)
         # expert policy 
@@ -221,7 +221,7 @@ def train_adversarial(
         # stats = train.eval_policy(trainer.policy, trainer.venv_train) 
 
     else:
-        if env_name == "imitationNM/AntWdNoise-v0" or env_name == "imitationNM/HalfCheetahEnvMdfdWeights-v0": 
+        if env_name == "imitationNM/AntWdNoise-v0" or env_name == "imitationNM/HalfCheetahEnvMdfdWeights-v0":
             # LBA for continuous state cont action domain w/o discretization 
             if demonstration_policy_path: 
                 policy_type = "ppo" 
@@ -240,7 +240,17 @@ def train_adversarial(
             stats_times_fileh = open(stats_times_filename, "a")
             stats_times_fileh.write("\ntime taken for eval_policy {} min".format((time.time()-st_tm)/60))
             stats_times_fileh.close() 
-            
+
+        elif env_name == "imitationNM/Hopper-v3" or env_name == "Hopper-v3": 
+            st_tm = time.time() 
+            stats = train.eval_policy(trainer.policy, trainer.venv_train, \
+                                      eval_n_timesteps=eval_n_timesteps, \
+                                      max_time_steps=max_time_steps, n_episodes_eval=n_episodes_eval) 
+            stats_times_filename = imitation_dir + "/for_debugging/stats_times.txt" 
+            stats_times_fileh = open(stats_times_filename, "a")
+            stats_times_fileh.write("\ntime taken for eval_policy {} min".format((time.time()-st_tm)/60))
+            stats_times_fileh.close() 
+
         else:        
             st_tm = time.time() 
             stats = train.eval_policy(trainer.policy, trainer.venv_train) 

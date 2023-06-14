@@ -45,6 +45,43 @@ def config_hook(config, command_name, logger):
     return res
 
 @rl_ingredient.named_config
+def half_cheetah_mdfd_weights():
+    rl_cls = sb3.PPO
+    batch_size=512*1 # desired_n_steps*num_vec from common.py half_cheetah_mdfd_weights
+    rl_kwargs=dict(
+        batch_size=64,
+        gamma=0.98,
+        learning_rate=2.0633e-05,
+        ent_coef=0.000401762,
+        clip_range=0.1,
+        n_epochs=20,
+        gae_lambda=0.92,
+        max_grad_norm=0.8,
+        vf_coef=0.58096)
+
+
+@rl_ingredient.named_config
+def hopper_ppo():
+    rl_cls = sb3.PPO
+    batch_size=512*1 # desired_n_steps*num_vec from common.py half_cheetah_mdfd_weights
+    rl_kwargs=dict(
+        batch_size=32,
+        gamma=0.999,
+        learning_rate=9.80828e-05,
+        ent_coef=0.00229519,
+        clip_range=0.2,
+        n_epochs=5,
+        gae_lambda=0.99,
+        max_grad_norm=0.7,
+        vf_coef=0.835671)
+
+
+@rl_ingredient.named_config
+def hopper_sac():
+    rl_cls = sb3.SAC
+    batch_size = 256
+
+@rl_ingredient.named_config
 def sorting_onions_tuning_batch_size1():
     rl_cls = sb3.PPO
     batch_size=2048 

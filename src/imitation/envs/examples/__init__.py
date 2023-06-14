@@ -39,3 +39,5 @@ _register("imitationNM/HalfCheetahEnvMdfdWeights-v0", entry_point="half_cheetah_
           }) 
 
 _register("imitationNM/HalfCheetahEnvMdfdReward-v0", entry_point="half_cheetah_mdfd_reward:HalfCheetahEnvMdfdReward") 
+
+_register("imitationNM/Hopper-v3", entry_point="half_cheetah_mdfd_weights:HopperForGibbs") 

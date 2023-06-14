@@ -4,51 +4,25 @@ from gym import spaces
 from numpy.linalg import inv
 
 import time
+from gym.envs.mujoco.hopper_v3 import HopperEnv
 
-class HalfCheetahEnvMdfdWeights(HalfCheetahEnv):
+class SharedRobustAIRL_Stuff:
     def __init__(self,
-        forward_reward_weight=1.0,
-        ctrl_cost_weight=0.1,
-        reset_noise_scale=0.09,
         cov_diag_val_transition_model = 0.0001, 
         cov_diag_val_st_noise = 0.1,
-        cov_diag_val_act_noise = 0.1, 
-        noise_insertion=False):
-
-        self.num_samples = 100000
-        self.obs_size = 17
-        self.act_size = 6
-        self.cov_diag_val_transition_model = cov_diag_val_transition_model
-        self.transition_model_cov = np.diag(np.repeat(self.cov_diag_val_transition_model,self.obs_size))
+        cov_diag_val_act_noise = 0.1,
+        obs_size = None,
+        act_size = None,
+        qpos_size = None,
+        intended_next_state_f = None):
         self.cov_diag_val_st_noise = cov_diag_val_st_noise
         self.cov_diag_val_act_noise = cov_diag_val_act_noise
-        self.noise_insertion = noise_insertion
-        super(HalfCheetahEnvMdfdWeights, self).__init__(\
-            forward_reward_weight=forward_reward_weight,
-            ctrl_cost_weight=ctrl_cost_weight,
-            reset_noise_scale=reset_noise_scale)
-
-    def state_samples_to_estimate_LBA(self):
-        # return sampled states to be used for LBA computation
-        # as episode finishes when first dimension crosses [0.2,1.0] 
-        # it's better to get samples from that window
-        low = self.observation_space.low
-        low[:] = -np.iinfo('uint16').max
-        high = self.observation_space.high
-        high[:] = np.iinfo('uint16').max
-        action = self.action_space.sample()
-        observation, _reward, done, _info = self.step(action)
-        obspace = spaces.Box(low, high, dtype=observation.dtype)
-
-        # st_tm = time.time()
-        sampled_states = []
-        for i in range(self.num_samples):
-            sampled_states.append(obspace.sample())
-
-        # print("time taken to sample {} states: {} min".format(self.num_samples,(time.time()-st_tm)/60)) 
-
-        max_diff_acts = self.action_space.high - self.action_space.low
-        return sampled_states, max_diff_acts
+        self.cov_diag_val_transition_model = cov_diag_val_transition_model
+        self.obs_size = obs_size
+        self.act_size = act_size
+        self.qpos_size = qpos_size 
+        self.transition_model_cov = np.diag(np.repeat(self.cov_diag_val_transition_model,self.obs_size))
+        self.intended_next_state = intended_next_state_f
     
     def mean_cov_so_t_gvnt_sag_t(self, sg_t, ag_t):
         # mean vector and covariance matrix to be used 
@@ -77,61 +51,6 @@ class HalfCheetahEnvMdfdWeights(HalfCheetahEnv):
         
         return so_t, ao_t
     
-    def step(self, action):
-        if not self.noise_insertion:
-            x_position_before = self.sim.data.qpos[0]
-            self.do_simulation(action, self.frame_skip)
-            x_position_after = self.sim.data.qpos[0]
-            x_velocity = (x_position_after - x_position_before) / self.dt
-
-            ctrl_cost = self.control_cost(action)
-
-            forward_reward = self._forward_reward_weight * x_velocity
-
-            observation = self._get_obs()
-            reward = forward_reward - ctrl_cost
-            done = False
-            info = {
-                "x_position": x_position_after,
-                "x_velocity": x_velocity,
-                "reward_run": forward_reward,
-                "reward_ctrl": -ctrl_cost,
-            }
-        else:
-            # noise insertion is needed for saving state action pairs 
-            # without reward value because learner can't see expert's reward 
-            reward = 0.0
-            done = False 
-            info = {}
-            
-            observation = self._get_obs()
-            sg_t, ag_t = observation, action
-            means_covs = self.mean_cov_sao_t_gvn_sag_t(sg_t, ag_t)           
-            so_t = np.random.multivariate_normal(means_covs[0], means_covs[1], (1))[0]
-            observation = so_t
-
-            # setting noised state in simulation
-            x_position_before = self.sim.data.qpos[0]
-            full_state = np.append([x_position_before],observation[:self.obs_size])
-            qpos = np.array(full_state[:9])
-            qvel = np.array(full_state[9:self.obs_size+1])
-            self.set_state(qpos, qvel)
-
-            ao_t = np.random.multivariate_normal(means_covs[2], means_covs[3], (1))[0]
-            self.do_simulation(ao_t, self.frame_skip)
-
-        return observation, reward, done, info
-    
-    def intended_next_state(self, observation, action):
-        # make input state current state. 
-        full_state = np.append([self.init_qpos[0]],observation[:self.obs_size])
-        qpos = np.array(full_state[:9])
-        qvel = np.array(full_state[9:self.obs_size+1])
-        self.set_state(qpos, qvel)
-        # get next state
-        result, _, _, _ = self.step(action)
-        return result 
-
     def mean_cov_sg_t_gvn_sag_tmns1(self, sg_tmns1, ag_tmns1):
         ## mean cov for P(sg | sg_tmns1, ag_tmns1)  
         mean_sg_t_gauss = self.intended_next_state(sg_tmns1, ag_tmns1)
@@ -144,7 +63,10 @@ class HalfCheetahEnvMdfdWeights(HalfCheetahEnv):
         sorted_flatnd_array = np.sort(mat.flatten())
         inds = np.nonzero(sorted_flatnd_array)
         if len(inds) > 0:
-            return sorted_flatnd_array[inds[0][0]]
+            if len(inds[0]) > 0:
+                return sorted_flatnd_array[inds[0][0]]
+            else:
+                return 0.0
         else:
             return 0.0
 
@@ -204,9 +126,6 @@ class HalfCheetahEnvMdfdWeights(HalfCheetahEnv):
         meanp = np.matmul(cov2_prd,np.matmul(inv_cov_12,mean1_prd))+np.matmul(cov1_prd,np.matmul(inv_cov_12,mean2_prd)) 
         
         return meanp, covp 
-
-    def step_sa(self, s, a): # AdversarialTrainer > train_disc uses this method to create gound truth trajectory 
-        return self.intended_next_state(s, a)
 
     def gibbs_sampling_mean_cov(self, list_inputs):
         '''
@@ -303,3 +222,226 @@ class HalfCheetahEnvMdfdWeights(HalfCheetahEnv):
         #     ed_time1, ed_time2, ed_time3, ed_time4, ed_time5, ed_time6, ed_time7)) 
 
         return mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t
+
+
+class HalfCheetahEnvMdfdWeights(HalfCheetahEnv,SharedRobustAIRL_Stuff):
+    def __init__(self,
+        forward_reward_weight=1.0,
+        ctrl_cost_weight=0.1,
+        reset_noise_scale=0.09,
+        cov_diag_val_transition_model = 0.0001, 
+        cov_diag_val_st_noise = 0.1,
+        cov_diag_val_act_noise = 0.1, 
+        noise_insertion=False):
+
+        self.num_samples = 100000
+        self.obs_size = 17
+        self.act_size = 6
+        self.qpos_size = 9
+        self.noise_insertion = noise_insertion
+        # need to be repeated for this class
+        self.cov_diag_val_st_noise = cov_diag_val_st_noise
+        self.cov_diag_val_act_noise = cov_diag_val_act_noise
+
+        HalfCheetahEnv.__init__(self,\
+            forward_reward_weight=forward_reward_weight,
+            ctrl_cost_weight=ctrl_cost_weight,
+            reset_noise_scale=reset_noise_scale)
+        
+        SharedRobustAIRL_Stuff.__init__(self,\
+            cov_diag_val_transition_model = cov_diag_val_transition_model, 
+            cov_diag_val_st_noise = cov_diag_val_st_noise,
+            cov_diag_val_act_noise = cov_diag_val_act_noise,
+            obs_size = self.obs_size,
+            act_size = self.act_size,
+            qpos_size = self.qpos_size,
+            intended_next_state_f = self.intended_next_state)
+
+    def state_samples_to_estimate_LBA(self):
+        # return sampled states to be used for LBA computation
+        # as episode finishes when first dimension crosses [0.2,1.0] 
+        # it's better to get samples from that window
+        low = self.observation_space.low
+        low[:] = -np.iinfo('uint16').max
+        high = self.observation_space.high
+        high[:] = np.iinfo('uint16').max
+        action = self.action_space.sample()
+        observation, _reward, done, _info = self.step(action)
+        obspace = spaces.Box(low, high, dtype=observation.dtype)
+
+        # st_tm = time.time()
+        sampled_states = []
+        for i in range(self.num_samples):
+            sampled_states.append(obspace.sample())
+
+        # print("time taken to sample {} states: {} min".format(self.num_samples,(time.time()-st_tm)/60)) 
+
+        max_diff_acts = self.action_space.high - self.action_space.low
+        return sampled_states, max_diff_acts
+
+    def step(self, action):
+        if not self.noise_insertion:
+            x_position_before = self.sim.data.qpos[0]
+            self.do_simulation(action, self.frame_skip)
+            x_position_after = self.sim.data.qpos[0]
+            x_velocity = (x_position_after - x_position_before) / self.dt
+
+            ctrl_cost = self.control_cost(action)
+
+            forward_reward = self._forward_reward_weight * x_velocity
+
+            observation = self._get_obs()
+            reward = forward_reward - ctrl_cost
+            done = False
+            info = {
+                "x_position": x_position_after,
+                "x_velocity": x_velocity,
+                "reward_run": forward_reward,
+                "reward_ctrl": -ctrl_cost,
+            }
+        else:
+            # noise insertion is needed for saving state action pairs 
+            # without reward value because learner can't see expert's reward 
+            reward = 0.0
+            done = False 
+            info = {}
+            
+            observation = self._get_obs()
+            sg_t, ag_t = observation, action
+            means_covs = self.mean_cov_sao_t_gvn_sag_t(sg_t, ag_t)           
+            so_t = np.random.multivariate_normal(means_covs[0], means_covs[1], (1))[0]
+            observation = so_t
+
+            # setting noised state in simulation
+            x_position_before = self.sim.data.qpos[0]
+            full_state = np.append([x_position_before],observation[:self.obs_size])
+            qpos = np.array(full_state[:self.qpos_size])
+            qvel = np.array(full_state[self.qpos_size:self.obs_size+1])
+            self.set_state(qpos, qvel)
+
+            ao_t = np.random.multivariate_normal(means_covs[2], means_covs[3], (1))[0]
+            self.do_simulation(ao_t, self.frame_skip)
+
+        return observation, reward, done, info
+    
+    def intended_next_state(self, observation, action):
+        # make input state current state. 
+        full_state = np.append([self.init_qpos[0]],observation[:self.obs_size])
+        qpos = np.array(full_state[:self.qpos_size])
+        qvel = np.array(full_state[self.qpos_size:self.obs_size+1])
+        self.set_state(qpos, qvel)
+        # get next state
+        result, _, _, _ = self.step(action)
+        return result 
+
+    def step_sa(self, s, a): # AdversarialTrainer > train_disc uses this method to create gound truth trajectory 
+        return self.intended_next_state(s, a)
+
+
+
+class HopperForGibbs(HopperEnv,SharedRobustAIRL_Stuff):
+    def __init__(self,
+        cov_diag_val_transition_model = 0.0001, 
+        cov_diag_val_st_noise = 0.1,
+        cov_diag_val_act_noise = 0.1, 
+        noise_insertion=False):
+
+        self.num_samples = 100000
+        self.obs_size = 11
+        self.act_size = 3
+        self.qpos_size = 6
+        self.noise_insertion = noise_insertion
+        # need to be repeated for this class
+        self.cov_diag_val_st_noise = cov_diag_val_st_noise
+        self.cov_diag_val_act_noise = cov_diag_val_act_noise
+
+        HopperEnv.__init__(self)
+        
+        SharedRobustAIRL_Stuff.__init__(self,\
+            cov_diag_val_transition_model = cov_diag_val_transition_model, 
+            cov_diag_val_st_noise = cov_diag_val_st_noise,
+            cov_diag_val_act_noise = cov_diag_val_act_noise,
+            obs_size = self.obs_size,
+            act_size = self.act_size,
+            qpos_size = self.qpos_size,
+            intended_next_state_f = self.intended_next_state)
+
+    def state_samples_to_estimate_LBA(self):
+        # return sampled states to be used for LBA computation
+        # as episode finishes when first dimension crosses [0.2,1.0] 
+        # it's better to get samples from that window
+        low = self.observation_space.low
+        low[:] = -np.iinfo('uint16').max
+        high = self.observation_space.high
+        high[:] = np.iinfo('uint16').max
+        action = self.action_space.sample()
+        observation, _reward, done, _info = self.step(action)
+        obspace = spaces.Box(low, high, dtype=observation.dtype)
+
+        # st_tm = time.time()
+        sampled_states = []
+        for i in range(self.num_samples):
+            sampled_states.append(obspace.sample())
+
+        # print("time taken to sample {} states: {} min".format(self.num_samples,(time.time()-st_tm)/60)) 
+
+        max_diff_acts = self.action_space.high - self.action_space.low
+        return sampled_states, max_diff_acts
+
+    def step(self, action):
+        if not self.noise_insertion:
+            x_position_before = self.sim.data.qpos[0]
+            self.do_simulation(action, self.frame_skip)
+            x_position_after = self.sim.data.qpos[0]
+            x_velocity = (x_position_after - x_position_before) / self.dt
+
+            ctrl_cost = self.control_cost(action)
+
+            forward_reward = self._forward_reward_weight * x_velocity
+
+            observation = self._get_obs()
+            reward = forward_reward - ctrl_cost
+            done = False
+            info = {
+                "x_position": x_position_after,
+                "x_velocity": x_velocity,
+                "reward_run": forward_reward,
+                "reward_ctrl": -ctrl_cost,
+            }
+        else:
+            # noise insertion is needed for saving state action pairs 
+            # without reward value because learner can't see expert's reward 
+            reward = 0.0
+            done = False 
+            info = {}
+            
+            observation = self._get_obs()
+            sg_t, ag_t = observation, action
+            means_covs = self.mean_cov_sao_t_gvn_sag_t(sg_t, ag_t)           
+            so_t = np.random.multivariate_normal(means_covs[0], means_covs[1], (1))[0]
+            observation = so_t
+
+            # setting noised state in simulation
+            x_position_before = self.sim.data.qpos[0]
+            full_state = np.append([x_position_before],observation[:self.obs_size])
+            qpos = np.array(full_state[:self.qpos_size])
+            qvel = np.array(full_state[self.qpos_size:self.obs_size+1])
+            self.set_state(qpos, qvel)
+
+            ao_t = np.random.multivariate_normal(means_covs[2], means_covs[3], (1))[0]
+            self.do_simulation(ao_t, self.frame_skip)
+
+        return observation, reward, done, info
+    
+    def intended_next_state(self, observation, action):
+        # make input state current state. 
+        full_state = np.append([self.init_qpos[0]],observation[:self.obs_size])
+        qpos = np.array(full_state[:self.qpos_size])
+        qvel = np.array(full_state[self.qpos_size:self.obs_size+1])
+        self.set_state(qpos, qvel)
+        # get next state
+        result, _, _, _ = self.step(action)
+        return result 
+
+    def step_sa(self, s, a): # AdversarialTrainer > train_disc uses this method to create gound truth trajectory 
+        return self.intended_next_state(s, a)

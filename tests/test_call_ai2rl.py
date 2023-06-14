@@ -90,7 +90,7 @@ def incremental_train_adversarial(
     writer.write("\n")
     writer.close()
     writer_lba.write("\n")
-    writer_lba.write("{} - {}, ".format(i+1, round(run.result["LBA"],3)))
+    writer_lba.write("{} - {}, ".format(i+1, round(run.result['imit_stats']["return_mean"],3)))
     writer_lba.close()
 
     # lba_all_sessions = [round(run.result["LBA"],3)]
@@ -129,7 +129,7 @@ def incremental_train_adversarial(
         writer.write("\n")
 
         writer_lba = open(lba_tracking_filename, "a")
-        writer_lba.write("{} - {}, ".format(i+1, round(run.result["LBA"],3)))
+        writer_lba.write("{} - {}, ".format(i+1, round(run.result['imit_stats']["return_mean"],3)))
         writer_lba.close()
 
         # lba_all_sessions.append(round(run.result["LBA"],3))
@@ -284,11 +284,20 @@ if __name__ == '__main__':
     hc_rootdir_noisy_input4_demobatchsz256 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/wd_noise/demo_size_256/st_ns0.1_act_ns0.00001'
     hc_rootdir_noisefree_input_demobatchsz32 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_batch_size_32'
     hc_rootdir_noisefree_input_demobatchsz128 = parent_of_output_dir+'/output/eval_policy/imitationNM_HalfCheetahEnvMdfdWeights-v0/noise_free/demo_batch_size_128'
-    
     hc_total_timesteps_per_session = 75000 # int(5e6)
     hc_hard_lmt_sessioncount = 50
     hc_threshold_stop_Gibbs_sampling = 0.75
-    hc_num_iters_Gibbs_sampling = 3
+    hc_num_iters_Gibbs_sampling = 40
+
+    # half cheetah
+    hp_named_config_env = 'hopper'
+    hp_demonstration_policy_path = parent_of_output_dir+'/output/train_rl/Hopper-v3/20230609_092251_d8bbea/policies/000001000000'
+    hp_rootdir_noisefree_input_demobatchsz32 = parent_of_output_dir+'/output/eval_policy/Hopper-v3/noise_free/demo_batch_size_32'
+    hp_rootdir_noisy_input_demobatchsz32 = parent_of_output_dir+'/output/eval_policy/imitationNM_Hopper-v3/noisy/demo_batch_size_32'
+    hp_total_timesteps_per_session = 512 # >= rl batch size
+    hp_hard_lmt_sessioncount = 50
+    hp_threshold_stop_Gibbs_sampling = 0.75
+    hp_num_iters_Gibbs_sampling = 20
 
     named_config_env = hc_named_config_env 
     threshold_stop_Gibbs_sampling = hc_threshold_stop_Gibbs_sampling
@@ -340,7 +349,16 @@ if __name__ == '__main__':
                         wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
                         total_timesteps_per_session=hc_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
                         hard_lmt_sessioncount=hc_hard_lmt_sessioncount, num_iters_Gibbs_sampling=num_iters_Gibbs_sampling) 
-            
+
+            if named_configs_in[0] == hp_named_config_env: 
+                named_configs_in = named_configs_in + ['train.hopper_ppo']
+                # hopper 
+                run_trials_ai2rl(num_trials=num_trials,rootdir=hp_rootdir_noisy_input_demobatchsz32,\
+                        demonstration_policy_path=hp_demonstration_policy_path,named_configs_in=named_configs_in,\
+                        wdGibbsSamp=wdGibbsSamp, threshold_stop_Gibbs_sampling=threshold_stop_Gibbs_sampling,\
+                        total_timesteps_per_session=hp_total_timesteps_per_session, avg_lba_filename=avg_lba_filename,\
+                        hard_lmt_sessioncount=hp_hard_lmt_sessioncount, num_iters_Gibbs_sampling=num_iters_Gibbs_sampling) 
+
     except MemoryError:
         sys.stderr.write('\n\nERROR: Memory Exception\n')
         sys.exit(1)

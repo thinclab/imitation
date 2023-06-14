@@ -11,6 +11,7 @@ from imitation.data import rollout
 from imitation.policies import base
 import os, git, time
 import numpy as np
+import torch
 
 repo = git.Repo(os.getcwd(), search_parent_directories=True)
 git_home = repo.working_tree_dir
@@ -31,6 +32,31 @@ def config():
 
     locals()  # quieten flake8
 
+@train_ingredient.named_config
+def half_cheetah_mdfd_weights():
+    policy_cls = 'MlpPolicy'
+    policy_kwargs = dict(
+                    log_std_init=-2,
+                    ortho_init=False,
+                    activation_fn=torch.nn.ReLU,
+                    net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                  )
+
+
+@train_ingredient.named_config
+def hopper_sac():
+    policy_cls = 'MlpPolicy'
+
+
+@train_ingredient.named_config
+def hopper_ppo():
+    policy_cls = 'MlpPolicy'
+    policy_kwargs = dict(
+                    log_std_init=-2,
+                    ortho_init=False,
+                    activation_fn=torch.nn.ReLU,
+                    net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                  )
 
 @train_ingredient.named_config
 def fast():

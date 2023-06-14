@@ -4,6 +4,8 @@ import sacred
 
 from imitation.rewards import reward_nets
 from imitation.scripts.common import common, demonstrations, reward, rl, train
+import stable_baselines3 as sb3
+
 
 train_adversarial_ex = sacred.Experiment(
     "train_adversarial",
@@ -142,10 +144,10 @@ def half_cheetah_mdfd_weights():
     locals().update(**MUJOCO_SHARED_LOCALS)
     common = dict(env_name="imitationNM/HalfCheetahEnvMdfdWeights-v0",num_vec = 2)
     rl = dict(batch_size=16384, rl_kwargs=dict(batch_size=1024))
-    algorithm_specific = dict(
-        airl=dict(total_timesteps=int(5e6)),
-        gail=dict(total_timesteps=int(8e6)),
-    )
+    # algorithm_specific = dict(
+    #     airl=dict(total_timesteps=int(5e6)),
+    #     gail=dict(total_timesteps=int(8e6)),
+    # )
     reward = dict(
         algorithm_specific=dict(
             airl=dict(
@@ -174,6 +176,36 @@ def half_cheetah_mdfd_weights():
         'cov_diag_val_act_noise': 0.00001, 
         'noise_insertion': False}
 
+@train_adversarial_ex.named_config
+def hopper():
+    locals().update(**MUJOCO_SHARED_LOCALS)
+    common = dict(env_name = "imitationNM/Hopper-v3", num_vec = 8) 
+    rl = dict(
+            rl_cls=sb3.PPO,
+            batch_size=512*1, # desired_n_steps*num_vec from common.py half_cheetah_mdfd_weights
+            rl_kwargs=dict(
+                batch_size=32,
+                gamma=0.999,
+                learning_rate=9.80828e-05,
+                ent_coef=0.00229519,
+                clip_range=0.2,
+                n_epochs=5,
+                gae_lambda=0.99,
+                max_grad_norm=0.7,
+                vf_coef=0.835671)
+            )
+    algorithm_kwargs = dict(
+        demo_batch_size = 32, 
+        allow_variable_horizon = True,
+    )
+    eval_n_timesteps = algorithm_kwargs['demo_batch_size'] # minimum demo size we want for i2rl sessions
+    max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
+    n_episodes_eval = -1 # used in train.eval_policy  
+    env_make_kwargs = {
+        'cov_diag_val_transition_model': 0.0001, 
+        'cov_diag_val_st_noise': 0.1,
+        'cov_diag_val_act_noise': 0.00001, 
+        'noise_insertion': True}
 
 @train_adversarial_ex.named_config
 def seals_hopper():

@@ -74,13 +74,18 @@ def half_cheetah():
 
 @train_rl_ex.named_config
 def half_cheetah_mdfd_weights():
-    common = dict(env_name="imitationNM/HalfCheetahEnvMdfdWeights-v0")
-    total_timesteps = int(10e6)
+    total_timesteps = int(1e6)
 
 @train_rl_ex.named_config
 def half_cheetah_mdfd_reward():
     common = dict(env_name="imitationNM/HalfCheetahEnvMdfdReward-v0")
     total_timesteps = int(2e6)
+
+
+@train_rl_ex.named_config
+def hopper():
+    normalize_reward = True
+    total_timesteps = int(1e6)
 
 @train_rl_ex.named_config
 def seals_hopper():
@@ -119,7 +124,7 @@ def pendulum():
 
 @train_rl_ex.named_config
 def reacher():
-    common = dict(env_name="Reacher-v2")
+    total_timesteps = int(1e6)
 
 
 @train_rl_ex.named_config

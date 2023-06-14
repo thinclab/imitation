@@ -72,8 +72,17 @@ if __name__ == '__main__':
     policypath_half_cheetah3 = parent_of_output_dir+'/output/train_rl/imitationNM_HalfCheetahEnvMdfdReward-v0/20230512_165157_29de4a/policies/000000030000'
     env_name_config_half_cheetah3 = 'half_cheetah_mdfd_reward'
 
-    noiseinsertion = False 
-    render = True
+    env_name_config_hp_sac = 'hopper_sac' 
+    # expert policies
+    policypath_hp_customsac = parent_of_output_dir+'/output/train_rl/Hopper-v3/20230608_120236_60b2f7/policies/000001000000'
+    # above failed bcz some use_sde argument repeated in policy object creation 
+    policypath_hp_defaultsac = parent_of_output_dir+'/output/train_rl/Hopper-v3/20230608_194557_5321f1/policies/000001000000'
+    env_name_config_hp_ppo = 'hopper_ppo' 
+    policypath_hp_ppo = parent_of_output_dir+'/output/train_rl/Hopper-v3/20230609_092251_d8bbea/policies/000001000000'
+    
+    noiseinsertion = True 
+    render = False
 
-    test_eval_policy(policypath_half_cheetah2_learner_wo_noise_session50_75000trainsteps, noiseinsertion, 
-                     env_name_config_half_cheetah2, save_videos, render) 
+    for i in range(100):
+        test_eval_policy(policypath_hp_ppo, noiseinsertion, \
+                     env_name_config_hp_ppo, save_videos, render) 

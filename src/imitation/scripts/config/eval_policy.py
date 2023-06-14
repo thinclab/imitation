@@ -94,6 +94,29 @@ def half_cheetah_mdfd_reward():
     max_time_steps = 5000
 
 @eval_policy_ex.named_config
+def hopper_ppo():
+    common = dict(env_name="imitationNM/Hopper-v3",num_vec=1, parallel=False)
+    policy_type = "ppo"
+    eval_n_timesteps = 32 # trying lower size to reduce session time with Gibbs sampling
+    hard_limit_max_time_steps = True # should code remove trajectory size smaller than max_time_steps? 
+    max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
+    is_mujoco_env = True
+    env_make_kwargs = {
+        'cov_diag_val_transition_model': 0.0001, 
+        'cov_diag_val_st_noise': 0.1,
+        'cov_diag_val_act_noise': 0.00001, 
+        'noise_insertion': True}
+
+@eval_policy_ex.named_config
+def hopper_sac():
+    common = dict(env_name="Hopper-v3")
+    policy_type = "sac"
+    eval_n_timesteps = 32 # trying lower size to reduce session time with Gibbs sampling
+    hard_limit_max_time_steps = True # should code remove trajectory size smaller than max_time_steps? 
+    max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
+    is_mujoco_env = True
+
+@eval_policy_ex.named_config
 def seals_hopper():
     common = dict(env_name="seals/Hopper-v0")
 

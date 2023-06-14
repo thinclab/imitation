@@ -14,13 +14,16 @@
 # policypath="/home/katy/imitation/output/train_rl/Ant-v2/20230505_153134_1ab855/policies/final"
 
 # Half Cheetah
-env_nm_config=half_cheetah_mdfd_weights
-policypath="/home/katy/imitation/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/0pnt095noise/20230512_155826_16533b/policies/000000500000"
+# env_nm_config=half_cheetah_mdfd_weights
+# policypath="/home/katy/imitation/output/train_rl/imitationNM_HalfCheetahEnvMdfdWeights-v0/0pnt095noise/20230512_155826_16533b/policies/000000500000"
+
+# Half Cheetah
+env_nm_config=hopper_ppo
+policypath="/home/katy/imitation/output/train_rl/Hopper-v3/20230609_092251_d8bbea/policies/000001000000"
 
 # for mujoco, set this in env_make_kwargs in config file 
 # noiseinsertion=True
 noiseinsertion=False
-
 render=False
 
 for i in {1..100}

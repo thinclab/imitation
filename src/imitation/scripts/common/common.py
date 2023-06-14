@@ -60,6 +60,22 @@ def hook(config, command_name, logger):
         updates["log_dir"] = log_dir
     return updates
 
+@common_ingredient.named_config
+def half_cheetah_mdfd_weights():
+    env_name = "imitationNM/HalfCheetahEnvMdfdWeights-v0"
+    num_vec = 1
+
+@common_ingredient.named_config
+def reacher():
+    env_name = "Reacher-v2"
+    num_vec = 1
+
+
+@common_ingredient.named_config
+def hopper():
+    env_name = "Hopper-v3"
+    num_vec = 1
+    
 
 @common_ingredient.named_config
 def wandb_logging():
