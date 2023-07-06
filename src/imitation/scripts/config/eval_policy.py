@@ -107,6 +107,13 @@ def hopper_ppo():
         'cov_diag_val_act_noise': 0.00001, 
         'noise_insertion': True}
 
+
+@eval_policy_ex.named_config
+def soContSpaces():
+    common = dict(env_name="soContSpaces-v1",num_vec=1, parallel=False)
+    policy_type = "ppo"
+    is_mujoco_env = False 
+
 @eval_policy_ex.named_config
 def hopper_sac():
     common = dict(env_name="Hopper-v3")

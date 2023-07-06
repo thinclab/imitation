@@ -10,7 +10,7 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.policies import BasePolicy
 from stable_baselines3.common.utils import check_for_correct_spaces
 from stable_baselines3.common.vec_env import VecEnv
-
+import pandas as pd
 from imitation.data import types
 import gym
 import time
@@ -311,6 +311,129 @@ def _policy_to_callable(
 
     return get_actions
 
+def generate_trajectories_from_euclidean_data(
+    rollout_path: str,
+    venv: VecEnv,
+    rng: np.random.RandomState = np.random,
+    noise_insertion: bool = False,
+    max_time_steps: Optional[int] = np.iinfo('uint64').max,
+) -> Sequence[types.TrajectoryWithRew]:
+    """Generate trajectory dictionaries from a policy and an environment.
+
+    Args:
+        rollout_path: path to directory with csv files (states.csv, actions.csv) 
+        noise_insertion: boolean flag to decide whether to insert noise 
+        max_time_steps: max timesteps in a trajectory
+
+    Returns:
+        Sequence of trajectories, satisfying `sample_until`. Additional trajectories
+        may be collected to avoid biasing process towards short episodes; the user
+        should truncate if required.
+    """
+    # Collect rollout tuples. 
+    trajectories = []
+
+    # accumulator for incomplete trajectories 
+    trajectories_accum = TrajectoryAccumulator()
+
+    df_states = pd.read_csv(rollout_path+'/csvs/states.csv',header=None,index_col=False) 
+    df_actions = pd.read_csv(rollout_path+'/csvs/actions.csv', header=None,index_col=False) 
+
+    df_states = df_states.reset_index() # make sure indexes pair with number of rows
+    df_actions = df_actions.reset_index() 
+
+    # pick first state from states.csv 
+    state = df_states.iloc[0].to_numpy()[1:]
+
+    # start accumulating
+    trajectories_accum.add_step(dict(obs=state), 0)
+
+    n_timesteps = 0 
+    for index, row in df_actions.iterrows():
+
+        # pick action from csv file, column 21 and 22 are deltax and deltay for wrist 
+        action = row[1:][20:22].to_numpy()
+        # pick next state from csv file
+        nextstate = df_states.iloc[index+1].to_numpy()[1:]
+
+        if n_timesteps > max_time_steps:
+            # ending all partial trajectories that are not done 
+            new_trajs = []
+            # there is only one envrionment in this case, so index 0 should work for partial_trajectories
+            n_transitions = len(trajectories_accum.partial_trajectories[0]) - 1
+            assert n_transitions >= 0, "Invalid TrajectoryAccumulator state"
+            if n_transitions >= 1:
+                new_traj = trajectories_accum.finish_trajectory(0, terminal=False) 
+                new_trajs.append(new_traj)
+
+            trajectories.extend(new_trajs)
+            
+            total_time_steps = sum([len(traj.acts) for traj in trajectories])
+
+            num_traj_demo_filename = imitation_dir + "/for_debugging/num_traj_demo.txt" 
+            num_traj_demo_fileh = open(num_traj_demo_filename, "a")
+            num_traj_demo_fileh.write("\nnum traj steps {} max_time_steps {}".format(total_time_steps,max_time_steps))
+            num_traj_demo_fileh.close() 
+
+            break
+
+        n_timesteps += 1
+
+        if noise_insertion:
+            # need to insert noise for testing robust-A\irl{} (use gym environment's Gaussian based noise insertion method)
+            (nextstate,action) = venv.env_method(method_name='insertNoise',indices=0,s=nextstate,a=action)[0]
+
+        acts = np.array([action])
+        next_obs = np.array([nextstate])
+        rews = np.array([0.0])
+        dones = np.array([False])
+        infos = np.array([{}])
+
+        # trajectories_accum.add_step(dict(
+        #     obs=next_obs,
+        #     acts=acts,
+        #     rews=rews,
+        #     infos=infos
+        #     ), 
+        #     0)
+
+        # needed only if done = True happens. which doesn't happen in raw data
+        new_trajs = trajectories_accum.add_steps_and_auto_finish(
+            acts,
+            next_obs,
+            rews,
+            dones,
+            infos,
+        )
+        # trajectories.extend(new_trajs)
+    '''
+    # while the rows in states.csv exist 
+    while <>
+
+    '''
+    # Each trajectory is sampled i.i.d.; however, shorter episodes are added to
+    # `trajectories` sooner. Shuffle to avoid bias in order. This is important
+    # when callees end up truncating the number of trajectories or transitions.
+    # It is also cheap, since we're just shuffling pointers.
+    rng.shuffle(trajectories)
+
+    # Sanity checks.
+    total_acts_count = 0
+    for trajectory in trajectories:
+        n_steps = len(trajectory.acts)
+        total_acts_count += n_steps
+        # extra 1 for the end
+        exp_obs = (n_steps + 1,) + venv.observation_space.shape
+        real_obs = trajectory.obs.shape
+        assert real_obs == exp_obs, f"expected shape {exp_obs}, got {real_obs}"
+        exp_act = (n_steps,) + venv.action_space.shape
+        real_act = trajectory.acts.shape
+        assert real_act == exp_act, f"expected shape {exp_act}, got {real_act}"
+        exp_rew = (n_steps,)
+        real_rew = trajectory.rews.shape
+        assert real_rew == exp_rew, f"expected shape {exp_rew}, got {real_rew}"
+
+    return trajectories
 
 def generate_trajectories(
     policy: AnyPolicy,

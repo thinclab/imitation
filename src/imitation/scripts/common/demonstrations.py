@@ -6,7 +6,7 @@ from typing import Optional, Sequence
 
 import sacred
 
-from imitation.data import types
+from imitation.data import types, rollout
 
 demonstrations_ingredient = sacred.Ingredient("demonstrations")
 logger = logging.getLogger(__name__)
@@ -66,7 +66,9 @@ def load_expert_trajs(
     Raises:
         ValueError: There are fewer trajectories than `n_expert_demos`.
     """
+
     expert_trajs = types.load(rollout_path)
+
     logger.info(f"Loaded {len(expert_trajs)} expert trajectories from '{rollout_path}'")
     if n_expert_demos is not None:
         if len(expert_trajs) < n_expert_demos:

@@ -21,6 +21,11 @@ import numpy as np
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
+import git
+repo = git.Repo(os.getcwd(), search_parent_directories=True)
+git_home = repo.working_tree_dir
+parent_of_output_dir = str(git_home)
+
 class InteractiveRender(VecEnvWrapper):
     """Render the wrapped environment(s) on screen."""
 
@@ -151,7 +156,14 @@ def eval_policy(
             trajs = rollout.generate_trajectories(policy, venv, sample_until, \
                                                     noise_insertion=noise_insertion,\
                                                     max_time_steps=max_time_steps, \
-                                                    is_mujoco_env=is_mujoco_env)
+                                                    is_mujoco_env=is_mujoco_env) 
+        
+        if env_name == "soContSpaces-v1": 
+            vizStatesList = venv.env_method(method_name='convert_all_vis_states',indices=0,trajs=trajs)[0] 
+            with open(parent_of_output_dir+"/output/generated_states.csv", "w") as f: 
+                for viz_s in vizStatesList: 
+                    f.write(str(viz_s[1:-1])) 
+
 
         if rollout_save_path:
             types.save(rollout_save_path.replace("{log_dir}", log_dir), trajs)

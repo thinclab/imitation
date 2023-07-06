@@ -25,20 +25,6 @@ def get_memory():
                 free_memory += int(sline[1])
     return free_memory
 
-
-def test_train_adversarial():
-    # test with hardcoded rollout path
-    config_updates = {
-        "demonstrations": dict(rollout_path='<path to checkpoint>/rollouts/final.pkl'),
-    }
-    run = train_adversarial.train_adversarial_ex.run(
-        command_name='airl',
-        named_configs=['perimeter_patrol'],
-        config_updates=config_updates,
-    )
-    assert run.status == "COMPLETED"
-    print(run.result)
-
 def incremental_train_adversarial(
     rootdir: str,
     demonstration_policy_path: str,
@@ -101,6 +87,8 @@ def incremental_train_adversarial(
     else:
         return_mean_all_sessions = [0.0]
         returnbylen_mean_all_sessions = [0.0]
+    
+    # picking weights of learned policy for next call of airl 
     agent_path = run.config["common"]["log_dir"]+ "/checkpoints/final/gen_policy"
 
     # second call onwards every call should pick next demonstration and gen_policy checkpoint from previous call
@@ -144,6 +132,7 @@ def incremental_train_adversarial(
         # if i%5==0:
         #     print("Five more sessions done")
         
+        # picking weights of learned policy for next call of airl 
         agent_path = run.config["common"]["log_dir"]+ "/checkpoints/final/gen_policy"
 
     writer.write("{}".format(round((time.time()-start_time_trial)/60,3)))

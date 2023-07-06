@@ -84,10 +84,12 @@ def train_adversarial(
     wdGibbsSamp: bool,
     threshold_stop_Gibbs_sampling: float,
     num_iters_Gibbs_sampling: int,
+    rl_batch_size: Optional[int] = None,
     max_time_steps: Optional[int] = np.iinfo('uint64').max,
     eval_n_timesteps: Optional[int] = np.iinfo('uint64').max,
     n_episodes_eval: Optional[int] = 50,
     env_make_kwargs: Mapping[str, Any] = {},
+    noise_insertion_raw_data: bool = False,
 ) -> Mapping[str, Mapping[str, float]]:
     """Train an adversarial-network-based imitation learning algorithm.
 
@@ -122,21 +124,38 @@ def train_adversarial(
         "monitor_return" key). "expert_stats" gives the return value of
         `rollout_stats()` on the expert demonstrations.
     """
+    
     print('\nalgo_cls'+str(algo_cls)+'\n')
+
     if show_config:
         # Running `train_adversarial print_config` will show unmerged config.
         # So, support showing merged config from `train_adversarial {airl,gail}`.
         sacred.commands.print_config(_run)
 
-    custom_logger, log_dir = common_config.setup_logging()
-    expert_trajs = demonstrations.load_expert_trajs()
     env_name = _run.config["common"]["env_name"]
+    custom_logger, log_dir = common_config.setup_logging()
 
+    rollout_path = _run.config["demonstrations"]['rollout_path']
     venv = common_config.make_venv(env_make_kwargs=env_make_kwargs)
-    
-    if agent_path is None:
-        gen_algo = rl.make_rl_algo(venv)
+
+    if rollout_path[-4:] == '.pkl':
+        expert_trajs = demonstrations.load_expert_trajs()
     else:
+        # if it's not pkl files, it's a directory of real world
+        # data with states.csv and actions.csv 
+        expert_trajs = rollout.generate_trajectories_from_euclidean_data(rollout_path=rollout_path, 
+                                                                         venv=venv, 
+                                                                         max_time_steps=max_time_steps, 
+                                                                         noise_insertion=noise_insertion_raw_data
+                                                                         )
+
+    if agent_path is None:
+        if not rl_batch_size:
+            gen_algo = rl.make_rl_algo(venv)
+        else:
+            gen_algo = rl.make_rl_algo(venv=venv, batch_size=rl_batch_size)
+    else:
+        # batch size should already be encoded in agent_path 
         gen_algo = rl.load_rl_algo_from_path(agent_path=agent_path, venv=venv)
 
     reward_net = reward.make_reward_net(venv)
@@ -241,7 +260,7 @@ def train_adversarial(
             stats_times_fileh.write("\ntime taken for eval_policy {} min".format((time.time()-st_tm)/60))
             stats_times_fileh.close() 
 
-        elif env_name == "imitationNM/Hopper-v3" or env_name == "Hopper-v3": 
+        elif env_name == "imitationNM/Hopper-v3" or env_name == "Hopper-v3" or env_name == "soContSpaces-v1": 
             st_tm = time.time() 
             stats = train.eval_policy(trainer.policy, trainer.venv_train, \
                                       eval_n_timesteps=eval_n_timesteps, \

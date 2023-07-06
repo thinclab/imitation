@@ -13,17 +13,16 @@ class SharedRobustAIRL_Stuff:
         cov_diag_val_act_noise = 0.1,
         obs_size = None,
         act_size = None,
-        qpos_size = None,
         intended_next_state_f = None):
         self.cov_diag_val_st_noise = cov_diag_val_st_noise
         self.cov_diag_val_act_noise = cov_diag_val_act_noise
         self.cov_diag_val_transition_model = cov_diag_val_transition_model
         self.obs_size = obs_size
         self.act_size = act_size
-        self.qpos_size = qpos_size 
         self.transition_model_cov = np.diag(np.repeat(self.cov_diag_val_transition_model,self.obs_size))
         self.intended_next_state = intended_next_state_f
-    
+
+
     def mean_cov_so_t_gvnt_sag_t(self, sg_t, ag_t):
         # mean vector and covariance matrix to be used 
         # for Gaussian sampling of noisy state given ground truth state 
@@ -50,6 +49,7 @@ class SharedRobustAIRL_Stuff:
         ao_t = np.random.multivariate_normal(means_covs[2], means_covs[3], (1))[0]
         
         return so_t, ao_t
+
     
     def mean_cov_sg_t_gvn_sag_tmns1(self, sg_tmns1, ag_tmns1):
         ## mean cov for P(sg | sg_tmns1, ag_tmns1)  
@@ -222,7 +222,6 @@ class SharedRobustAIRL_Stuff:
         #     ed_time1, ed_time2, ed_time3, ed_time4, ed_time5, ed_time6, ed_time7)) 
 
         return mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t
-
 
 class HalfCheetahEnvMdfdWeights(HalfCheetahEnv,SharedRobustAIRL_Stuff):
     def __init__(self,
