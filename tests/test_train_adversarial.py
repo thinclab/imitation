@@ -48,9 +48,6 @@ if __name__ == '__main__':
 
     named_configs_in = ['soContSpaces']
     demonstration_policy_path = None
-    wdGibbsSamp = False
-    threshold_stop_Gibbs_sampling = 0.02
-    num_iters_Gibbs_sampling = 20
     algorithm_kwargs_tr_adv = dict(
         # Number of discriminator updates after each round of generator updates n_disc_updates_per_round
         n_disc_updates_per_round=4,
@@ -74,6 +71,9 @@ if __name__ == '__main__':
         'noise_insertion': False # this is needed only for rendering simulation with noise 
     }
     noise_insertion_raw_data = True
+    wdGibbsSamp = True
+    threshold_stop_Gibbs_sampling = 0.02
+    num_iters_Gibbs_sampling = 20
 
     test_train_adversarial(
         named_configs_in,

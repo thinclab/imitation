@@ -159,10 +159,10 @@ def eval_policy(
                                                     is_mujoco_env=is_mujoco_env) 
         
         if env_name == "soContSpaces-v1": 
-            vizStatesList = venv.env_method(method_name='convert_all_vis_states',indices=0,trajs=trajs)[0] 
+            vizStatesList = venv.env_method(method_name='convert_all_vis_states',indices=0,trajs=trajs[0])[0] 
             with open(parent_of_output_dir+"/output/generated_states.csv", "w") as f: 
                 for viz_s in vizStatesList: 
-                    f.write(str(viz_s[1:-1])) 
+                    f.write(str(viz_s[1:-1])+'\n') 
 
 
         if rollout_save_path:

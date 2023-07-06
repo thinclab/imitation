@@ -156,7 +156,7 @@ class HumanSortingContinuous(gym.Env,SharedRobustAIRL_Stuff):
             cov_diag_val_act_noise = cov_diag_val_act_noise,
             obs_size = self.obs_size,
             act_size = self.act_size,
-            intended_next_state_f = None)
+            intended_next_state_f = self.intended_next_state)
 
     # Ok
     def get_reward(self, env_state, action):
@@ -548,21 +548,14 @@ class HumanSortingContinuous(gym.Env,SharedRobustAIRL_Stuff):
             
         return vis_state
 
-    def convert_all_vis_states(self, data):
-        num_trajs = len(data["indices"])
-        fields = (
-            # Account for the extra obs in each trajectory
-            np.split(data["obs"], data["indices"] + np.arange(num_trajs) + 1),
-            np.split(data["acts"], data["indices"]),
-            np.split(data["infos"], data["indices"]),
-            data["terminal"],
-        )
-        obs = fields[0][0][:-1]
-        acts = fields[1][0]
+    def convert_all_vis_states(self, trajs):
+        data = trajs
+        obs = data.obs
+        acts = data.acts
 
         viz_states = []
         for ob in obs:
-            viz_states.append(self.convert_env_state_to_visual_state(ob.to_list()))
+            viz_states.append(self.convert_env_state_to_visual_state(ob.tolist()))
         
         return viz_states 
 
@@ -689,7 +682,10 @@ class HumanSortingContinuous(gym.Env,SharedRobustAIRL_Stuff):
         
         # return list(new_state.ravel())
         return new_state.ravel()
-     
+    
+    def intended_next_state(self, observation, action):
+        return self.findNxtState(state=observation, action=action)
+
     # Ok
     def reset(self, fixed_init=True):
         '''

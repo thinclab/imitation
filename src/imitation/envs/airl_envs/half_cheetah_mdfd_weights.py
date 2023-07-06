@@ -21,8 +21,7 @@ class SharedRobustAIRL_Stuff:
         self.act_size = act_size
         self.transition_model_cov = np.diag(np.repeat(self.cov_diag_val_transition_model,self.obs_size))
         self.intended_next_state = intended_next_state_f
-
-
+    
     def mean_cov_so_t_gvnt_sag_t(self, sg_t, ag_t):
         # mean vector and covariance matrix to be used 
         # for Gaussian sampling of noisy state given ground truth state 
@@ -222,6 +221,9 @@ class SharedRobustAIRL_Stuff:
         #     ed_time1, ed_time2, ed_time3, ed_time4, ed_time5, ed_time6, ed_time7)) 
 
         return mean_Gs_s_g_t, cov_Gs_s_g_t, mean_Gs_a_g_t, cov_Gs_a_g_t
+
+    def step_sa(self, s, a): # AdversarialTrainer > train_disc uses this method to create gound truth trajectory 
+        return self.intended_next_state(s, a)
 
 class HalfCheetahEnvMdfdWeights(HalfCheetahEnv,SharedRobustAIRL_Stuff):
     def __init__(self,

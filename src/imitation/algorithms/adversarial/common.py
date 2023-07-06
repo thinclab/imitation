@@ -503,8 +503,8 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                             # Gaussian approximation of generator's P(. | s_g_t) distribution
                             sg_cont_th = th.as_tensor(np.repeat([s_g_t], 10000, axis=0), device=self.gen_algo.device) 
                             samples_gauss = self.policy.predict(sg_cont_th,deterministic=False)[0]
-                            if j == 0:
-                                plot_hist(samples_gauss)
+                            # if j == 0:
+                            #     plot_hist(samples_gauss)
                             
                             mean_agt_gvn_sgt = np.mean(samples_gauss, axis=0)
                             cov_agt_gvn_sgt = np.cov(np.transpose(samples_gauss))
