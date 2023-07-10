@@ -34,9 +34,7 @@ example: python -m imitation.scripts.train_rl with perimeter_patrol
 
 In scripts/config directory, set up configs (size etc.) you want to use for simulating trajectories (called rolllouts) imitation.scripts.eval_policy from expert's policy. Please make sure you have set up a common formatted path where all rollouts should be saved. 
 
-Use path of saved policy and create_rollouts_from_policy.sh to create rollouts for different sessions of IRL 
-
-Set input arguments in tests/test_call_ai2rl.py like path of directory where all rollouts are saved, number of times you want to run online IRL, env name, etc. 
+Set input arguments in tests/test_train_adversarial.py like path of directory where rollouts are saved, number of times you want to run online IRL, env name, etc. 
 
 Execute python tests/test_call_ai2rl.py 
 
