@@ -77,8 +77,8 @@ def half_cheetah():
 @eval_policy_ex.named_config
 def half_cheetah_mdfd_weights():
     common = dict(env_name="imitationNM/HalfCheetahEnvMdfdWeights-v0")
-    # eval_n_timesteps = 8192 # minimum demo size we want for i2rl sessions
-    eval_n_timesteps = 128 # trying lower size to reduce session time with Gibbs sampling
+    eval_n_timesteps = 8192 # minimum demo size we want for i2rl sessions
+    # eval_n_timesteps = 128 # trying lower size to reduce session time with Gibbs sampling
     hard_limit_max_time_steps = True # should code remove trajectory size smaller than max_time_steps? 
     max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
     is_mujoco_env = True
@@ -97,7 +97,8 @@ def half_cheetah_mdfd_reward():
 def hopper_ppo():
     common = dict(env_name="imitationNM/Hopper-v3",num_vec=1, parallel=False)
     policy_type = "ppo"
-    eval_n_timesteps = 32 # trying lower size to reduce session time with Gibbs sampling
+    eval_n_timesteps = 1024 # trying lower size to reduce session time with Gibbs sampling
+    # eval_n_timesteps = 32 # trying lower size to reduce session time with Gibbs sampling
     hard_limit_max_time_steps = True # should code remove trajectory size smaller than max_time_steps? 
     max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
     is_mujoco_env = True
@@ -118,7 +119,8 @@ def soContSpaces():
 def hopper_sac():
     common = dict(env_name="Hopper-v3")
     policy_type = "sac"
-    eval_n_timesteps = 32 # trying lower size to reduce session time with Gibbs sampling
+    eval_n_timesteps = 1024 # trying lower size to reduce session time with Gibbs sampling
+    # eval_n_timesteps = 32 # trying lower size to reduce session time with Gibbs sampling
     hard_limit_max_time_steps = True # should code remove trajectory size smaller than max_time_steps? 
     max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
     is_mujoco_env = True

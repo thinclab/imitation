@@ -43,6 +43,7 @@ def test_train_adversarial(
 
     assert run.status == "COMPLETED"
     print(run.result)
+    return run.result
 
 if __name__ == '__main__':
 
@@ -59,7 +60,7 @@ if __name__ == '__main__':
     rl_batch_size = 32
     eval_n_timesteps = algorithm_kwargs_tr_adv['demo_batch_size']
     max_time_steps = eval_n_timesteps + 1
-    total_timesteps_per_session = int(6e4)
+    total_timesteps_per_session = int(2e4)
     rollout_path = '/home/katy/Downloads/gail-airl-ppo-pytorch'
     env_make_kwargs = {
         'rollout_path': rollout_path, 
@@ -73,9 +74,9 @@ if __name__ == '__main__':
     noise_insertion_raw_data = True
     wdGibbsSamp = True
     threshold_stop_Gibbs_sampling = 0.02
-    num_iters_Gibbs_sampling = 20
+    num_iters_Gibbs_sampling = 2
 
-    test_train_adversarial(
+    _ = test_train_adversarial(
         named_configs_in,
         rollout_path,
         demonstration_policy_path,

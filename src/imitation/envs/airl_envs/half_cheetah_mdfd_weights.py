@@ -255,7 +255,6 @@ class HalfCheetahEnvMdfdWeights(HalfCheetahEnv,SharedRobustAIRL_Stuff):
             cov_diag_val_act_noise = cov_diag_val_act_noise,
             obs_size = self.obs_size,
             act_size = self.act_size,
-            qpos_size = self.qpos_size,
             intended_next_state_f = self.intended_next_state)
 
     def state_samples_to_estimate_LBA(self):
@@ -364,7 +363,6 @@ class HopperForGibbs(HopperEnv,SharedRobustAIRL_Stuff):
             cov_diag_val_act_noise = cov_diag_val_act_noise,
             obs_size = self.obs_size,
             act_size = self.act_size,
-            qpos_size = self.qpos_size,
             intended_next_state_f = self.intended_next_state)
 
     def state_samples_to_estimate_LBA(self):
