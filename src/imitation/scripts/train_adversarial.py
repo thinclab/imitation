@@ -143,6 +143,11 @@ def train_adversarial(
     else:
         # if it's not pkl files, it's a directory of real world
         # data with states.csv and actions.csv 
+        expert_trajs_noisefree = rollout.generate_trajectories_from_euclidean_data(rollout_path=rollout_path, 
+                                                                         venv=venv, 
+                                                                         max_time_steps=max_time_steps, 
+                                                                         noise_insertion=False
+                                                                         )
         expert_trajs = rollout.generate_trajectories_from_euclidean_data(rollout_path=rollout_path, 
                                                                          venv=venv, 
                                                                          max_time_steps=max_time_steps, 
@@ -207,7 +212,7 @@ def train_adversarial(
     # appender.write("")
     # appender.close()
 
-    stats, LBA = None, -1
+    stats, LBA, ILE = None, -1, -1
     if env_name == "imitationNM/SortingOnions-v0" or env_name == "imitationNM/PatrolModel-v0":
         stats, policy_acts_learner = train.eval_policy_return_detActList(trainer.policy, trainer.venv_train)
         # expert policy 
@@ -265,6 +270,9 @@ def train_adversarial(
             stats = train.eval_policy(trainer.policy, trainer.venv_train, \
                                       eval_n_timesteps=eval_n_timesteps, \
                                       max_time_steps=max_time_steps, n_episodes_eval=n_episodes_eval) 
+            
+            ILE = rollout.calc_ILE(reward_net, expert_trajs_noisefree, venv, stats)
+            
             stats_times_filename = imitation_dir + "/for_debugging/stats_times.txt" 
             stats_times_fileh = open(stats_times_filename, "a")
             stats_times_fileh.write("\ntime taken for eval_policy {} min".format((time.time()-st_tm)/60))
@@ -280,6 +288,7 @@ def train_adversarial(
 
     return {
         "LBA": LBA,
+        "ILE": ILE,
         "imit_stats": stats,
         "expert_stats": rollout.rollout_stats(expert_trajs),
     }

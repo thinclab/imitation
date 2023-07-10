@@ -24,6 +24,7 @@ from imitation.rewards.reward_wrapper import RewardVecEnvWrapper
 from imitation.rewards.serialize import load_reward
 from imitation.scripts.common import common, rl, train
 from imitation.scripts.config.train_rl import train_rl_ex
+
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 @train_rl_ex.main

@@ -15,6 +15,7 @@ from imitation.data import types
 import gym
 import time
 import os, git
+import torch as th
 
 repo = git.Repo(os.getcwd(), search_parent_directories=True)
 git_home = repo.working_tree_dir
@@ -1374,6 +1375,38 @@ def calc_LBA_cont_states_cont_act_no_partitions(venv, expert_policy, learner_pol
     
     # return (lba_0_to_1_1, lba_0_to_1_2, lba_0_to_1_3)
     return lba_0_to_1_1
+
+
+def calc_ILE(reward_net, expert_trajs_noisefree, venv, stats_lrnd_polcy_traj_ret):
+    # calculate (<averaged cumulative reward for noise-free demonstration trajectories, using learned reward function> 
+    #  - <averaged cumulative reward for trajectories sampled from learned policy>)/<averaged cumulative reward for noise-free demonstration trajectories>
+    
+    demo_rew_mean = 0
+    
+    for traj in expert_trajs_noisefree:
+        traj_rew = 0
+        
+
+        for i in range(len(traj.obs)-1):
+            st = traj.obs[i]
+            act = traj.acts[i]
+            nst = traj.obs[i+1]
+            done = th.tensor([False])
+            rew = reward_net(th.tensor([st]).float(), th.tensor([act]).float(), th.tensor([nst]).float(), done)
+
+            traj_rew += rew.item()
+
+        demo_rew_mean += traj_rew
+    
+    demo_rew_mean = demo_rew_mean/len(expert_trajs_noisefree)
+
+    lrnd_polcy_rew_mean = stats_lrnd_polcy_traj_ret["return_mean"]
+
+    assert (demo_rew_mean > lrnd_polcy_rew_mean), "(demo_rew_mean > lrnd_polcy_rew_mean) should be true in order to compute ILE. " 
+
+    return (demo_rew_mean - lrnd_polcy_rew_mean)/abs(demo_rew_mean)
+
+
 
 def create_flattened_gibbs_stepdistr(
     venv: VecEnv,

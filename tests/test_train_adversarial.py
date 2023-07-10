@@ -60,8 +60,8 @@ if __name__ == '__main__':
     rl_batch_size = 32
     eval_n_timesteps = algorithm_kwargs_tr_adv['demo_batch_size']
     max_time_steps = eval_n_timesteps + 1
-    total_timesteps_per_session = int(2e4)
-    rollout_path = '/home/katy/Downloads/gail-airl-ppo-pytorch'
+    total_timesteps_per_session = int(6e4)
+    rollout_path = '/home/eshaan/Ehsan/Visual-IRL/gail-airl-ppo-pytorch'
     env_make_kwargs = {
         'rollout_path': rollout_path, 
         'full_observable': True, 
@@ -71,8 +71,8 @@ if __name__ == '__main__':
         'cov_diag_val_act_noise': 0.05, 
         'noise_insertion': False # this is needed only for rendering simulation with noise 
     }
-    noise_insertion_raw_data = True
-    wdGibbsSamp = True
+    noise_insertion_raw_data = False
+    wdGibbsSamp = False
     threshold_stop_Gibbs_sampling = 0.02
     num_iters_Gibbs_sampling = 2
 
