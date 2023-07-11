@@ -271,7 +271,9 @@ def train_adversarial(
                                       eval_n_timesteps=eval_n_timesteps, \
                                       max_time_steps=max_time_steps, n_episodes_eval=n_episodes_eval) 
             
-            ILE = rollout.calc_ILE(reward_net, expert_trajs_noisefree, venv, stats)
+            ILE = rollout.calc_ILE(reward_net, expert_trajs_noisefree, venv, \
+                                   trainer.policy, eval_n_timesteps=eval_n_timesteps, \
+                                    max_time_steps=max_time_steps, n_episodes_eval=n_episodes_eval)
             
             stats_times_filename = imitation_dir + "/for_debugging/stats_times.txt" 
             stats_times_fileh = open(stats_times_filename, "a")
