@@ -16,6 +16,7 @@ import gym
 import time
 import os, git
 import torch as th
+from torch import nn
 
 repo = git.Repo(os.getcwd(), search_parent_directories=True)
 git_home = repo.working_tree_dir
@@ -1377,35 +1378,83 @@ def calc_LBA_cont_states_cont_act_no_partitions(venv, expert_policy, learner_pol
     return lba_0_to_1_1
 
 
-def calc_ILE(reward_net, expert_trajs_noisefree, venv, stats_lrnd_polcy_traj_ret):
+def calc_ILE(reward_net, expert_trajs_noisefree, venv, rl_algo, 
+             max_time_steps, eval_n_timesteps, n_episodes_eval):
     # calculate (<averaged cumulative reward for noise-free demonstration trajectories, using learned reward function> 
     #  - <averaged cumulative reward for trajectories sampled from learned policy>)/<averaged cumulative reward for noise-free demonstration trajectories>
     
     demo_rew_mean = 0
+    demo_rew_mean_sig = 0
+    m = nn.Sigmoid()
     
     for traj in expert_trajs_noisefree:
         traj_rew = 0
-        
+        traj_rew_sig = 0
 
         for i in range(len(traj.obs)-1):
             st = traj.obs[i]
             act = traj.acts[i]
             nst = traj.obs[i+1]
-            done = th.tensor([False])
-            rew = reward_net(th.tensor([st]).float(), th.tensor([act]).float(), th.tensor([nst]).float(), done)
 
+            # rew = reward_net(th.tensor([st]).float(), th.tensor([act]).float(), th.tensor([nst]).float(), th.tensor([False]))
+
+            rew = reward_net.predict_processed(np.array([st]), np.array([act]), np.array([nst]), np.array([False]))
             traj_rew += rew.item()
 
-        demo_rew_mean += traj_rew
+            rew = m(th.tensor(rew))
+            traj_rew_sig += rew.item()
+
+        demo_rew_mean += traj_rew/len(traj.obs) 
+        # dividing it by len because len(traj.obs) can be different for two sets of trajectories 
+        demo_rew_mean_sig += traj_rew_sig/len(traj.obs) 
     
     demo_rew_mean = demo_rew_mean/len(expert_trajs_noisefree)
+    demo_rew_mean_sig = demo_rew_mean_sig/len(expert_trajs_noisefree)
 
-    lrnd_polcy_rew_mean = stats_lrnd_polcy_traj_ret["return_mean"]
+    # same as train.eval_policy 
+    if n_episodes_eval != -1:
+        sample_until_eval = make_min_episodes(n_episodes_eval)
+    else:
+        n_episodes_eval = None
+        sample_until_eval = make_sample_until(eval_n_timesteps, n_episodes_eval)
+    
+    generator_trajs_wd_expert_rews = generate_trajectories(
+        rl_algo,
+        venv,
+        sample_until=sample_until_eval,
+        max_time_steps=max_time_steps
+    )
+    
+    gen_rew_mean = 0
+    gen_rew_mean_sig = 0
+    for traj in generator_trajs_wd_expert_rews:
+        traj_rew = 0
+        traj_rew_sig = 0
 
-    assert (demo_rew_mean > lrnd_polcy_rew_mean), "(demo_rew_mean > lrnd_polcy_rew_mean) should be true in order to compute ILE. " 
+        for i in range(len(traj.obs)-1):
+            st = traj.obs[i]
+            act = traj.acts[i]
+            nst = traj.obs[i+1]
+            
+            rew = reward_net.predict_processed(np.array([st]), np.array([act]), np.array([nst]), np.array([False]))
+            traj_rew += rew.item()
 
-    return (demo_rew_mean - lrnd_polcy_rew_mean)/abs(demo_rew_mean)
+            rew = m(th.tensor(rew))
+            traj_rew_sig += rew.item()
 
+        gen_rew_mean += traj_rew/len(traj.obs)
+        gen_rew_mean_sig += traj_rew_sig/len(traj.obs) 
+
+    gen_rew_mean = gen_rew_mean/len(expert_trajs_noisefree)
+    gen_rew_mean_sig = gen_rew_mean_sig/len(expert_trajs_noisefree)
+
+    ILE = {"demo_rew_mean": demo_rew_mean, 
+           "demo_rew_mean_sig": demo_rew_mean_sig,
+           "gen_rew_mean": gen_rew_mean,
+           "gen_rew_mean_sig": gen_rew_mean_sig,
+           }
+    
+    return ILE
 
 
 def create_flattened_gibbs_stepdistr(

@@ -186,6 +186,24 @@ class EMANorm(BaseNorm):
         self.count += b_size
 
 
+# class SigmoidNorm(BaseNorm):
+#     """Normalizes input to mean 0 and standard deviation 1 using a running average.
+
+#     Similar to BatchNorm, LayerNorm, etc. but whereas they only use statistics from
+#     the current batch at train time, we use statistics from all batches.
+
+#     This should closely replicate the common practice in RL of normalizing environment
+#     observations, such as using `VecNormalize` in Stable Baselines.
+#     """
+
+#     def forward(self, x: th.Tensor) -> th.Tensor:
+#         return nn.Sigmoid(x)
+
+#     def update_stats(self, batch: th.Tensor) -> None:
+#         """
+#         """
+#         pass
+
 def build_mlp(
     in_size: int,
     hid_sizes: Iterable[int],

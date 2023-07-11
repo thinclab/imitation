@@ -57,11 +57,12 @@ if __name__ == '__main__':
         demo_batch_size=32, # <= size of rollout
         allow_variable_horizon=True
     )
-    rl_batch_size = 32
+    rl_batch_size = 128 # as per hyper param tuning for int(2e4) steps with return_mean as metric
     eval_n_timesteps = algorithm_kwargs_tr_adv['demo_batch_size']
     max_time_steps = eval_n_timesteps + 1
-    total_timesteps_per_session = int(6e4)
-    rollout_path = '/home/eshaan/Ehsan/Visual-IRL/gail-airl-ppo-pytorch'
+    total_timesteps_per_session = int(2e4)
+    # rollout_path = '/home/eshaan/Ehsan/Visual-IRL/gail-airl-ppo-pytorch'
+    rollout_path = '/home/katy/gail-airl-ppo-pytorch'
     env_make_kwargs = {
         'rollout_path': rollout_path, 
         'full_observable': True, 
