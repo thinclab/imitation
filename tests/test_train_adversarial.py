@@ -68,12 +68,12 @@ if __name__ == '__main__':
         'full_observable': True, 
         'max_steps': 400,
         'cov_diag_val_transition_model': 0.0001, 
-        'cov_diag_val_st_noise': 0.05,
-        'cov_diag_val_act_noise': 0.05, 
+        'cov_diag_val_st_noise': 0.01,
+        'cov_diag_val_act_noise': 0.01, 
         'noise_insertion': False # this is needed only for rendering simulation with noise 
     }
-    noise_insertion_raw_data = False
-    wdGibbsSamp = False
+    noise_insertion_raw_data = True
+    wdGibbsSamp = True
     threshold_stop_Gibbs_sampling = 0.02
     num_iters_Gibbs_sampling = 2
 

@@ -1,6 +1,7 @@
-for i in {1..2}
+
+for i in {1..1}
 do
-    python -m imitation.scripts.train_adversarial airl with sorting_onions demonstrations.rollout_path=/home/katy/imitation/output/rollouts_from_policylist_and_save/imitationNM_SortingOnions-v0/20220820_161939_03c3c0/rollout.pkl
+    python ./tests/test_train_adversarial.py > ./Results_rAIRL/wd_noise_wd_Gibbs/0.01noise/output_wdnswdgb_$i.txt &
     echo ""
 done
 
