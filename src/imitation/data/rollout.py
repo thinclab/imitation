@@ -1386,7 +1386,7 @@ def calc_ILE(reward_net, expert_trajs_noisefree, venv, rl_algo,
     demo_rew_mean = 0
     demo_rew_mean_sig = 0
     m = nn.Sigmoid()
-    
+
     for traj in expert_trajs_noisefree:
         traj_rew = 0
         traj_rew_sig = 0
@@ -1445,8 +1445,8 @@ def calc_ILE(reward_net, expert_trajs_noisefree, venv, rl_algo,
         gen_rew_mean += traj_rew/len(traj.obs)
         gen_rew_mean_sig += traj_rew_sig/len(traj.obs) 
 
-    gen_rew_mean = gen_rew_mean/len(expert_trajs_noisefree)
-    gen_rew_mean_sig = gen_rew_mean_sig/len(expert_trajs_noisefree)
+    gen_rew_mean = gen_rew_mean/len(generator_trajs_wd_expert_rews)
+    gen_rew_mean_sig = gen_rew_mean_sig/len(generator_trajs_wd_expert_rews)
 
     ILE = {"demo_rew_mean": demo_rew_mean, 
            "demo_rew_mean_sig": demo_rew_mean_sig,
