@@ -83,7 +83,7 @@ if __name__ == '__main__':
     noise_insertion_raw_data = args.noise_insertion_raw_data
     wdGibbsSamp = args.wdGibbsSamp
     threshold_stop_Gibbs_sampling = 0.005
-    num_iters_Gibbs_sampling = args.num_iters_Gibbs_sampling
+    num_iters_Gibbs_sampling = int(args.num_iters_Gibbs_sampling)
 
     _ = test_train_adversarial(
         named_configs_in,
