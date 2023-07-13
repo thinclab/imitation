@@ -2,6 +2,7 @@ import os
 from imitation.scripts import train_adversarial
 import numpy as np
 import time 
+import argparse
 
 
 def test_train_adversarial(
@@ -47,11 +48,18 @@ def test_train_adversarial(
 
 if __name__ == '__main__':
 
-    named_configs_in = ['soContSpaces']
-    demonstration_policy_path = None
+    parser = argparse.ArgumentParser() 
+    parser.add_argument("noise_insertion_raw_data") 
+    parser.add_argument("wdGibbsSamp") 
+    parser.add_argument("num_iters_Gibbs_sampling") 
+    
+    args = parser.parse_args() 
+
+    named_configs_in = ['soContSpaces'] 
+    demonstration_policy_path = None 
     algorithm_kwargs_tr_adv = dict(
         # Number of discriminator updates after each round of generator updates n_disc_updates_per_round
-        n_disc_updates_per_round=4,
+        n_disc_updates_per_round=1,
         # Equivalent to no replay buffer if batch size is the same gen_replay_buffer_capacity
         # gen_replay_buffer_capacity=16384,
         demo_batch_size=32, # <= size of rollout
@@ -61,8 +69,8 @@ if __name__ == '__main__':
     eval_n_timesteps = algorithm_kwargs_tr_adv['demo_batch_size']
     max_time_steps = eval_n_timesteps + 1
     total_timesteps_per_session = int(2e4)
-    # rollout_path = '/home/eshaan/Ehsan/Visual-IRL/gail-airl-ppo-pytorch'
-    rollout_path = '/home/katy/gail-airl-ppo-pytorch'
+    rollout_path = '/home/eshaan/Ehsan/Visual-IRL/gail-airl-ppo-pytorch'
+    # rollout_path = '/home/katy/gail-airl-ppo-pytorch'
     env_make_kwargs = {
         'rollout_path': rollout_path, 
         'full_observable': True, 
@@ -72,10 +80,10 @@ if __name__ == '__main__':
         'cov_diag_val_act_noise': 0.01, 
         'noise_insertion': False # this is needed only for rendering simulation with noise 
     }
-    noise_insertion_raw_data = True
-    wdGibbsSamp = True
-    threshold_stop_Gibbs_sampling = 0.02
-    num_iters_Gibbs_sampling = 2
+    noise_insertion_raw_data = args.noise_insertion_raw_data
+    wdGibbsSamp = args.wdGibbsSamp
+    threshold_stop_Gibbs_sampling = 0.005
+    num_iters_Gibbs_sampling = args.num_iters_Gibbs_sampling
 
     _ = test_train_adversarial(
         named_configs_in,

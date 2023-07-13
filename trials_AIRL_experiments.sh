@@ -1,7 +1,14 @@
 
-for i in {1..1}
+for i in {1..2}
 do
-    python ./tests/test_train_adversarial.py > ./Results_rAIRL/wd_noise_wd_Gibbs/0.01noise/output_wdnswdgb_$i.txt &
+    # args noise_insertion_raw_data wdGibbsSamp num_iters_Gibbs_sampling
+
+    # airl without noisy input 
+    # python ./tests/test_train_adversarial.py False False 25 > "./Results_rAIRL/wo_noise/output$i.txt" &
+    # airl with noisy input 
+    # python ./tests/test_train_adversarial.py True False 25 > "./Results_rAIRL/wd_noise_wd_gibbs/0.01noise/output_wdnswdgb_$i.txt" &
+    # robust airl with noisy input
+    # python ./tests/test_train_adversarial.py True True 25 > "./Results_rAIRL/wd_noise_wo_gibbs/0.01noise/output_wdnswogb_$i.txt" &
     echo ""
 done
 

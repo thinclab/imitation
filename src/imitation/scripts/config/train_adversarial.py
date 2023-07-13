@@ -105,7 +105,7 @@ def pendulum():
 
 @train_adversarial_ex.named_config
 def soContSpaces():
-    common = dict(env_name="soContSpaces-v1",num_vec=4)
+    common = dict(env_name="soContSpaces-v1",num_vec=2)
     # common = dict(env_name="soContSpaces-v1",num_vec=1)
     # rl_batch_size = 1024 # try setting it from call to train adversarial 
     # total_timesteps = int(1e5)
