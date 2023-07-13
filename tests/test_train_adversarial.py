@@ -80,8 +80,14 @@ if __name__ == '__main__':
         'cov_diag_val_act_noise': 0.01, 
         'noise_insertion': False # this is needed only for rendering simulation with noise 
     }
-    noise_insertion_raw_data = args.noise_insertion_raw_data
-    wdGibbsSamp = args.wdGibbsSamp
+    if args.noise_insertion_raw_data == 'true':
+        noise_insertion_raw_data = True
+    else:
+        noise_insertion_raw_data = False
+    if args.wdGibbsSamp == 'true':
+        wdGibbsSamp = True
+    else:
+        wdGibbsSamp = False
     threshold_stop_Gibbs_sampling = 0.005
     num_iters_Gibbs_sampling = int(args.num_iters_Gibbs_sampling)
 
