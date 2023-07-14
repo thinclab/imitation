@@ -51,7 +51,7 @@ if __name__ == '__main__':
     demonstration_policy_path = None
     algorithm_kwargs_tr_adv = dict(
         # Number of discriminator updates after each round of generator updates n_disc_updates_per_round
-        n_disc_updates_per_round=4,
+        n_disc_updates_per_round=1,
         # Equivalent to no replay buffer if batch size is the same gen_replay_buffer_capacity
         # gen_replay_buffer_capacity=16384,
         demo_batch_size=32, # <= size of rollout
@@ -74,8 +74,8 @@ if __name__ == '__main__':
     }
     noise_insertion_raw_data = True
     wdGibbsSamp = True
-    threshold_stop_Gibbs_sampling = 0.02
-    num_iters_Gibbs_sampling = 2
+    threshold_stop_Gibbs_sampling = 0.005
+    num_iters_Gibbs_sampling = 25
 
     _ = test_train_adversarial(
         named_configs_in,
