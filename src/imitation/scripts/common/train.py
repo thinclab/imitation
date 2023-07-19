@@ -130,7 +130,10 @@ def eval_policy(
         sample_until_eval = rollout.make_min_episodes(n_episodes_eval)
     else:
         n_episodes_eval = None
-        sample_until_eval = rollout.make_sample_until(eval_n_timesteps, n_episodes_eval)
+        if eval_n_timesteps is not None:
+            sample_until_eval = rollout.make_sample_until(eval_n_timesteps, n_episodes_eval)
+        else:
+            raise Exception("need eval_n_timesteps value ")
 
     tm_make_min_episodes = (time.time() - st_tm)/60
     trajs = rollout.generate_trajectories(

@@ -23,8 +23,8 @@ train_adversarial_ex = sacred.Experiment(
 def defaults():
     show_config = False
 
-    # total_timesteps = int(1e6)  # Num of environment transitions to sample
-    total_timesteps = int(5e3) 
+    total_timesteps = int(1e6)  # Num of environment transitions to sample
+    # total_timesteps = int(5e3) 
     algorithm_kwargs = dict(
         demo_batch_size=1024,  # Number of expert samples per discriminator update
         n_disc_updates_per_round=4,  # Num discriminator updates per generator round
@@ -72,6 +72,7 @@ ANT_SHARED_LOCALS = dict(
 def acrobot():
     env_name = "Acrobot-v1"
     algorithm_kwargs = {"allow_variable_horizon": True}
+    n_episodes_eval = -1
 
 
 @train_adversarial_ex.named_config
@@ -105,7 +106,7 @@ def pendulum():
 
 @train_adversarial_ex.named_config
 def soContSpaces():
-    common = dict(env_name="soContSpaces-v1",num_vec=2)
+    common = dict(env_name="soContSpaces-v1", num_vec=32)
     # common = dict(env_name="soContSpaces-v1",num_vec=1)
     # rl_batch_size = 1024 # try setting it from call to train adversarial 
     # total_timesteps = int(1e5)

@@ -84,12 +84,13 @@ def train_adversarial(
     wdGibbsSamp: bool,
     threshold_stop_Gibbs_sampling: float,
     num_iters_Gibbs_sampling: int,
+    A_B_values_path: Optional[str],
     rl_batch_size: Optional[int] = None,
     max_time_steps: Optional[int] = np.iinfo('uint64').max,
     eval_n_timesteps: Optional[int] = np.iinfo('uint64').max,
     n_episodes_eval: Optional[int] = 50,
     env_make_kwargs: Mapping[str, Any] = {},
-    noise_insertion_raw_data: bool = False,
+    noise_insertion_raw_data: bool = False
 ) -> Mapping[str, Mapping[str, float]]:
     """Train an adversarial-network-based imitation learning algorithm.
 
@@ -140,6 +141,7 @@ def train_adversarial(
 
     if rollout_path[-4:] == '.pkl':
         expert_trajs = demonstrations.load_expert_trajs()
+        expert_trajs_noisefree = expert_trajs
     else:
         # if it's not pkl files, it's a directory of real world
         # data with states.csv and actions.csv 
@@ -184,14 +186,19 @@ def train_adversarial(
         threshold_stop_Gibbs_sampling = None
 
     trainer = algo_cls(
-        venv=venv,
-        demonstrations=expert_trajs,
-        gen_algo=gen_algo,
-        log_dir=log_dir,
-        reward_net=reward_net,
-        custom_logger=custom_logger,
+        venv = venv,
+        demonstrations = expert_trajs,
+        gen_algo = gen_algo,
+        log_dir = log_dir,
+        reward_net = reward_net,
+        custom_logger = custom_logger,
         threshold_stop_Gibbs_sampling = threshold_stop_Gibbs_sampling, 
         num_iters_Gibbs_sampling = num_iters_Gibbs_sampling,
+        expert_trajs_noisefree = expert_trajs_noisefree,
+        eval_n_timesteps = eval_n_timesteps, 
+        max_time_steps = max_time_steps, 
+        n_episodes_eval = n_episodes_eval,
+        A_B_values_path = A_B_values_path + log_dir[-22:] + ".csv",
         **algorithm_kwargs,
     )
 
@@ -265,7 +272,9 @@ def train_adversarial(
             stats_times_fileh.write("\ntime taken for eval_policy {} min".format((time.time()-st_tm)/60))
             stats_times_fileh.close() 
 
-        elif env_name == "imitationNM/Hopper-v3" or env_name == "Hopper-v3" or env_name == "soContSpaces-v1": 
+        elif env_name == "imitationNM/Hopper-v3" or env_name == "Hopper-v3" \
+            or env_name == "Pendulum-v1" or env_name == "soContSpaces-v1" \
+            or env_name == "CartPole-v1" or env_name == "Acrobot-v1": 
             st_tm = time.time() 
             stats = train.eval_policy(trainer.policy, trainer.venv_train, \
                                       eval_n_timesteps=eval_n_timesteps, \

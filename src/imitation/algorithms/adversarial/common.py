@@ -123,7 +123,12 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         debug_use_ground_truth: bool = False,
         allow_variable_horizon: bool = False,
         threshold_stop_Gibbs_sampling: float,
-        num_iters_Gibbs_sampling: int
+        num_iters_Gibbs_sampling: int,
+        expert_trajs_noisefree: Optional[Sequence[types.TrajectoryWithRew]], 
+        eval_n_timesteps: Optional[int], 
+        max_time_steps: Optional[int], 
+        n_episodes_eval: Optional[int],
+        A_B_values_path: Optional[str] 
     ):
         """Builds AdversarialTrainer.
 
@@ -243,6 +248,13 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
         self.threshold_stop_Gibbs_sampling = threshold_stop_Gibbs_sampling
         self.num_iters_Gibbs_sampling = num_iters_Gibbs_sampling
+        self.expert_trajs_noisefree = expert_trajs_noisefree
+        self.eval_n_timesteps = eval_n_timesteps
+        self.max_time_steps = max_time_steps
+        self.n_episodes_eval = n_episodes_eval
+        self.A_B_values_path = A_B_values_path
+        file_A_B_value = open(self.A_B_values_path, "w")
+        file_A_B_value.close()
 
     @property
     def policy(self) -> policies.BasePolicy:
@@ -854,6 +866,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             f"{self.gen_train_timesteps} timesteps, have only "
             f"total_timesteps={total_timesteps})!"
         )
+
         for r in tqdm.tqdm(range(0, n_rounds), desc="round"):
             self.train_gen(self.gen_train_timesteps)
             for _ in range(self.n_disc_updates_per_round):
@@ -863,6 +876,17 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             if callback:
                 callback(r)
             self.logger.dump(self._global_step)
+            ILE = rollout.calc_ILE(self.reward_train, self.expert_trajs_noisefree, self.venv_train, \
+                                   self.policy, eval_n_timesteps=self.eval_n_timesteps, \
+                                   max_time_steps=self.max_time_steps, n_episodes_eval=self.n_episodes_eval) 
+            self.logger.info(ILE) 
+
+            if self.A_B_values_path: 
+                file_A_B_value = open(self.A_B_values_path, "a")
+                string_AB = str(ILE['demo_rew_mean_sig']) + ", " + str(ILE['gen_rew_mean_sig']) +"\n"
+                file_A_B_value.write(string_AB)
+                file_A_B_value.close()
+
 
     def _torchify_array(self, ndarray: Optional[np.ndarray]) -> Optional[th.Tensor]:
         if ndarray is not None:
