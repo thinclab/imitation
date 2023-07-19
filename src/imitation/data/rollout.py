@@ -344,6 +344,16 @@ def generate_trajectories_from_euclidean_data(
     df_states = df_states.reset_index() # make sure indexes pair with number of rows
     df_actions = df_actions.reset_index() 
 
+    if len(df_states) < max_time_steps:
+        while len(df_states) < max_time_steps:
+            tmp_df_states = df_states.copy()
+            tmp_df_actions = df_actions.copy()
+            df_states = pd.concat([df_states,tmp_df_states],ignore_index=True)
+            df_actions = pd.concat([df_actions,tmp_df_actions],ignore_index=True)
+
+    df_states = df_states.reset_index(drop=True) # make sure indexes pair with number of rows
+    df_actions = df_actions.reset_index(drop=True) 
+
     # pick first state from states.csv 
     state = df_states.iloc[0].to_numpy()[1:]
 
