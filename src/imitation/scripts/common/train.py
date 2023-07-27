@@ -13,6 +13,8 @@ import os, git, time
 import numpy as np
 import torch
 
+from stable_baselines3.td3 import policies as td3_policies
+
 repo = git.Repo(os.getcwd(), search_parent_directories=True)
 git_home = repo.working_tree_dir
 imitation_dir = str(git_home)
@@ -67,6 +69,10 @@ def fast():
 def sac():
     policy_cls = base.SAC1024Policy  # noqa: F841
 
+
+@train_ingredient.named_config
+def td3():
+    policy_cls = td3_policies.TD3Policy
 
 @train_ingredient.named_config
 def normalize_disable():
