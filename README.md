@@ -36,7 +36,6 @@ In scripts/config directory, set up configs (size etc.) you want to use for simu
 
 Set input arguments in tests/test_train_adversarial.py like path of directory where rollouts are saved, number of times you want to run online IRL, env name, etc. 
 
-Execute python tests/test_call_ai2rl.py 
 
 # Output
 
