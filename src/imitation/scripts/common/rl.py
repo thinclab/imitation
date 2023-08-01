@@ -187,16 +187,11 @@ def sac():
 @rl_ingredient.named_config
 def a2c():
     rl_cls = sb3.A2C
-    warnings.warn(
-        "SAC currently only supports continuous action spaces. "
-        "Consider adding a discrete version as mentioned here: "
-        "https://github.com/DLR-RM/stable-baselines3/issues/505",
-        category=RuntimeWarning,
-    )
-    batch_size = 256  # batch size for RL algorithm
-    rl_kwargs = dict(batch_size=None)  # make sure to set batch size to None
-
-    locals()  # quieten flake8
+@rl_ingredient.named_config
+def td3():
+    # For recommended SAC hyperparams in each environment, see:
+    # https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/sac.yml
+    rl_cls = sb3.TD3
 
 
 @rl_ingredient.capture
