@@ -164,7 +164,7 @@ def fast():
     # issues when computing multinomial distribution during predict()
     rl_kwargs = dict(batch_size=2)
     locals()  # quieten flake8
-
+    # End of function
 
 @rl_ingredient.named_config
 def sac():
