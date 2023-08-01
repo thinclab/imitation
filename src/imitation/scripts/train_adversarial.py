@@ -136,6 +136,10 @@ def train_adversarial(
     env_name = _run.config["common"]["env_name"]
     custom_logger, log_dir = common_config.setup_logging()
 
+    A_B_values_path = A_B_values_path + log_dir[-22:] + ".csv"
+    with open(A_B_values_path,'w') as f:
+        f.write("demo bs {} and rl bs {}\n".format(algorithm_kwargs['demo_batch_size'],rl_batch_size))
+
     rollout_path = _run.config["demonstrations"]['rollout_path']
     venv = common_config.make_venv(env_make_kwargs=env_make_kwargs)
 
@@ -198,7 +202,7 @@ def train_adversarial(
         eval_n_timesteps = eval_n_timesteps, 
         max_time_steps = max_time_steps, 
         n_episodes_eval = n_episodes_eval,
-        A_B_values_path = A_B_values_path + log_dir[-22:] + ".csv",
+        A_B_values_path = A_B_values_path,
         **algorithm_kwargs,
     )
 

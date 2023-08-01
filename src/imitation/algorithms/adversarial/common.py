@@ -257,8 +257,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         self.max_time_steps = max_time_steps
         self.n_episodes_eval = n_episodes_eval
         self.A_B_values_path = A_B_values_path
-        file_A_B_value = open(self.A_B_values_path, "w")
-        file_A_B_value.close()
 
     @property
     def policy(self) -> policies.BasePolicy:
@@ -922,7 +920,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                 string_AB = str(ILE['demo_rew_mean']) + ", " + str(ILE['demo_rew_mean_sig']) + ", " + str(ILE['gen_rew_mean']) + ", " + str(ILE['gen_rew_mean_sig']) +"\n"
                 file_A_B_value.write(string_AB)
                 file_A_B_value.close()
-                exit()
+                # exit()
 
 
     def _torchify_array(self, ndarray: Optional[np.ndarray]) -> Optional[th.Tensor]:

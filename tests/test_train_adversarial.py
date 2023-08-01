@@ -64,13 +64,15 @@ if __name__ == '__main__':
         n_disc_updates_per_round=4,
         # Equivalent to no replay buffer if batch size is the same gen_replay_buffer_capacity
         # gen_replay_buffer_capacity=16384,
-        demo_batch_size=32, # <= size of rollout
+        demo_batch_size = 32, # <= size of rollout
+        # demo_batch_size = 1024, # <= size of rollout
         allow_variable_horizon=True
     )
     rl_batch_size = 128 # as per hyper param tuning for int(2e4) steps with return_mean as metric
+    # rl_batch_size = 2048
     eval_n_timesteps = algorithm_kwargs_tr_adv['demo_batch_size']
     max_time_steps = eval_n_timesteps + 1
-    total_timesteps_per_session = int(40000)
+    total_timesteps_per_session = int(1e6)
     # rollout_path = '/home/eshaan/Ehsan/Visual-IRL/gail-airl-ppo-pytorch'
     rollout_path = '/home/katy/gail-airl-ppo-pytorch'
     env_make_kwargs = {
