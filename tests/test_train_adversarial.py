@@ -93,7 +93,7 @@ if __name__ == '__main__':
     threshold_stop_Gibbs_sampling = 0.005
     num_iters_Gibbs_sampling = int(args.num_iters_Gibbs_sampling)
     # A_B_values_path = '/home/eshaan/Ehsan/Visual-IRL/imitation/Results_rAIRL/A_B_values/'
-    A_B_values_path = '/home/katy/imitation/Results_rAIRL/A_B_values/'
+    A_B_values_path = '/home/katy/imitation/Results_rAIRL/A_B_values/soContSpaces/'
 
     _ = test_train_adversarial(
         named_configs_in,

@@ -21,6 +21,10 @@ from imitation.util import logger, networks, util
 from imitation.util.util import run_parallel
 import matplotlib.pyplot as plt
 
+import copy, sys
+INCREASE_TIMESTEPS_GEN = 1
+NUM_RESTARTS = 10
+
 def compute_train_stats(
     disc_logits_expert_is_high: th.Tensor,
     labels_expert_is_one: th.Tensor,
@@ -827,6 +831,38 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             learn_kwargs = {}
 
         with self.logger.accumulate_means("gen"):
+            ########### Untested: Random restarts ############
+            # ILE_vals_list = []
+            # max_val_gen = 0
+            # pre_training_gen_algo_params = self.gen_algo.get_parameters()
+            # best_params = None
+            
+            # for i in range(NUM_RESTARTS):
+            #     self.gen_algo.set_parameters(pre_training_gen_algo_params)
+            #     self.gen_algo.learn(
+            #         total_timesteps=total_timesteps,
+            #         reset_num_timesteps=False,
+            #         callback=self.gen_callback,
+            #         **learn_kwargs,
+            #     )
+
+            #     ILE = rollout.calc_ILE(self.reward_train, self.expert_trajs_noisefree, self.venv_train, \
+            #                         self.policy, eval_n_timesteps=self.eval_n_timesteps, \
+            #                         max_time_steps=self.max_time_steps, n_episodes_eval=self.n_episodes_eval) 
+            #     ILE_vals_list.append(ILE["gen_rew_mean_sig"])
+            #     if ILE["gen_rew_mean_sig"] > max_val_gen: 
+            #         max_val_gen = ILE["gen_rew_mean_sig"]
+            #         best_params = self.gen_algo.get_parameters()
+                
+            #     if self.A_B_values_path: 
+            #         file_A_B_value = open(self.A_B_values_path, "a")
+            #         string_AB = str("ILE vals list "+str(ILE_vals_list)) +"\n"
+            #         file_A_B_value.write(string_AB)
+            #         file_A_B_value.close()
+
+            # self.gen_algo.set_parameters(best_params) 
+            ########################
+
             self.gen_algo.learn(
                 total_timesteps=total_timesteps,
                 reset_num_timesteps=False,
@@ -838,7 +874,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         gen_trajs, ep_lens = self.venv_buffering.pop_trajectories()
         self._check_fixed_horizon(ep_lens)
         gen_samples = rollout.flatten_trajectories_with_rew(gen_trajs)
-        self._gen_replay_buffer.store(gen_samples)
+        self._gen_replay_buffer.store(gen_samples) 
 
     def train(
         self,
@@ -866,9 +902,9 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             f"{self.gen_train_timesteps} timesteps, have only "
             f"total_timesteps={total_timesteps})!"
         )
-
+        
         for r in tqdm.tqdm(range(0, n_rounds), desc="round"):
-            self.train_gen(self.gen_train_timesteps)
+            self.train_gen(INCREASE_TIMESTEPS_GEN*self.gen_train_timesteps)
             for _ in range(self.n_disc_updates_per_round):
                 with networks.training(self.reward_train):
                     # switch to training mode (affects dropout, normalization)
@@ -883,9 +919,10 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
             if self.A_B_values_path: 
                 file_A_B_value = open(self.A_B_values_path, "a")
-                string_AB = str(ILE['demo_rew_mean_sig']) + ", " + str(ILE['gen_rew_mean_sig']) +"\n"
+                string_AB = str(ILE['demo_rew_mean']) + ", " + str(ILE['demo_rew_mean_sig']) + ", " + str(ILE['gen_rew_mean']) + ", " + str(ILE['gen_rew_mean_sig']) +"\n"
                 file_A_B_value.write(string_AB)
                 file_A_B_value.close()
+                exit()
 
 
     def _torchify_array(self, ndarray: Optional[np.ndarray]) -> Optional[th.Tensor]:
