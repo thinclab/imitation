@@ -184,6 +184,21 @@ def sac():
     locals()  # quieten flake8
 
 
+@rl_ingredient.named_config
+def a2c():
+    rl_cls = sb3.A2C
+    warnings.warn(
+        "SAC currently only supports continuous action spaces. "
+        "Consider adding a discrete version as mentioned here: "
+        "https://github.com/DLR-RM/stable-baselines3/issues/505",
+        category=RuntimeWarning,
+    )
+    batch_size = 256  # batch size for RL algorithm
+    rl_kwargs = dict(batch_size=None)  # make sure to set batch size to None
+
+    locals()  # quieten flake8
+
+
 @rl_ingredient.capture
 def make_rl_algo(
     venv: vec_env.VecEnv,
@@ -228,9 +243,11 @@ def make_rl_algo(
     elif issubclass(rl_cls, off_policy_algorithm.OffPolicyAlgorithm):
         if rl_kwargs.get("batch_size") is not None:
             raise ValueError("set 'batch_size' at top-level")
-        rl_kwargs["batch_size"] = batch_size
+        if 'a2c' not in rl_cls.__module__:
+            rl_kwargs["batch_size"] = batch_size
     else:
-        raise TypeError(f"Unsupported RL algorithm '{rl_cls}'")
+        raise TypeError(f"Unsupported RL algorithm '{rl_cls}'")   
+    
     rl_algo = rl_cls(
         policy=train["policy_cls"],
         # Note(yawen): Copy `policy_kwargs` as SB3 may mutate the config we pass.
