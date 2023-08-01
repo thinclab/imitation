@@ -68,10 +68,6 @@ if __name__ == '__main__':
         # demo_batch_size = 256, # <= size of rollout
         allow_variable_horizon=True
     )
-    # Equivalent to no replay buffer if batch size is the same gen_replay_buffer_capacity
-    # for PPO restarts to work, I disable buffering to get rid of error raise RuntimeError("BufferingWrapper reset() before samples were accessed")
-    algorithm_kwargs_tr_adv['gen_replay_buffer_capacity'] = algorithm_kwargs_tr_adv['demo_batch_size']
-
     rl_batch_size = 128 # as per hyper param tuning for int(2e4) steps with return_mean as metric
     # rl_batch_size = 2048
     eval_n_timesteps = algorithm_kwargs_tr_adv['demo_batch_size']
