@@ -128,6 +128,29 @@ def soContSpaces():
     #     'max_steps': 400
     #     }
 
+@train_adversarial_ex.named_config
+def soContSpaces3d():
+    common = dict(env_name="soContSpaces3d-v1", num_vec=32)
+    # common = dict(env_name="soContSpaces3d-v1",num_vec=1)
+    # rl_batch_size = 1024 # try setting it from call to train adversarial 
+    # total_timesteps = int(1e5)
+    # without specifying details of reward network, the reward.py config_hook should pick reward_nets.BasicShapedRewardNet (32, 32 default size)
+    # algorithm_kwargs = dict(
+    #     # Number of discriminator updates after each round of generator updates n_disc_updates_per_round
+    #     n_disc_updates_per_round=4,
+    #     # Equivalent to no replay buffer if batch size is the same gen_replay_buffer_capacity
+    #     # gen_replay_buffer_capacity=16384,
+    #     demo_batch_size=128, # <= size of rollout
+    # )
+    # eval_n_timesteps = algorithm_kwargs['demo_batch_size'] # minimum demo size we want for i2rl sessions
+    # max_time_steps = eval_n_timesteps + 1 # maximum demo size we want for i2rl sessions
+    n_episodes_eval = -1 # used in train.eval_policy  
+    # args for initializing gym env class 
+    # env_make_kwargs = {
+    #     'rollout_path': demonstrations['rollout_path'], 
+    #     'full_observable': True, 
+    #     'max_steps': 400
+    #     }
 
 # Standard MuJoCo Gym environment named configs
 

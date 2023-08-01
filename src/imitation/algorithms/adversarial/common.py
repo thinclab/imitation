@@ -257,8 +257,6 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
         self.max_time_steps = max_time_steps
         self.n_episodes_eval = n_episodes_eval
         self.A_B_values_path = A_B_values_path
-        file_A_B_value = open(self.A_B_values_path, "w")
-        file_A_B_value.close()
 
     @property
     def policy(self) -> policies.BasePolicy:
@@ -810,6 +808,7 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
 
     def train_gen(
         self,
+        restarts: bool = False,
         total_timesteps: Optional[int] = None,
         learn_kwargs: Optional[Mapping] = None,
     ) -> None:
@@ -831,44 +830,45 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             learn_kwargs = {}
 
         with self.logger.accumulate_means("gen"):
-            ########### Untested: Random restarts ############
-            # ILE_vals_list = []
-            # max_val_gen = 0
-            # pre_training_gen_algo_params = self.gen_algo.get_parameters()
-            # best_params = None
-            
-            # for i in range(NUM_RESTARTS):
-            #     self.gen_algo.set_parameters(pre_training_gen_algo_params)
-            #     self.gen_algo.learn(
-            #         total_timesteps=total_timesteps,
-            #         reset_num_timesteps=False,
-            #         callback=self.gen_callback,
-            #         **learn_kwargs,
-            #     )
-
-            #     ILE = rollout.calc_ILE(self.reward_train, self.expert_trajs_noisefree, self.venv_train, \
-            #                         self.policy, eval_n_timesteps=self.eval_n_timesteps, \
-            #                         max_time_steps=self.max_time_steps, n_episodes_eval=self.n_episodes_eval) 
-            #     ILE_vals_list.append(ILE["gen_rew_mean_sig"])
-            #     if ILE["gen_rew_mean_sig"] > max_val_gen: 
-            #         max_val_gen = ILE["gen_rew_mean_sig"]
-            #         best_params = self.gen_algo.get_parameters()
+            if restarts:
+                ########### Untested: Random restarts ############
+                ILE_vals_list = []
+                max_val_gen = 0
+                pre_training_gen_algo_params = self.gen_algo.get_parameters()
+                best_params = None
                 
-            #     if self.A_B_values_path: 
-            #         file_A_B_value = open(self.A_B_values_path, "a")
-            #         string_AB = str("ILE vals list "+str(ILE_vals_list)) +"\n"
-            #         file_A_B_value.write(string_AB)
-            #         file_A_B_value.close()
+                for i in range(NUM_RESTARTS):
+                    self.gen_algo.set_parameters(pre_training_gen_algo_params)
+                    self.gen_algo.learn(
+                        total_timesteps=total_timesteps,
+                        reset_num_timesteps=False,
+                        callback=self.gen_callback,
+                        **learn_kwargs,
+                    ) 
 
-            # self.gen_algo.set_parameters(best_params) 
-            ########################
+                    ILE = rollout.calc_ILE(self.reward_train, self.expert_trajs_noisefree, self.venv_train, \
+                                        self.policy, eval_n_timesteps=self.eval_n_timesteps, \
+                                        max_time_steps=self.max_time_steps, n_episodes_eval=self.n_episodes_eval) 
+                    ILE_vals_list.append((ILE["gen_rew_mean"],ILE["gen_rew_mean_sig"])) 
+                    if ILE["gen_rew_mean_sig"] > max_val_gen: 
+                        max_val_gen = ILE["gen_rew_mean_sig"]
+                        best_params = self.gen_algo.get_parameters()
+                    
+                    if self.A_B_values_path and i==NUM_RESTARTS-1: 
+                        file_A_B_value = open(self.A_B_values_path, "a")
+                        string_AB = str("ILE vals list "+str(ILE_vals_list)) +"\n"
+                        file_A_B_value.write(string_AB)
+                        file_A_B_value.close()
 
-            self.gen_algo.learn(
-                total_timesteps=total_timesteps,
-                reset_num_timesteps=False,
-                callback=self.gen_callback,
-                **learn_kwargs,
-            )
+                self.gen_algo.set_parameters(best_params) 
+                ########################
+            else:
+                self.gen_algo.learn(
+                    total_timesteps=total_timesteps,
+                    reset_num_timesteps=False,
+                    callback=self.gen_callback,
+                    **learn_kwargs,
+                )
             self._global_step += 1
 
         gen_trajs, ep_lens = self.venv_buffering.pop_trajectories()
@@ -902,9 +902,9 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
             f"{self.gen_train_timesteps} timesteps, have only "
             f"total_timesteps={total_timesteps})!"
         )
-        
+        restarts = True
         for r in tqdm.tqdm(range(0, n_rounds), desc="round"):
-            self.train_gen(INCREASE_TIMESTEPS_GEN*self.gen_train_timesteps)
+            self.train_gen(restarts,INCREASE_TIMESTEPS_GEN*self.gen_train_timesteps)
             for _ in range(self.n_disc_updates_per_round):
                 with networks.training(self.reward_train):
                     # switch to training mode (affects dropout, normalization)
@@ -916,13 +916,13 @@ class AdversarialTrainer(base.DemonstrationAlgorithm[types.Transitions]):
                                    self.policy, eval_n_timesteps=self.eval_n_timesteps, \
                                    max_time_steps=self.max_time_steps, n_episodes_eval=self.n_episodes_eval) 
             self.logger.info(ILE) 
-
+            
             if self.A_B_values_path: 
                 file_A_B_value = open(self.A_B_values_path, "a")
                 string_AB = str(ILE['demo_rew_mean']) + ", " + str(ILE['demo_rew_mean_sig']) + ", " + str(ILE['gen_rew_mean']) + ", " + str(ILE['gen_rew_mean_sig']) +"\n"
                 file_A_B_value.write(string_AB)
                 file_A_B_value.close()
-                exit()
+                # exit()
 
 
     def _torchify_array(self, ndarray: Optional[np.ndarray]) -> Optional[th.Tensor]:

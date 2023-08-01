@@ -43,3 +43,6 @@ _register("imitationNM/HalfCheetahEnvMdfdReward-v0", entry_point="half_cheetah_m
 _register("imitationNM/Hopper-v3", entry_point="half_cheetah_mdfd_weights:HopperForGibbs") 
 
 _register("soContSpaces-v1", entry_point="so_cont_spaces:HumanSortingContinuous") 
+
+_register("soContSpaces3d-v1", entry_point="so_cont_spaces3d:HumanSortingContinuous3D") 
+

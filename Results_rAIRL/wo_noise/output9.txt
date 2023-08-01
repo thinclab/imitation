@@ -1,0 +1,92 @@
+
+algo_cls<class 'imitation.algorithms.adversarial.airl.AIRL'>
+
+Running with `allow_variable_horizon` set to True. Some algorithms are biased towards shorter or longer episodes, which may significantly confound results. Additionally, even unbiased algorithms can exploit the information leak from the termination condition, producing spuriously high performance. See https://imitation.readthedocs.io/en/latest/guide/variable_horizon.html for more information.
+--------------------------------------
+| raw/                        |      |
+|    gen/time/fps             | 23   |
+|    gen/time/iterations      | 1    |
+|    gen/time/time_elapsed    | 87   |
+|    gen/time/total_timesteps | 2048 |
+--------------------------------------
+--------------------------------------------------
+| raw/                                |          |
+|    disc/disc_acc                    | 0.5      |
+|    disc/disc_acc_expert             | 1        |
+|    disc/disc_acc_gen                | 0        |
+|    disc/disc_entropy                | 0.343    |
+|    disc/disc_loss                   | 1.3      |
+|    disc/disc_proportion_expert_pred | 1        |
+|    disc/disc_proportion_expert_true | 0.5      |
+|    disc/global_step                 | 1        |
+|    disc/n_expert                    | 1.02e+03 |
+|    disc/n_generated                 | 1.02e+03 |
+--------------------------------------------------
+--------------------------------------------------
+| raw/                                |          |
+|    disc/disc_acc                    | 0.5      |
+|    disc/disc_acc_expert             | 1        |
+|    disc/disc_acc_gen                | 0        |
+|    disc/disc_entropy                | 0.349    |
+|    disc/disc_loss                   | 1.28     |
+|    disc/disc_proportion_expert_pred | 1        |
+|    disc/disc_proportion_expert_true | 0.5      |
+|    disc/global_step                 | 1        |
+|    disc/n_expert                    | 1.02e+03 |
+|    disc/n_generated                 | 1.02e+03 |
+--------------------------------------------------
+--------------------------------------------------
+| raw/                                |          |
+|    disc/disc_acc                    | 0.5      |
+|    disc/disc_acc_expert             | 1        |
+|    disc/disc_acc_gen                | 0        |
+|    disc/disc_entropy                | 0.352    |
+|    disc/disc_loss                   | 1.26     |
+|    disc/disc_proportion_expert_pred | 1        |
+|    disc/disc_proportion_expert_true | 0.5      |
+|    disc/global_step                 | 1        |
+|    disc/n_expert                    | 1.02e+03 |
+|    disc/n_generated                 | 1.02e+03 |
+--------------------------------------------------
+--------------------------------------------------
+| raw/                                |          |
+|    disc/disc_acc                    | 0.5      |
+|    disc/disc_acc_expert             | 1        |
+|    disc/disc_acc_gen                | 0        |
+|    disc/disc_entropy                | 0.357    |
+|    disc/disc_loss                   | 1.23     |
+|    disc/disc_proportion_expert_pred | 1        |
+|    disc/disc_proportion_expert_true | 0.5      |
+|    disc/global_step                 | 1        |
+|    disc/n_expert                    | 1.02e+03 |
+|    disc/n_generated                 | 1.02e+03 |
+--------------------------------------------------
+--------------------------------------------------
+| mean/                               |          |
+|    disc/disc_acc                    | 0.5      |
+|    disc/disc_acc_expert             | 1        |
+|    disc/disc_acc_gen                | 0        |
+|    disc/disc_entropy                | 0.35     |
+|    disc/disc_loss                   | 1.27     |
+|    disc/disc_proportion_expert_pred | 1        |
+|    disc/disc_proportion_expert_true | 0.5      |
+|    disc/global_step                 | 1        |
+|    disc/n_expert                    | 1.02e+03 |
+|    disc/n_generated                 | 1.02e+03 |
+|    gen/time/fps                     | 23       |
+|    gen/time/iterations              | 1        |
+|    gen/time/time_elapsed            | 87       |
+|    gen/time/total_timesteps         | 2.05e+03 |
+|    gen/train/approx_kl              | 0.00312  |
+|    gen/train/clip_fraction          | 0.00977  |
+|    gen/train/clip_range             | 0.2      |
+|    gen/train/entropy_loss           | -2.84    |
+|    gen/train/explained_variance     | 0.00296  |
+|    gen/train/learning_rate          | 0.0003   |
+|    gen/train/loss                   | 52.5     |
+|    gen/train/n_updates              | 10       |
+|    gen/train/policy_gradient_loss   | -0.00427 |
+|    gen/train/std                    | 1        |
+|    gen/train/value_loss             | 123      |
+--------------------------------------------------
+{'demo_rew_mean': 0.594590364233976, 'demo_rew_mean_sig': 0.6126023767886517, 'gen_rew_mean': -0.6193325600744601, 'gen_rew_mean_sig': 0.36380551019272594}

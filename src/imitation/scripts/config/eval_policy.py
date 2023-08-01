@@ -114,6 +114,12 @@ def soContSpaces():
     common = dict(env_name="soContSpaces-v1",num_vec=1, parallel=False)
     policy_type = "ppo"
     is_mujoco_env = False 
+    
+@eval_policy_ex.named_config
+def soContSpaces3d():
+    common = dict(env_name="soContSpaces3d-v1",num_vec=1, parallel=False)
+    policy_type = "ppo"
+    is_mujoco_env = False 
 
 @eval_policy_ex.named_config
 def hopper_sac():
