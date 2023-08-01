@@ -57,7 +57,7 @@ if __name__ == '__main__':
     
     args = parser.parse_args() 
 
-    named_configs_in = ['soContSpaces', 'rl.sac', 'train.sac'] 
+    named_configs_in = ['soContSpaces', 'rl.a2c'] 
     demonstration_policy_path = None 
     algorithm_kwargs_tr_adv = dict(
         # Number of discriminator updates after each round of generator updates n_disc_updates_per_round
